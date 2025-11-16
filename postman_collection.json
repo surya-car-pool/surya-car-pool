@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "Surya Car Pool API",
+    "_postman_id": "surya-car-pool-collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/users",
+          "host": [
+            "http://localhost:8080"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Ravi\", \"phone\": \"9999999999\", \"email\": \"ravi@example.com\"}"
+        }
+      }
+    },
+    {
+      "name": "List Users",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/users",
+          "host": [
+            "http://localhost:8080"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Ride",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/rides",
+          "host": [
+            "http://localhost:8080"
+          ],
+          "path": [
+            "api",
+            "rides"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"fromLocation\": \"Bangalore\", \"toLocation\": \"Mysore\", \"departureTime\": \"2025-11-20T08:00:00\", \"availableSeats\": 3, \"fare\": 350.0, \"driver\": {\"id\": 1}}"
+        }
+      }
+    },
+    {
+      "name": "List Rides",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/rides",
+          "host": [
+            "http://localhost:8080"
+          ],
+          "path": [
+            "api",
+            "rides"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Book Ride",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/bookings",
+          "host": [
+            "http://localhost:8080"
+          ],
+          "path": [
+            "api",
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ride\": {\"id\": 1}, \"passenger\": {\"id\": 2}, \"seatsBooked\": 1}"
+        }
+      }
+    },
+    {
+      "name": "List Bookings",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/bookings",
+          "host": [
+            "http://localhost:8080"
+          ],
+          "path": [
+            "api",
+            "bookings"
+          ]
+        }
+      }
+    }
+  ]
+}
