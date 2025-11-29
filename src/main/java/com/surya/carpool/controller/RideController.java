@@ -36,7 +36,7 @@ public class RideController {
     }
 
     @GetMapping
-    public List<Ride> listRides(@RequestParam(required = false) String q) {
+	public List<Ride> listRides(@RequestParam(required = false) String q) {
         if (q == null || q.isBlank()) return rideRepo.findAll();
         return rideRepo.findByFromLocationContainingIgnoreCaseOrToLocationContainingIgnoreCase(q, q);
     }

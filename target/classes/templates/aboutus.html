@@ -46,7 +46,7 @@
 
 		.icon-box i {
 			font-size: 40px;
-			color: rgb(255, 0, 0);
+			color: rgb(0, 128, 255);
 		}
 
 		.icon-box {
@@ -120,26 +120,43 @@
 
 <body>
 
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="color: chocolate;">
-		<div class="container-fluid">
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+		<div class="container">
+			<a class="navbar-brand d-flex align-items-center brand-logo" href="/home" aria-label="Surya Car Pool home">
+				<!-- Inline SVG logo (kept simple & accessible) -->
+				<svg class="brand-svg" viewBox="0 0 64 64" xmlns="/images/logo.png" role="img"
+					aria-labelledby="logoTitle logoDesc">
+					<title id="logoTitle">Surya Car Pool logo</title>
+					<desc id="logoDesc">Sun rising above a road — Surya Car Pool</desc>
+					<img src="/images/logo.png" alt="Surya Car Pool"
+						style="width:70px; height:70px; border-radius:14px; object-fit:contain;" />
+					<rect width="64" height="64" rx="10" fill="url(#g1)" />
+					<circle cx="20" cy="18" r="8" fill="#fff5d6" />
+					<path d="M6 44 C18 38,46 38,58 44 L58 50 C46 44,18 44,6 50 Z" fill="#0f1724" />
+					<g stroke="#ffd166" stroke-width="1.8" stroke-linecap="round">
+						<path d="M12 43 L16 43" stroke-dasharray="4 3" />
+						<path d="M24 42 L28 42" stroke-dasharray="4 3" />
+						<path d="M36 42 L40 42" stroke-dasharray="4 3" />
+						<path d="M48 43 L52 43" stroke-dasharray="4 3" />
+					</g>
+					<path d="M18 36 h10 l3-5 h8 l3 5 h3 v3 h-30 v-3 z" fill="#fff" />
+				</svg>
 
-			<!-- Logo -->
-			<a href="index.html" class="navbar-brand d-flex align-items-center">
-				<img src="/images/logo.png" alt="Logo" style="height: 40px; margin-right: 10px;">
-				Surya Car Pool
+				<div class="d-flex flex-column">
+					<span class="brand-title text-white">Surya Car Pool</span>
+					<span class="brand-tagline text-white-50">Safe · Shared · Smart</span>
+				</div>
+
+				<span class="ms-3 badge bg-white text-dark align-self-start" style="font-weight:600">Trusted</span>
 			</a>
 
-			<!-- Navbar toggler for small screens -->
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<!-- Navbar links with icons -->
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-
+			<div class="collapse navbar-collapse" id="navMain">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
 						<a class="nav-link" href="/home">
 							<i class="bi bi-house-door-fill"></i> Home
@@ -175,8 +192,13 @@
 							<i class="bi bi-envelope-fill"></i> Contact Us
 						</a>
 					</li>
-
 				</ul>
+				<!--<div class="d-flex align-items-center ms-3">
+							<span id="welcomeUser" class="text-white me-3 d-none">Hello, <strong id="userName"></strong></span>
+							<a id="loginLink" class="btn btn-outline-light btn-sm me-2" href="/login"><i
+									class="bi bi-box-arrow-in-right"></i> Login</a>
+							<button id="logoutBtn" class="btn btn-light btn-sm d-none">Logout</button>
+						</div>-->
 			</div>
 		</div>
 	</nav>
