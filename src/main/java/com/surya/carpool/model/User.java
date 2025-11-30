@@ -1,79 +1,179 @@
 package com.surya.carpool.model;
 
-import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users") // your MySQL table
+@Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private String name;       // regName
+	// BASIC LOGIN / OWNER
+	@Column(nullable = false)
+	private String name;
 
-    @Column(nullable = false, unique = true)
-    private String email;      // regEmail
+	@Column(nullable = false, unique = true)
+	private String email;
 
-    @Column(nullable = false, unique = true)
-    private String phone;      // regPhone
+	@Column(nullable = false, unique = true)
+	private String phone;
 
-    @Column(nullable = false)
-    private String password;   // encoded regPassword
+	@Column(nullable = false)
+	private String password;
 
-    @Column(nullable = false)
-    private boolean enabled = true;
+	@Column(nullable = false)
+	private boolean enabled = true;
 
-    public User() {}
+	// OWNER DETAILS
+	private String ownerAddress;
+	private String ownerCity;
+	private String ownerState;
+	private String ownerPincode;
+	private String ownerAadharNo;
+	private String ownerPanNo;
 
-    // getters & setters
+	// ====== ONE-TO-MANY: USER (OWNER) -> CARS ======
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private List<Car> cars = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
+	public User() {
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// helper to keep both sides in sync
+	public void addCar(Car car) {
+		cars.add(car);
+		car.setOwner(this);
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void removeCar(Car car) {
+		cars.remove(car);
+		car.setOwner(null);
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	// ====== GETTERS & SETTERS ======
 
-    public String getEmail() {
-        return email;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getOwnerAddress() {
+		return ownerAddress;
+	}
+
+	public void setOwnerAddress(String ownerAddress) {
+		this.ownerAddress = ownerAddress;
+	}
+
+	public String getOwnerCity() {
+		return ownerCity;
+	}
+
+	public void setOwnerCity(String ownerCity) {
+		this.ownerCity = ownerCity;
+	}
+
+	public String getOwnerState() {
+		return ownerState;
+	}
+
+	public void setOwnerState(String ownerState) {
+		this.ownerState = ownerState;
+	}
+
+	public String getOwnerPincode() {
+		return ownerPincode;
+	}
+
+	public void setOwnerPincode(String ownerPincode) {
+		this.ownerPincode = ownerPincode;
+	}
+
+	public String getOwnerAadharNo() {
+		return ownerAadharNo;
+	}
+
+	public void setOwnerAadharNo(String ownerAadharNo) {
+		this.ownerAadharNo = ownerAadharNo;
+	}
+
+	public String getOwnerPanNo() {
+		return ownerPanNo;
+	}
+
+	public void setOwnerPanNo(String ownerPanNo) {
+		this.ownerPanNo = ownerPanNo;
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars.clear();
+		if (cars != null) {
+			for (Car c : cars) {
+				addCar(c); // uses helper to set owner
+			}
+		}
+	}
 }

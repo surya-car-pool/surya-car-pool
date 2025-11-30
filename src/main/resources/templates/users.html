@@ -97,7 +97,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link" href="/users/ui">
+						<a class="nav-link active" href="/users/ui">
 							<i class="bi bi-people-fill"></i> Users
 						</a>
 					</li>
@@ -135,54 +135,21 @@
 		<!-- Alerts -->
 		<div id="alertPlaceholder"></div>
 
-		<div class="row">
-			<!-- Create User form -->
-			<div class="col-lg-4 mb-4">
-				<div class="card">
-					<div class="card-header">
-						<strong>Create User</strong>
-					</div>
-					<div class="card-body">
-						<div class="mb-3">
-							<label class="form-label">Full Name</label>
-							<input id="name" type="text" class="form-control" placeholder="Enter full name" required>
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Email</label>
-							<input id="email" type="email" class="form-control" placeholder="you@example.com" required>
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Phone</label>
-							<input id="phone" type="tel" class="form-control" placeholder="9999999999" required>
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Password</label>
-							<input id="password" type="password" class="form-control" placeholder="Set password"
-								required>
-						</div>
-
-						<div class="form-check mb-3">
-							<input class="form-check-input" type="checkbox" id="enabled" checked>
-							<label class="form-check-label" for="enabled">
-								Enabled
-							</label>
-						</div>
-
-						<button id="saveUserBtn" type="button" class="btn btn-primary w-100">
-							<i class="bi bi-save"></i> Save User
-						</button>
-					</div>
-				</div>
+		<div class="row mb-3">
+			<div class="col-12 d-flex justify-content-between align-items-center">
+				<h3 class="mb-0">Owners & Cars</h3>
+				<a href="/createuser/ui" class="btn btn-primary">
+					<i class="bi bi-plus-circle"></i> Create New Owner
+				</a>
 			</div>
+		</div>
 
-			<!-- Users table -->
-			<div class="col-lg-8">
+		<div class="row">
+			<!-- Users table only (create is on separate page now) -->
+			<div class="col-12">
 				<div class="card">
 					<div class="card-header d-flex justify-content-between align-items-center">
-						<strong>Existing Users</strong>
+						<strong>Existing Owners</strong>
 						<button type="button" class="btn btn-sm btn-outline-secondary" id="refreshUsersBtn">
 							<i class="bi bi-arrow-clockwise"></i> Refresh
 						</button>
@@ -193,9 +160,12 @@
 								<thead class="table-light">
 									<tr>
 										<th>ID</th>
-										<th>Name</th>
-										<th>Email</th>
+										<th>Owner</th>
 										<th>Phone</th>
+										<th>Email</th>
+										<th>Car(s)</th>
+										<th>Reg No(s)</th>
+										<th>Seat(s)</th>
 										<th>Status</th>
 										<th>Actions</th>
 									</tr>
@@ -239,8 +209,8 @@
 				if (!users || users.length === 0) {
 					tbody.innerHTML = `
             <tr>
-              <td colspan="6" class="text-center text-muted py-3">
-                No users found.
+              <td colspan="9" class="text-center text-muted py-3">
+                No owners / cars found.
               </td>
             </tr>`;
 					return;
@@ -248,11 +218,32 @@
 
 				users.forEach(u => {
 					const tr = document.createElement('tr');
+
+					const cars = Array.isArray(u.cars) ? u.cars : [];
+
+					const carNames = cars.length
+						? cars.map(c => {
+							const label = `${c.make || ''} ${c.model || ''}`.trim();
+							return label || (c.registrationNo || 'Car');
+						}).join('<br>')
+						: '-';
+
+					const regNos = cars.length
+						? cars.map(c => c.registrationNo || '-').join('<br>')
+						: '-';
+
+					const seats = cars.length
+						? cars.map(c => (c.seats != null ? c.seats : '-')).join(', ')
+						: '-';
+
 					tr.innerHTML = `
             <td>${u.id}</td>
-            <td>${u.name}</td>
-            <td>${u.email}</td>
-            <td>${u.phone}</td>
+            <td>${u.name || '-'}</td>
+            <td>${u.phone || '-'}</td>
+            <td>${u.email || '-'}</td>
+            <td>${carNames}</td>
+            <td>${regNos}</td>
+            <td>${seats}</td>
             <td>
               <span class="${u.enabled ? 'text-success' : 'text-danger'}">
                 ${u.enabled ? 'Active' : 'Disabled'}
@@ -268,72 +259,10 @@
           `;
 					tbody.appendChild(tr);
 				});
+
 			} catch (err) {
 				console.error(err);
 				showAlert('Unable to load users. Please try again.', 'danger');
-			}
-		}
-
-		// Save user via POST /api/users (JSON body)
-		async function saveUser() {
-			const name = document.getElementById('name').value.trim();
-			const email = document.getElementById('email').value.trim();
-			const phone = document.getElementById('phone').value.trim();
-			const password = document.getElementById('password').value.trim();
-			const enabled = document.getElementById('enabled').checked;
-
-			if (!name || !email || !phone || !password) {
-				showAlert('Please fill all fields.', 'warning');
-				return;
-			}
-
-			const user = {
-				name: name,
-				email: email,
-				phone: phone,
-				password: password,
-				enabled: enabled
-			};
-
-			try {
-				const response = await fetch('/api/users', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(user)
-				});
-
-				if (!response.ok) {
-					let msg = 'Failed to save user. Please check details.';
-					try {
-						const errBody = await response.json();
-						if (errBody && errBody.message) {
-							msg = errBody.message;
-						}
-					} catch (e) {
-						// ignore parse error
-					}
-					showAlert(msg, 'danger');
-					return;
-				}
-
-				const saved = await response.json();
-				showAlert('User saved successfully with ID ' + saved.id, 'success');
-
-				// Clear form
-				document.getElementById('name').value = '';
-				document.getElementById('email').value = '';
-				document.getElementById('phone').value = '';
-				document.getElementById('password').value = '';
-				document.getElementById('enabled').checked = true;
-
-				// Reload users table
-				loadUsers();
-
-			} catch (err) {
-				console.error(err);
-				showAlert('An error occurred while saving user.', 'danger');
 			}
 		}
 
@@ -370,7 +299,6 @@
 			}
 		}
 
-		document.getElementById('saveUserBtn').addEventListener('click', saveUser);
 		document.getElementById('refreshUsersBtn').addEventListener('click', loadUsers);
 
 		// Initial load

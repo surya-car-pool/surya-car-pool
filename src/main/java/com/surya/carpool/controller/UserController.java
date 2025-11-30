@@ -26,34 +26,47 @@ public class UserController {
 
 	@PostMapping
 	public ResponseEntity<?> createUser(@RequestBody User user) {
-		Map<String, String> body = new HashMap<>();
+	    Map<String, String> body = new HashMap<>();
 
-		try {
-			if (user.getName() == null || user.getName().isBlank() || user.getEmail() == null
-					|| user.getEmail().isBlank() || user.getPhone() == null || user.getPhone().isBlank()
-					|| user.getPassword() == null || user.getPassword().isBlank()) {
+	    try {
+	        if (user.getName() == null || user.getName().isBlank()
+	                || user.getEmail() == null || user.getEmail().isBlank()
+	                || user.getPhone() == null || user.getPhone().isBlank()
+	                || user.getPassword() == null || user.getPassword().isBlank()) {
 
-				body.put("message", "Please fill all fields: name, email, phone and password.");
-				return ResponseEntity.badRequest().body(body);
-			}
+	            body.put("message", "Please fill all mandatory fields: name, email, phone, password.");
+	            return ResponseEntity.badRequest().body(body);
+	        }
 
-			// encode password before saving
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			user.setEnabled(true);
+	        // basic validation for at least one car (for owner attaching car)
+	        if (user.getCars() == null || user.getCars().isEmpty()) {
+	            body.put("message", "Please add at least one car for this owner.");
+	            return ResponseEntity.badRequest().body(body);
+	        }
 
-			User saved = repo.save(user);
-			return ResponseEntity.ok(saved);
+	        // attach owner to each car
+	        if (user.getCars() != null) {
+	            user.getCars().forEach(c -> c.setOwner(user));
+	        }
 
-		} catch (DataIntegrityViolationException ex) {
-			body.put("message", "Email or phone already exists. Please use a different one.");
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+	        // encode password
+	        user.setPassword(passwordEncoder.encode(user.getPassword()));
+	        user.setEnabled(true);
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			body.put("message", "Unexpected error while saving user. Please try again.");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
-		}
+	        User saved = repo.save(user); // thanks to cascade, cars are saved too
+	        return ResponseEntity.ok(saved);
+
+	    } catch (DataIntegrityViolationException ex) {
+	        body.put("message", "Email, phone or car registration already exists.");
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        body.put("message", "Unexpected error while saving owner with cars.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+	    }
 	}
+
 
 	@GetMapping
 	public List<User> listUsers() {

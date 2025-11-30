@@ -1,6 +1,5 @@
-package com.surya.carpool.repository;
+package com.suryacarpool.bookings;
 
-import com.surya.carpool.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
