@@ -26,7 +26,7 @@ public class AuthController {
             @RequestParam("regPhone") String regPhone,
             @RequestParam("regPassword") String regPassword
     ) {
-        // TODO: add validation + duplicate checks (email/phone)
+        // TODO: add validation + duplicate checks (email/phone)  
         User user = new User();
         user.setName(regName);
         user.setEmail(regEmail);

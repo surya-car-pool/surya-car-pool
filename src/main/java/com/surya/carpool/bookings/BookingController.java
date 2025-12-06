@@ -1,4 +1,4 @@
-package com.suryacarpool.bookings;
+package com.surya.carpool.bookings;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.suryacarpool.bookings;
+package com.surya.carpool.bookings;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

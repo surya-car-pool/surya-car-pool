@@ -1,4 +1,4 @@
-package com.suryacarpool.bookings;
+package com.surya.carpool.bookings;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
