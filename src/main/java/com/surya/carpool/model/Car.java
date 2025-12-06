@@ -36,8 +36,8 @@ public class Car {
 	private String color;
 	private Integer seats; // 4,5,7
 
-	private String fuelType; // PETROL/DIESEL/CNG/EV
-	private String transmissionType;// MANUAL/AUTOMATIC
+	private String fuelType; 
+	private String transmissionType;
 
 	private Double perDayRent;
 	private Double perKmRate;
