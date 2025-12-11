@@ -1,22 +1,60 @@
-package com.surya.carpool.model;
+package com.surya.carpool.bookings;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
+@Entity
+@Table(name = "bookings")
+public class Booking {
 
-public class BookingForm {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private Long carId;
-	private Long id;
+
 	private String customerName;
 	private String email;
 	private String phone;
+
+	@Column(length = 500)
 	private String customerAddress;
+
+	@Column(length = 500)
 	private String pickupLocation;
+
+	@Column(length = 1000)
 	private String notes;
+
+	private LocalDateTime pickupDateTime;
+	private LocalDateTime dropDateTime;
+
+	private String paymentMethod; // UPI / CARD / CASH
+	private BigDecimal amount;
+
+	// KYC fields
+	private String drivingLicenseNumber;
+	private LocalDate drivingLicenseExpiry;
+	private String drivingLicenseState;
+	private String aadharNumber;
+	private BigDecimal fixedDepositAmount;
+
+	// Stored file paths (relative)
+	private String addressProofPath;
+	private String drivingLicenseFilePath;
+
+	private LocalDateTime createdAt;
+
+	@PrePersist
+	public void prePersist() {
+		if (createdAt == null) {
+			createdAt = LocalDateTime.now();
+		}
+	}
+
+	// ---------- getters & setters ----------
 
 	public Long getId() {
 		return id;
@@ -25,29 +63,6 @@ public class BookingForm {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private LocalDateTime pickupDateTime;
-
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private LocalDateTime dropDateTime;
-
-	private String paymentMethod;
-	private BigDecimal amount;
-
-	private String drivingLicenseNumber;
-
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate drivingLicenseExpiry;
-
-	private String drivingLicenseState;
-	private String aadharNumber;
-	private BigDecimal fixedDepositAmount;
-
-	private MultipartFile addressProofFile;
-	private MultipartFile drivingLicenseFile;
-
-	// ---------- getters & setters ----------
 
 	public Long getCarId() {
 		return carId;
@@ -177,19 +192,27 @@ public class BookingForm {
 		this.fixedDepositAmount = fixedDepositAmount;
 	}
 
-	public MultipartFile getAddressProofFile() {
-		return addressProofFile;
+	public String getAddressProofPath() {
+		return addressProofPath;
 	}
 
-	public void setAddressProofFile(MultipartFile addressProofFile) {
-		this.addressProofFile = addressProofFile;
+	public void setAddressProofPath(String addressProofPath) {
+		this.addressProofPath = addressProofPath;
 	}
 
-	public MultipartFile getDrivingLicenseFile() {
-		return drivingLicenseFile;
+	public String getDrivingLicenseFilePath() {
+		return drivingLicenseFilePath;
 	}
 
-	public void setDrivingLicenseFile(MultipartFile drivingLicenseFile) {
-		this.drivingLicenseFile = drivingLicenseFile;
+	public void setDrivingLicenseFilePath(String drivingLicenseFilePath) {
+		this.drivingLicenseFilePath = drivingLicenseFilePath;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 }

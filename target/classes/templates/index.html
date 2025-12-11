@@ -339,64 +339,98 @@
 		</div>
 	</header>
 
-	<!-- AVAILABLE RIDES -->
+	<!-- AVAILABLE CARS -->
+	<!-- AVAILABLE CARS -->
 	<main class="rides">
 		<div class="d-flex justify-content-between align-items-center mb-3">
-			<h2 class="h4 mb-0">Available Rides</h2>
+			<h2 class="h4 mb-0">Available Cars</h2>
 			<div>
-				<a class="btn btn-success" href="#" onclick="alert('Use API to create rides')"><i
-						class="bi bi-plus-lg"></i> Offer Ride</a>
+				<a class="btn btn-success" href="/createuser/ui">
+					<i class="bi bi-plus-lg"></i> Add Owner &amp; Car
+				</a>
 			</div>
 		</div>
 
-		<div th:if="${#lists.isEmpty(rides)}">
-			<div class="alert alert-info">No rides available. Create one via API or admin.</div>
+		<!-- When there are no active cars -->
+		<div th:if="${#lists.isEmpty(cars)}">
+			<div class="alert alert-info">
+				No active cars available. Please add an owner &amp; car from the Users page.
+			</div>
 		</div>
 
-		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:if="${!#lists.isEmpty(rides)}">
-			<div class="col" th:each="ride : ${rides}">
+		<!-- Active cars grid -->
+		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:if="${!#lists.isEmpty(cars)}">
+			<div class="col" th:each="car : ${cars}">
 				<div class="card ride-card h-100">
 					<div class="card-body">
 						<div class="d-flex justify-content-between align-items-start mb-2">
 							<div>
-								<h5 class="card-title mb-0" th:text="${ride.fromLocation} + ' → ' + ${ride.toLocation}">
-									From → To</h5>
-								<small class="text-muted"
-									th:text="${ride.driver != null ? 'Driver #' + ride.driver.id : 'No driver'}">Driver</small>
+								<h5 class="card-title mb-0" th:text="${car.make} + ' ' + ${car.model}">
+									Car Make &amp; Model
+								</h5>
+								<small class="text-muted" th:text="${car.variant}">Variant</small>
 							</div>
 							<div class="text-end">
 								<span class="badge badge-seats rounded-pill"
-									th:text="${ride.availableSeats} + ' seats'">3 seats</span>
-								<div class="text-muted mt-2 small">₹ <span th:text="${ride.fare}">0</span></div>
+									th:text="${car.seats != null ? car.seats + ' seats' : 'Seats N/A'}">
+									4 seats
+								</span>
+								<div class="text-muted mt-2 small">
+									₹ <span th:text="${car.perDayRent != null ? car.perDayRent : 0}">0</span>/day
+								</div>
 							</div>
 						</div>
 
-						<p class="mb-2"><i class="bi bi-clock"></i>
-							<span th:text="${#temporals.format(ride.departureTime, 'dd MMM yyyy HH:mm')}">Date</span>
+						<p class="mb-1">
+							<i class="bi bi-person-badge" style="color:#0d6efd;"></i>
+							<span th:text="${car.owner != null ? car.owner.name : 'No owner'}">Owner Name</span>
 						</p>
 
-						<p class="card-text text-truncate" th:text="${ride.fromLocation} + ' to ' + ${ride.toLocation}">
-							Route details</p>
+						<p class="mb-1 small text-muted">
+							<i class="bi bi-fuel-pump" style="color:#198754;"></i>
+							<span th:text="${car.fuelType}">Fuel</span>
+							&nbsp;·&nbsp;
+							<i class="bi bi-gear" style="color:#fd7e14;"></i>
+							<span th:text="${car.transmissionType}">Transmission</span>
+						</p>
+
+						<p class="mb-1 small text-muted">
+							<i class="bi bi-123" style="color:#6c757d;"></i>
+							<span th:text="${car.registrationNo}">KA-00-0000</span>
+						</p>
+
+						<p class="mb-0 small" th:if="${car.perKmRate != null}">
+							<i class="bi bi-cash-stack" style="color:#6f42c1;"></i>
+							₹ <span th:text="${car.perKmRate}">0</span>/km
+						</p>
+
 					</div>
 
 					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-						<small class="text-muted">Ride ID: <span th:text="${ride.id}">1</span></small>
-						<div>
-							<button class="btn btn-outline-primary btn-sm"
-								onclick="bookRide(event, /*[[${ride.id}]]*/ 1)">Book</button>
-							<a th:href="@{'/rides/ui'}" class="btn btn-link btn-sm">Details</a>
+						<small class="text-muted">Car ID: <span th:text="${car.id}">1</span></small>
+						<div class="d-flex gap-2">
+							<a th:href="@{'/bookings/ui?(carId=' + ${car.id} + ')'}"
+								class="btn btn-outline-primary btn-sm">
+								<i class="bi bi-credit-card"></i> Book Car
+							</a>
+
+							<a th:href="@{'/users/ui'}" class="btn btn-link btn-sm">
+								<i class="bi bi-person-lines-fill"></i> Owner
+							</a>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
 
 	</main>
 
+
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">
 		<div class="container py-4 text-center small" style="color: brown;">
-			© Surya Car Pool · All rights reserved
+			© Surya Car Pool -2025 · All rights reserved
 		</div>
 		<div class="text-center text-muted small py-2" style="background:rgba(0,0,0,0.04)">
 			Need help? Email <a href="mailto:support@suryacarpool.example"
