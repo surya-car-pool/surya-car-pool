@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Surya Car Pool — Home</title>
+
+	<!-- Bootstrap (kept) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+	<!-- Local styles (optional) -->
+	<link href="/static/styles.css" rel="stylesheet">
+
+	<!-- Embedded CSS: modern, responsive homepage styles + small CSS functions -->
+	<style>
+		:root {
+			--primary: #0d6efd;
+			--accent: #6610f2;
+			--bg: #0f1724;
+			--card-radius: 14px;
+			--glass: rgba(255, 255, 255, 0.06);
+			--elev: 0 10px 30px rgba(2, 6, 23, 0.35);
+			--max-width: 1200px;
+		}
+
+		.type-lg {
+			font-size: clamp(1.4rem, 1.6vw + 0.8rem, 2.4rem)
+		}
+
+		.type-md {
+			font-size: clamp(1rem, 1.2vw + 0.4rem, 1.25rem)
+		}
+
+		body {
+			font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+			background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+			color: #0b1220;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+		.navbar-custom {
+			background: linear-gradient(90deg, var(--primary), var(--accent));
+			box-shadow: var(--elev);
+		}
+
+		.brand-logo {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			text-decoration: none;
+			color: inherit
+		}
+
+		.brand-svg {
+			width: 48px;
+			height: 48px;
+			border-radius: 10px;
+			flex: 0 0 48px
+		}
+
+		.brand-title {
+			font-weight: 700;
+			line-height: 1
+		}
+
+		.brand-tagline {
+			font-size: .78rem;
+			opacity: .9
+		}
+
+		.hero {
+			max-width: var(--max-width);
+			margin: 1.75rem auto;
+			padding: 2.2rem;
+			border-radius: 18px;
+			background: linear-gradient(180deg, rgba(13, 110, 253, 0.06), rgba(102, 16, 242, 0.04));
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-bg {
+			position: absolute;
+			inset: 0;
+			background-image: url('/images/logo.png');
+			background-size: cover;
+			background-position: center;
+			filter: grayscale(.07) contrast(.9) brightness(.55);
+			z-index: 0;
+			border-radius: 18px;
+		}
+
+		.hero-inner {
+			position: relative;
+			z-index: 2;
+			display: flex;
+			gap: 1.25rem;
+			align-items: center
+		}
+
+		.hero-left {
+			flex: 1;
+			color: var(--bg);
+			padding: 1rem
+		}
+
+		.hero-cta {
+			display: flex;
+			gap: .6rem;
+			margin-top: 1rem
+		}
+
+		.search-card {
+			background: rgba(255, 255, 255, 0.95);
+			border-radius: 12px;
+			padding: 1rem;
+			box-shadow: 0 8px 22px rgba(13, 16, 24, .08)
+		}
+
+		.search-grid {
+			display: grid;
+			grid-template-columns: 1fr 140px;
+			gap: .6rem;
+			align-items: end
+		}
+
+		.search-grid .form-control {
+			height: 52px
+		}
+
+		.rides {
+			max-width: var(--max-width);
+			margin: 1.25rem auto;
+			padding: 0 1rem
+		}
+
+		.ride-card {
+			border-radius: 12px;
+			overflow: hidden;
+			border: 0;
+			box-shadow: 0 6px 18px rgba(9, 13, 26, .06)
+		}
+
+		.ride-card .card-body {
+			padding: 1rem
+		}
+
+		.badge-seats {
+			background: linear-gradient(90deg, var(--primary), var(--accent));
+			color: #fff
+		}
+
+		footer {
+			margin-top: 2rem
+		}
+
+		.hero .btn-primary {
+			background: var(--primary);
+			border-color: var(--primary)
+		}
+
+		.hero .btn-outline {
+			border: 1px solid rgba(255, 255, 255, .14);
+			color: #fff
+		}
+
+		.card:hover {
+			transform: translateY(-4px);
+			transition: transform .18s ease
+		}
+
+		@media (max-width: 992px) {
+			.hero-inner {
+				flex-direction: column;
+				align-items: stretch
+			}
+
+			.search-grid {
+				grid-template-columns: 1fr 120px
+			}
+		}
+
+		@media (max-width:576px) {
+			.brand-svg {
+				width: 40px;
+				height: 40px
+			}
+
+			.brand-title {
+				font-size: 1rem
+			}
+
+			.search-grid {
+				grid-template-columns: 1fr 100px
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+		<div class="container">
+			<a class="navbar-brand d-flex align-items-center brand-logo" href="/home" aria-label="Surya Car Pool home">
+				<svg class="brand-svg" viewBox="0 0 64 64" xmlns="/images/logo.png" role="img"
+					aria-labelledby="logoTitle logoDesc">
+					<title id="logoTitle">Surya Car Pool logo</title>
+					<desc id="logoDesc">Sun rising above a road — Surya Car Pool</desc>
+					<img src="/images/logo.png" alt="Surya Car Pool"
+						style="width:70px; height:70px; border-radius:14px; object-fit:contain;" />
+					<rect width="64" height="64" rx="10" fill="url(#g1)" />
+					<circle cx="20" cy="18" r="8" fill="#fff5d6" />
+					<path d="M6 44 C18 38,46 38,58 44 L58 50 C46 44,18 44,6 50 Z" fill="#0f1724" />
+					<g stroke="#ffd166" stroke-width="1.8" stroke-linecap="round">
+						<path d="M12 43 L16 43" stroke-dasharray="4 3" />
+						<path d="M24 42 L28 42" stroke-dasharray="4 3" />
+						<path d="M36 42 L40 42" stroke-dasharray="4 3" />
+						<path d="M48 43 L52 43" stroke-dasharray="4 3" />
+					</g>
+					<path d="M18 36 h10 l3-5 h8 l3 5 h3 v3 h-30 v-3 z" fill="#fff" />
+				</svg>
+
+				<div class="d-flex flex-column">
+					<span class="brand-title text-white">Surya Car Pool</span>
+					<span class="brand-tagline text-white-50">Safe · Shared · Smart</span>
+				</div>
+
+				<span class="ms-3 badge bg-white text-dark align-self-start" style="font-weight:600">Trusted</span>
+			</a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navMain">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="/users/ui">
+							<i class="bi bi-people-fill"></i> Users
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/rides/ui">
+							<i class="bi bi-car-front-fill"></i> Rides
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/bookings/ui">
+							<i class="bi bi-journal-check"></i> Bookings
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/aboutus/ui">
+							<i class="bi bi-info-circle-fill"></i> About Us
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/contactus/ui">
+							<i class="bi bi-envelope-fill"></i> Contact Us
+						</a>
+					</li>
+				</ul>
+
+				<!-- AUTH AREA: Login / Logout -->
+				<div class="d-flex align-items-center ms-3">
+					<!-- Show when logged in -->
+					<span class="text-white me-3" sec:authorize="isAuthenticated()">
+						Hello,
+						<strong th:text="${#authentication.principal.name} ?: 'User'">User</strong>
+					</span>
+
+					<!-- Login button (only for anonymous users) -->
+					<a class="btn btn-outline-light btn-sm me-2" href="/login" sec:authorize="isAnonymous()">
+						<i class="bi bi-box-arrow-in-right"></i> Login
+					</a>
+
+					<!-- Logout button (only for authenticated users) -->
+					<form th:action="@{/logout}" method="post" class="d-inline" sec:authorize="isAuthenticated()">
+						<button type="submit" class="btn btn-light btn-sm">
+							<i class="bi bi-box-arrow-right"></i> Logout
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- ✅ LOGOUT SUCCESS ALERT -->
+	<div th:if="${param.logout}" class="alert alert-success text-center mb-0">
+		You have been logged out successfully.
+	</div>
+
+	<!-- HERO -->
+	<header class="hero">
+		<div class="hero-bg" aria-hidden="true"></div>
+		<div class="container hero-inner">
+			<div class="hero-left">
+				<h1 class="display-5 fw-bold type-lg" style="color:rgb(255, 128, 0);">Book and Ride with Surya Car
+					Pool..!</h1>
+				<p class="lead type-md" style="color:#ffe27a;">Affordable, convenient car-pooling for daily commutes and
+					one-time trips — trusted by your neighbourhood.</p>
+				<div class="hero-cta">
+					<a class="btn btn-primary btn-lg" href="/rides/ui">Browse Rides</a>
+					<a class="btn btn-outline btn-lg" href="#" onclick="alert('Use API to offer a ride')">Offer a
+						Ride</a>
+				</div>
+			</div>
+
+			<aside style="width:360px;max-width:40%;min-width:260px">
+				<div class="search-card">
+					<form id="searchForm" class="mb-2" role="search" aria-label="Search rides">
+						<label class="form-label small text-muted">From / To</label>
+						<div class="search-grid">
+							<input class="form-control" type="search" id="q" name="q"
+								placeholder="e.g. Bangalore, Mysore" th:value="${param.q}">
+							<div style="display:flex;flex-direction:column;gap:6px">
+								<input class="form-control" type="date" id="date" name="date"
+									aria-label="Departure date">
+								<button class="btn btn-primary w-100" type="submit">Search <i
+										class="bi bi-search ms-1"></i></button>
+							</div>
+						</div>
+					</form>
+
+					<hr>
+
+					<div class="d-flex justify-content-between small text-muted">
+						<div><i class="bi bi-people-fill"></i> Shared rides</div>
+						<div><i class="bi bi-clock-history"></i> Flexible timings</div>
+					</div>
+				</div>
+			</aside>
+		</div>
+	</header>
+
+	<!-- AVAILABLE CARS -->
+	<!-- AVAILABLE CARS -->
+	<main class="rides">
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h2 class="h4 mb-0">Available Cars</h2>
+			<div>
+				<a class="btn btn-success" href="/createuser/ui">
+					<i class="bi bi-plus-lg"></i> Add Owner &amp; Car
+				</a>
+			</div>
+		</div>
+
+		<!-- When there are no active cars -->
+		<div th:if="${#lists.isEmpty(cars)}">
+			<div class="alert alert-info">
+				No active cars available. Please add an owner &amp; car from the Users page.
+			</div>
+		</div>
+
+		<!-- Active cars grid -->
+		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:if="${!#lists.isEmpty(cars)}">
+			<div class="col" th:each="car : ${cars}">
+				<div class="card ride-card h-100">
+					<div class="card-body">
+						<div class="d-flex justify-content-between align-items-start mb-2">
+							<div>
+								<h5 class="card-title mb-0" th:text="${car.make} + ' ' + ${car.model}">
+									Car Make &amp; Model
+								</h5>
+								<small class="text-muted" th:text="${car.variant}">Variant</small>
+							</div>
+							<div class="text-end">
+								<span class="badge badge-seats rounded-pill"
+									th:text="${car.seats != null ? car.seats + ' seats' : 'Seats N/A'}">
+									4 seats
+								</span>
+								<div class="text-muted mt-2 small">
+									₹ <span th:text="${car.perDayRent != null ? car.perDayRent : 0}">0</span>/day
+								</div>
+							</div>
+						</div>
+
+						<p class="mb-1">
+							<i class="bi bi-person-badge" style="color:#0d6efd;"></i>
+							<span th:text="${car.owner != null ? car.owner.name : 'No owner'}">Owner Name</span>
+						</p>
+
+						<p class="mb-1 small text-muted">
+							<i class="bi bi-fuel-pump" style="color:#198754;"></i>
+							<span th:text="${car.fuelType}">Fuel</span>
+							&nbsp;·&nbsp;
+							<i class="bi bi-gear" style="color:#fd7e14;"></i>
+							<span th:text="${car.transmissionType}">Transmission</span>
+						</p>
+
+						<p class="mb-1 small text-muted">
+							<i class="bi bi-123" style="color:#6c757d;"></i>
+							<span th:text="${car.registrationNo}">KA-00-0000</span>
+						</p>
+
+						<p class="mb-0 small" th:if="${car.perKmRate != null}">
+							<i class="bi bi-cash-stack" style="color:#6f42c1;"></i>
+							₹ <span th:text="${car.perKmRate}">0</span>/km
+						</p>
+
+					</div>
+
+					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+						<small class="text-muted">Car ID: <span th:text="${car.id}">1</span></small>
+						<div class="d-flex gap-2">
+							<a th:href="@{/bookings/ui(carId=${car.id})}" class="btn btn-outline-primary btn-sm">
+							    <i class="bi bi-credit-card"></i> Book Car
+							</a>
+
+							<a th:href="@{'/users/ui'}" class="btn btn-link btn-sm">
+								<i class="bi bi-person-lines-fill"></i> Owner
+							</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+
+	<!-- FOOTER -->
+	<footer class="bg-dark text-light mt-5">
+		<div class="container py-4 text-center small" style="color: brown;">
+			© Surya Car Pool -2025 · All rights reserved
+		</div>
+		<div class="text-center text-muted small py-2" style="background:rgba(0,0,0,0.04)">
+			Need help? Email <a href="mailto:support@suryacarpool.example"
+				class="text-muted">support@suryacarpool.example</a> · Terms apply
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function bookRide(e, rideId) {
+			// Placeholder: your real booking flow would call backend
+			alert('Booking flow not implemented in UI. Use /api/bookings to book ride id: ' + rideId);
+		}
+
+		// Search form handler
+		document.getElementById('searchForm').addEventListener('submit', function (e) {
+			e.preventDefault();
+			const q = document.getElementById('q').value;
+			const date = document.getElementById('date').value;
+			let url = '/rides/ui';
+			const params = new URLSearchParams(); if (q) params.set('q', q); if (date) params.set('date', date);
+			const qs = params.toString(); if (qs) url += '?' + qs; window.location.href = url;
+		});
+	</script>
+</body>
+
+</html>
