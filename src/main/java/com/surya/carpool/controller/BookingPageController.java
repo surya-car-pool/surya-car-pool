@@ -1,0 +1,111 @@
+package com.surya.carpool.controller;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+
+import com.surya.carpool.model.BookingForm;
+import com.surya.carpool.model.PaymentReceipt;
+
+@Controller
+@SessionAttributes("currentBooking")  // keep booking data between pages
+public class BookingPageController {
+
+    @ModelAttribute("currentBooking")
+    public BookingForm currentBooking() {
+        return new BookingForm();
+    }
+
+    /**
+     * Called when user clicks "Confirm Booking" on bookings.html
+     * -> stores form in session and redirects to payment page.
+     */
+    @PostMapping("/bookings")
+    public String handleBookingSubmit(
+            BookingForm form,
+            @ModelAttribute("currentBooking") BookingForm sessionBooking) {
+
+        // copy submitted fields into session booking
+        sessionBooking.setCarId(form.getCarId());
+        sessionBooking.setPickupLocation(form.getPickupLocation());
+        sessionBooking.setPickupDateTime(form.getPickupDateTime());
+        sessionBooking.setDropDateTime(form.getDropDateTime());
+
+        sessionBooking.setCustomerName(form.getCustomerName());
+        sessionBooking.setEmail(form.getEmail());
+        sessionBooking.setPhone(form.getPhone());
+        sessionBooking.setCustomerAddress(form.getCustomerAddress());
+        sessionBooking.setNotes(form.getNotes());
+
+        sessionBooking.setDrivingLicenseNumber(form.getDrivingLicenseNumber());
+        sessionBooking.setDrivingLicenseExpiry(form.getDrivingLicenseExpiry());
+        sessionBooking.setDrivingLicenseState(form.getDrivingLicenseState());
+        sessionBooking.setAadharNumber(form.getAadharNumber());
+        sessionBooking.setFixedDepositAmount(form.getFixedDepositAmount());
+
+        sessionBooking.setPaymentMethod(form.getPaymentMethod());
+        sessionBooking.setAmount(form.getAmount());
+
+        // here you could also save to DB using your existing Booking entity
+
+        // redirect to payment page
+        return "redirect:/payments/ui";
+    }
+
+    /**
+     * Payment page that shows booking summary and asks for payment confirmation.
+     */
+    @GetMapping("/payments/ui")
+    public String showPaymentPage(
+            @ModelAttribute("currentBooking") BookingForm booking,
+            Model model) {
+
+        if (booking.getCustomerName() == null) {
+            // if user opens /payments/ui directly without booking
+            return "redirect:/bookings/ui";
+        }
+
+        model.addAttribute("booking", booking);
+        return "payments";   // payments.html
+    }
+
+    /**
+     * Called when user confirms payment on the payment page.
+     * -> Creates a receipt object and shows receipt page.
+     */
+    @PostMapping("/payments/confirm")
+    public String confirmPayment(
+            @ModelAttribute("currentBooking") BookingForm booking,
+            Model model,
+            SessionStatus sessionStatus) {
+
+        if (booking.getCustomerName() == null) {
+            return "redirect:/bookings/ui";
+        }
+
+        PaymentReceipt receipt = new PaymentReceipt();
+        receipt.setReceiptNumber("RCPT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+        receipt.setPaymentDateTime(LocalDateTime.now());
+        receipt.setPaymentMethod(booking.getPaymentMethod());
+        //receipt.setAmountPaid(booking.getAmount());
+        receipt.setStatus("SUCCESS");
+
+        receipt.setCustomerName(booking.getCustomerName());
+        receipt.setCarId(booking.getCarId());
+        receipt.setPickupLocation(booking.getPickupLocation());
+
+        model.addAttribute("receipt", receipt);
+
+        // clear session booking
+        sessionStatus.setComplete();
+
+        return "payment-receipt";  // payment-receipt.html
+    }
+}

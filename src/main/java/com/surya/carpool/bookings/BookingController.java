@@ -2,7 +2,6 @@ package com.surya.carpool.bookings;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,6 @@ public class BookingController {
 	}
 
 	// ---------- UI ----------
-
 	@GetMapping("/bookings/ui")
 	public String bookingsPage(@RequestParam(value = "carId", required = false) Long carId,
 			@RequestParam(value = "success", required = false) String success, Model model) {

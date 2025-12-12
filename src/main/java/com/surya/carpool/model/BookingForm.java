@@ -10,13 +10,21 @@ import org.springframework.web.multipart.MultipartFile;
 public class BookingForm {
 
 	private Long carId;
-
+	private Long id;
 	private String customerName;
 	private String email;
 	private String phone;
 	private String customerAddress;
 	private String pickupLocation;
 	private String notes;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime pickupDateTime;
