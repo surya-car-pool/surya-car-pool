@@ -40,20 +40,6 @@ public class BookingController {
 		return "bookings"; // bookings.html
 	}
 
-	@PostMapping("/bookings")
-	public String createBooking(@ModelAttribute BookingForm bookingForm, RedirectAttributes redirectAttributes) {
-
-		try {
-			bookingService.createBooking(bookingForm);
-			redirectAttributes.addAttribute("success", "true");
-		} catch (IOException e) {
-			redirectAttributes.addAttribute("success", "false");
-		}
-
-		// Redirect back to UI
-		return "redirect:/bookings/ui";
-	}
-
 	// ---------- REST API ----------
 
 	@GetMapping("/api/bookings")
