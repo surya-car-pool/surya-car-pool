@@ -327,213 +327,225 @@
 								class="text-danger">*</span> are mandatory.
 						</p>
 
-						<form th:action="@{/bookings}" th:method="post" enctype="multipart/form-data">
-							<div class="row g-3">
+						<!-- Wrap with th:with so nested fragments can access model vars reliably -->
+						<div th:with="ignored=${carId}">
+							<form th:action="@{/bookings}" th:object="${bookingForm}" th:method="post"
+								enctype="multipart/form-data">
+								<div class="row g-3">
 
-								<!-- SECTION: Car & Trip Details -->
-								<div class="section-card">
-									<div class="section-header">
-										<i class="bi bi-car-front"></i>
-										<span>Car &amp; Trip Details</span>
-									</div>
-									<div class="form-section-divider"></div>
-									<div class="row g-3">
-										<div class="col-md-4">
-											<label class="form-label">Car ID <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="carId" th:value="${carId}"
-												placeholder="e.g. 12">
+									<!-- SECTION: Car & Trip Details -->
+									<div class="section-card">
+										<div class="section-header">
+											<i class="bi bi-car-front"></i>
+											<span>Car &amp; Trip Details</span>
 										</div>
+										<div class="form-section-divider"></div>
+										<div class="row g-3">
+											<div class="col-md-4">
+												<label class="form-label">Car ID <span
+														class="text-danger">*</span></label>
+												<input type="text" class="form-control" th:field="*{carId}"
+													placeholder="e.g. 12" readonly>
+											</div>
 
-										<div class="col-md-8">
-											<label class="form-label">Pickup Location <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="pickupLocation"
-												placeholder="e.g. Whitefield, Bangalore">
-										</div>
+											<div class="col-md-8">
+												<label class="form-label">Pickup Location <span
+														class="text-danger">*</span></label>
+												<input type="text" class="form-control" th:field="*{pickupLocation}"
+													placeholder="e.g. Whitefield, Bangalore">
+											</div>
 
-										<div class="col-md-6">
-											<label class="form-label">Pickup Date &amp; Time <span
-													class="text-danger">*</span></label>
-											<input type="datetime-local" class="form-control" name="pickupDateTime">
-										</div>
+											<div class="col-md-6">
+												<label class="form-label">Pickup Date &amp; Time <span
+														class="text-danger">*</span></label>
+												<input type="datetime-local" class="form-control"
+													th:field="*{pickupDateTime}">
+											</div>
 
-										<div class="col-md-6">
-											<label class="form-label">Drop Date &amp; Time <span
-													class="text-danger">*</span></label>
-											<input type="datetime-local" class="form-control" name="dropDateTime">
-										</div>
-									</div>
-								</div>
-
-								<!-- SECTION: Customer Details -->
-								<div class="section-card">
-									<div class="section-header">
-										<i class="bi bi-person-badge"></i>
-										<span>Customer Details</span>
-									</div>
-									<div class="form-section-divider"></div>
-									<div class="row g-3">
-										<div class="col-md-6">
-											<label class="form-label">Customer Name <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="customerName"
-												placeholder="Enter your full name">
-										</div>
-
-										<div class="col-md-6">
-											<label class="form-label">Email <span class="text-danger">*</span></label>
-											<div class="input-group">
-												<span class="input-group-text"><i class="bi bi-envelope"></i></span>
-												<input type="email" class="form-control" name="email"
-													placeholder="yourname@example.com">
+											<div class="col-md-6">
+												<label class="form-label">Drop Date &amp; Time <span
+														class="text-danger">*</span></label>
+												<input type="datetime-local" class="form-control"
+													th:field="*{dropDateTime}">
 											</div>
 										</div>
+									</div>
 
-										<div class="col-md-6">
-											<label class="form-label">Phone Number <span
-													class="text-danger">*</span></label>
-											<div class="input-group">
-												<span class="input-group-text"><i class="bi bi-telephone"></i></span>
-												<input type="tel" class="form-control" name="phone"
-													placeholder="10-digit mobile number">
+									<!-- SECTION: Customer Details -->
+									<div class="section-card">
+										<div class="section-header">
+											<i class="bi bi-person-badge"></i>
+											<span>Customer Details</span>
+										</div>
+										<div class="form-section-divider"></div>
+										<div class="row g-3">
+											<div class="col-md-6">
+												<label class="form-label">Customer Name <span
+														class="text-danger">*</span></label>
+												<input type="text" class="form-control" th:field="*{customerName}"
+													placeholder="Enter your full name">
+											</div>
+
+											<div class="col-md-6">
+												<label class="form-label">Email <span
+														class="text-danger">*</span></label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="bi bi-envelope"></i></span>
+													<input type="email" class="form-control" th:field="*{email}"
+														placeholder="yourname@example.com">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<label class="form-label">Phone Number <span
+														class="text-danger">*</span></label>
+												<div class="input-group">
+													<span class="input-group-text"><i
+															class="bi bi-telephone"></i></span>
+													<input type="tel" class="form-control" th:field="*{phone}"
+														placeholder="10-digit mobile number">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<label class="form-label">Customer Address <span
+														class="text-danger">*</span></label>
+												<input type="text" class="form-control" th:field="*{customerAddress}"
+													placeholder="House / Flat, Street, Area, City">
+											</div>
+
+											<div class="col-12">
+												<label class="form-label">Additional Notes</label>
+												<textarea class="form-control" th:field="*{notes}" rows="2"
+													placeholder="Anything the driver should know (landmark, preferences, etc.)"></textarea>
 											</div>
 										</div>
+									</div>
 
-										<div class="col-md-6">
-											<label class="form-label">Customer Address <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="customerAddress"
-												placeholder="House / Flat, Street, Area, City">
+									<!-- SECTION: Identity / KYC Details -->
+									<div class="section-card">
+										<div class="section-header">
+											<i class="bi bi-file-person"></i>
+											<span>Identity &amp; KYC Details</span>
 										</div>
+										<div class="form-section-divider"></div>
+										<div class="row g-3">
+											<div class="col-md-6">
+												<label class="form-label">Driving License Number <span
+														class="text-danger">*</span></label>
+												<input type="text" class="form-control"
+													th:field="*{drivingLicenseNumber}"
+													placeholder="DL Number as per license">
+											</div>
 
-										<div class="col-12">
-											<label class="form-label">Additional Notes</label>
-											<textarea class="form-control" name="notes" rows="2"
-												placeholder="Anything the driver should know (landmark, preferences, etc.)"></textarea>
+											<div class="col-md-3">
+												<label class="form-label">DL Expiry Date <span
+														class="text-danger">*</span></label>
+												<input type="date" class="form-control"
+													th:field="*{drivingLicenseExpiry}">
+											</div>
+
+											<div class="col-md-3">
+												<label class="form-label">DL Issuing State</label>
+												<input type="text" class="form-control"
+													th:field="*{drivingLicenseState}" placeholder="e.g. KA">
+											</div>
+
+											<div class="col-md-6">
+												<label class="form-label">Aadhar Card Number <span
+														class="text-danger">*</span></label>
+												<input type="text" class="form-control" th:field="*{aadharNumber}"
+													placeholder="12-digit Aadhar number">
+											</div>
+
+											<div class="col-md-6">
+												<label class="form-label">Fixed Deposit Amount (₹)</label>
+												<input type="number" min="0" step="0.01" class="form-control"
+													th:field="*{fixedDepositAmount}" placeholder="e.g. 25000">
+											</div>
 										</div>
 									</div>
+
+									<!-- SECTION: Payment Details -->
+									<div class="section-card">
+										<div class="section-header">
+											<i class="bi bi-wallet2"></i>
+											<span>Payment Details</span>
+										</div>
+										<div class="form-section-divider"></div>
+										<div class="row g-3">
+											<div class="col-md-6">
+												<label class="form-label">Payment Method <span
+														class="text-danger">*</span></label>
+												<select class="form-select" th:field="*{paymentMethod}">
+													<option value="">Select method</option>
+													<option value="UPI">UPI</option>
+													<option value="CARD">Credit / Debit Card</option>
+													<option value="CASH">Cash</option>
+												</select>
+											</div>
+
+											<div class="col-md-6">
+												<label class="form-label">Estimated Amount (₹) <span
+														class="text-danger">*</span></label>
+												<input type="number" min="0" step="0.01" class="form-control"
+													th:field="*{amount}" placeholder="e.g. 1200">
+											</div>
+										</div>
+									</div>
+
+									<!-- SECTION: Document Uploads -->
+									<div class="section-card">
+										<div class="section-header">
+											<i class="bi bi-cloud-arrow-up"></i>
+											<span>Upload Documents</span>
+										</div>
+										<div class="form-section-divider"></div>
+										<div class="row g-3">
+											<div class="col-12">
+												<label class="form-label">Address Proof <span
+														class="text-danger">*</span></label>
+												<label class="file-input-label w-100">
+													<i class="bi bi-file-earmark-arrow-up"></i>
+													<span>Upload address proof document (Aadhar, Passport, Utility Bill,
+														etc.)</span>
+													<small>Accepted formats: PDF, JPG, PNG (Max size as per
+														policy)</small>
+													<input type="file" class="form-control mt-2" name="addressProofFile"
+														accept=".pdf,image/*">
+												</label>
+											</div>
+
+											<div class="col-12">
+												<label class="form-label">Driving License Copy <span
+														class="text-danger">*</span></label>
+												<label class="file-input-label w-100">
+													<i class="bi bi-file-earmark-arrow-up"></i>
+													<span>Upload clear copy / photo of your driving license</span>
+													<small>Accepted formats: PDF, JPG, PNG (Front & back if
+														possible)</small>
+													<input type="file" class="form-control mt-2"
+														name="drivingLicenseFile" accept=".pdf,image/*">
+												</label>
+											</div>
+										</div>
+									</div>
+
 								</div>
 
-								<!-- SECTION: Identity / KYC Details -->
-								<div class="section-card">
-									<div class="section-header">
-										<i class="bi bi-file-person"></i>
-										<span>Identity &amp; KYC Details</span>
-									</div>
-									<div class="form-section-divider"></div>
-									<div class="row g-3">
-										<div class="col-md-6">
-											<label class="form-label">Driving License Number <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="drivingLicenseNumber"
-												placeholder="DL Number as per license">
-										</div>
-
-										<div class="col-md-3">
-											<label class="form-label">DL Expiry Date <span
-													class="text-danger">*</span></label>
-											<input type="date" class="form-control" name="drivingLicenseExpiry">
-										</div>
-
-										<div class="col-md-3">
-											<label class="form-label">DL Issuing State</label>
-											<input type="text" class="form-control" name="drivingLicenseState"
-												placeholder="e.g. KA">
-										</div>
-
-										<div class="col-md-6">
-											<label class="form-label">Aadhar Card Number <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="aadharNumber"
-												placeholder="12-digit Aadhar number">
-										</div>
-
-										<div class="col-md-6">
-											<label class="form-label">Fixed Deposit Amount (₹)</label>
-											<input type="number" min="0" step="0.01" class="form-control"
-												name="fixedDepositAmount" placeholder="e.g. 25000">
-										</div>
-									</div>
+								<div
+									class="mt-3 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+									<small class="text-muted mb-2 mb-md-0">
+										This is a UI placeholder. Later this form can call <code>/api/bookings</code>
+										and a payment gateway for live booking.
+									</small>
+									<button type="submit" class="btn btn-gradient">
+										<i class="bi bi-check-circle"></i>
+										<span>Confirm Booking</span>
+									</button>
 								</div>
-
-								<!-- SECTION: Payment Details -->
-								<div class="section-card">
-									<div class="section-header">
-										<i class="bi bi-wallet2"></i>
-										<span>Payment Details</span>
-									</div>
-									<div class="form-section-divider"></div>
-									<div class="row g-3">
-										<div class="col-md-6">
-											<label class="form-label">Payment Method <span
-													class="text-danger">*</span></label>
-											<select class="form-select" name="paymentMethod">
-												<option value="">Select method</option>
-												<option value="UPI">UPI</option>
-												<option value="CARD">Credit / Debit Card</option>
-												<option value="CASH">Cash</option>
-											</select>
-										</div>
-
-										<div class="col-md-6">
-											<label class="form-label">Estimated Amount (₹) <span
-													class="text-danger">*</span></label>
-											<input type="number" min="0" step="0.01" class="form-control" name="amount"
-												placeholder="e.g. 1200">
-										</div>
-									</div>
-								</div>
-
-								<!-- SECTION: Document Uploads -->
-								<div class="section-card">
-									<div class="section-header">
-										<i class="bi bi-cloud-arrow-up"></i>
-										<span>Upload Documents</span>
-									</div>
-									<div class="form-section-divider"></div>
-									<div class="row g-3">
-										<div class="col-12">
-											<label class="form-label">Address Proof <span
-													class="text-danger">*</span></label>
-											<label class="file-input-label w-100">
-												<i class="bi bi-file-earmark-arrow-up"></i>
-												<span>Upload address proof document (Aadhar, Passport, Utility Bill,
-													etc.)</span>
-												<small>Accepted formats: PDF, JPG, PNG (Max size as per policy)</small>
-												<input type="file" class="form-control mt-2" name="addressProofFile"
-													accept=".pdf,image/*">
-											</label>
-										</div>
-
-										<div class="col-12">
-											<label class="form-label">Driving License Copy <span
-													class="text-danger">*</span></label>
-											<label class="file-input-label w-100">
-												<i class="bi bi-file-earmark-arrow-up"></i>
-												<span>Upload clear copy / photo of your driving license</span>
-												<small>Accepted formats: PDF, JPG, PNG (Front & back if
-													possible)</small>
-												<input type="file" class="form-control mt-2" name="drivingLicenseFile"
-													accept=".pdf,image/*">
-											</label>
-										</div>
-									</div>
-								</div>
-
-							</div>
-
-							<div
-								class="mt-3 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-								<small class="text-muted mb-2 mb-md-0">
-									This is a UI placeholder. Later this form can call
-									<code>/api/bookings</code> and a payment gateway for live booking.
-								</small>
-								<button type="submit" class="btn btn-gradient">
-									<i class="bi bi-check-circle"></i>
-									<span>Confirm Booking</span>
-								</button>
-							</div>
-						</form>
+							</form>
+						</div>
 
 					</div>
 				</div>

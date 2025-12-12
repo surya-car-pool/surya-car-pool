@@ -409,9 +409,8 @@
 					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
 						<small class="text-muted">Car ID: <span th:text="${car.id}">1</span></small>
 						<div class="d-flex gap-2">
-							<a th:href="@{'/bookings/ui?(carId=' + ${car.id} + ')'}"
-								class="btn btn-outline-primary btn-sm">
-								<i class="bi bi-credit-card"></i> Book Car
+							<a th:href="@{/bookings/ui(carId=${car.id})}" class="btn btn-outline-primary btn-sm">
+							    <i class="bi bi-credit-card"></i> Book Car
 							</a>
 
 							<a th:href="@{'/users/ui'}" class="btn btn-link btn-sm">

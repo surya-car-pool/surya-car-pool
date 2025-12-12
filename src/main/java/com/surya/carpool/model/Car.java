@@ -1,8 +1,7 @@
 package com.surya.carpool.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.math.BigDecimal;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,144 +15,136 @@ import jakarta.persistence.Table;
 @Table(name = "cars")
 public class Car {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	// BASIC CAR INFO
-	@Column(nullable = false)
-	private String make; // Maruti, Hyundai...
+    private String make;
+    private String model;
+    private String variant;
+    private String active;
+    private Integer seats;
 
-	@Column(nullable = false)
-	private String model; // Swift, i20...
+    private BigDecimal perDayRent;
+    private BigDecimal perKmRate;
 
-	private String variant; // VXI, Sportz...
-
-	@Column(nullable = false, unique = true)
-	private String registrationNo; // KA-01-AB-1234
-
-	private Integer year; // 2020
-	private String color;
-	private Integer seats; // 4,5,7
-
-	private String fuelType; 
-	private String transmissionType;
-
-	private Double perDayRent;
-	private Double perKmRate;
-
-	// OWNER (USER)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_id")
-	 @JsonBackReference
-	private User owner;
-
-	public Car() {
+    public String getActive() {
+		return active;
 	}
 
-	// ====== GETTERS & SETTERS ======
-
-	public Long getId() {
-		return id;
+	public void setActive(String active) {
+		this.active = active;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private String fuelType;
+    private String transmissionType;
 
-	public String getMake() {
-		return make;
-	}
+    private String registrationNo;
 
-	public void setMake(String make) {
-		this.make = make;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
-	public String getModel() {
-		return model;
-	}
+    // -------------------------------
+    // Constructors
+    // -------------------------------
+    public Car() {}
 
-	public void setModel(String model) {
-		this.model = model;
-	}
+    public Car(String make, String model, String variant, Integer seats) {
+        this.make = make;
+        this.model = model;
+        this.variant = variant;
+        this.seats = seats;
+    }
 
-	public String getVariant() {
-		return variant;
-	}
+    // -------------------------------
+    // Getters and Setters
 
-	public void setVariant(String variant) {
-		this.variant = variant;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getRegistrationNo() {
-		return registrationNo;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setRegistrationNo(String registrationNo) {
-		this.registrationNo = registrationNo;
-	}
+    public String getMake() {
+        return make;
+    }
 
-	public Integer getYear() {
-		return year;
-	}
+    public void setMake(String make) {
+        this.make = make;
+    }
 
-	public void setYear(Integer year) {
-		this.year = year;
-	}
+    public String getModel() {
+        return model;
+    }
 
-	public String getColor() {
-		return color;
-	}
+    public void setModel(String model) {
+        this.model = model;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public String getVariant() {
+        return variant;
+    }
 
-	public Integer getSeats() {
-		return seats;
-	}
+    public void setVariant(String variant) {
+        this.variant = variant;
+    }
 
-	public void setSeats(Integer seats) {
-		this.seats = seats;
-	}
+    public Integer getSeats() {
+        return seats;
+    }
 
-	public String getFuelType() {
-		return fuelType;
-	}
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
 
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
+    public BigDecimal getPerDayRent() {
+        return perDayRent;
+    }
 
-	public String getTransmissionType() {
-		return transmissionType;
-	}
+    public void setPerDayRent(BigDecimal perDayRent) {
+        this.perDayRent = perDayRent;
+    }
 
-	public void setTransmissionType(String transmissionType) {
-		this.transmissionType = transmissionType;
-	}
+    public BigDecimal getPerKmRate() {
+        return perKmRate;
+    }
 
-	public Double getPerDayRent() {
-		return perDayRent;
-	}
+    public void setPerKmRate(BigDecimal perKmRate) {
+        this.perKmRate = perKmRate;
+    }
 
-	public void setPerDayRent(Double perDayRent) {
-		this.perDayRent = perDayRent;
-	}
+    public String getFuelType() {
+        return fuelType;
+    }
 
-	public Double getPerKmRate() {
-		return perKmRate;
-	}
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
 
-	public void setPerKmRate(Double perKmRate) {
-		this.perKmRate = perKmRate;
-	}
+    public String getTransmissionType() {
+        return transmissionType;
+    }
 
-	public User getOwner() {
-		return owner;
-	}
+    public void setTransmissionType(String transmissionType) {
+        this.transmissionType = transmissionType;
+    }
 
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public void setRegistrationNo(String registrationNo) {
+        this.registrationNo = registrationNo;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

@@ -17,4 +17,5 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
 	// Optional: existing / future queries
 	// List<Car> findByOwnerId(Long ownerId);
+	List<Car> findByActiveTrue();  //
 }

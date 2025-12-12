@@ -8,16 +8,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.surya.carpool.model.BookingForm;
+import com.surya.carpool.model.Car;
 import com.surya.carpool.model.PaymentReceipt;
+import com.surya.carpool.service.CarService;
 
 @Controller
 @SessionAttributes("currentBooking")  // keep booking data between pages
 public class BookingPageController {
+	private final CarService carService; // service to fetch car details
 
+    public BookingPageController(CarService carService) {
+        this.carService = carService;
+    }
     @ModelAttribute("currentBooking")
     public BookingForm currentBooking() {
         return new BookingForm();
@@ -27,6 +34,30 @@ public class BookingPageController {
      * Called when user clicks "Confirm Booking" on bookings.html
      * -> stores form in session and redirects to payment page.
      */
+    @GetMapping("/bookings/ui")
+    public String bookingsUi(
+            @RequestParam(value = "carId", required = false) Long carId,
+            Model model) {
+
+        // Load list of cars for the page (if needed)
+        model.addAttribute("cars", carService.findActiveCars());
+
+        // Prepare booking form and pre-fill carId if present
+        BookingForm bookingForm = new BookingForm();
+        if (carId != null) {
+            bookingForm.setCarId(carId);
+            // Optional: load the selected car details (for display)
+            Car selected = carService.findById(carId);
+            if (selected != null) {
+                model.addAttribute("selectedCar", selected);
+            }
+        }
+
+        model.addAttribute("bookingForm", bookingForm);
+
+        return "bookings"; // ensure this matches src/main/resources/templates/bookings.html
+    }
+
     @PostMapping("/bookings")
     public String handleBookingSubmit(
             BookingForm form,
