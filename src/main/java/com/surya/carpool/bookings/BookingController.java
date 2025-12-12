@@ -2,7 +2,6 @@ package com.surya.carpool.bookings;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,32 +26,33 @@ public class BookingController {
 	}
 
 	// ---------- UI ----------
+	@GetMapping("/bookings/ui")
+	public String bookingsPage(@RequestParam(value = "carId", required = false) Long carId,
+			@RequestParam(value = "success", required = false) String success, Model model) {
 
-	/*
-	 * @GetMapping("/bookings/ui") public String bookingsPage(@RequestParam(value =
-	 * "carId", required = false) Long carId,
-	 * 
-	 * @RequestParam(value = "success", required = false) String success, Model
-	 * model) {
-	 * 
-	 * BookingForm form = new BookingForm(); form.setCarId(carId);
-	 * 
-	 * model.addAttribute("bookingForm", form); model.addAttribute("carId", carId);
-	 * model.addAttribute("success", success);
-	 * 
-	 * return "bookings"; // bookings.html }
-	 */
+		BookingForm form = new BookingForm();
+		form.setCarId(carId);
 
-	/*
-	 * @PostMapping("/bookings") public String createBooking(@ModelAttribute
-	 * BookingForm bookingForm, RedirectAttributes redirectAttributes) {
-	 * 
-	 * try { bookingService.createBooking(bookingForm);
-	 * redirectAttributes.addAttribute("success", "true"); } catch (IOException e) {
-	 * redirectAttributes.addAttribute("success", "false"); }
-	 * 
-	 * // Redirect back to UI return "redirect:/bookings/ui"; }
-	 */
+		model.addAttribute("bookingForm", form);
+		model.addAttribute("carId", carId);
+		model.addAttribute("success", success);
+
+		return "bookings"; // bookings.html
+	}
+
+	@PostMapping("/bookings")
+	public String createBooking(@ModelAttribute BookingForm bookingForm, RedirectAttributes redirectAttributes) {
+
+		try {
+			bookingService.createBooking(bookingForm);
+			redirectAttributes.addAttribute("success", "true");
+		} catch (IOException e) {
+			redirectAttributes.addAttribute("success", "false");
+		}
+
+		// Redirect back to UI
+		return "redirect:/bookings/ui";
+	}
 
 	// ---------- REST API ----------
 
