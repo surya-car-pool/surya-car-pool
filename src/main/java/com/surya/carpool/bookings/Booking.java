@@ -1,9 +1,16 @@
 package com.surya.carpool.bookings;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bookings")
@@ -18,7 +25,27 @@ public class Booking {
 	private String customerName;
 	private String email;
 	private String phone;
+	private String status;
 
+	private String carModel;
+
+	public String getCarModel() {
+		return carModel;
+	}
+
+	public void setCarModel(String carModel) {
+		this.carModel = carModel;
+	}
+
+	public boolean isPaymentConfirmed() {
+		return paymentConfirmed;
+	}
+
+	public void setPaymentConfirmed(boolean paymentConfirmed) {
+		this.paymentConfirmed = paymentConfirmed;
+	}
+
+	private boolean paymentConfirmed;
 	@Column(length = 500)
 	private String customerAddress;
 
@@ -30,6 +57,14 @@ public class Booking {
 
 	private LocalDateTime pickupDateTime;
 	private LocalDateTime dropDateTime;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	private String paymentMethod; // UPI / CARD / CASH
 	private BigDecimal amount;

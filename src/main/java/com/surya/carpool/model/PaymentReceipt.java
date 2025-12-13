@@ -1,5 +1,6 @@
 package com.surya.carpool.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -14,7 +15,7 @@ public class PaymentReceipt {
 	private LocalDateTime paymentDateTime;
 	private String status;
 	private String paymentMethod;
-	private Double amountPaid;
+	private BigDecimal amountPaid;
 
 	private String customerName;
 	private String customerEmail;
@@ -66,11 +67,12 @@ public class PaymentReceipt {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public Double getAmountPaid() {
+	
+	public BigDecimal getAmountPaid() {
 		return amountPaid;
 	}
 
-	public void setAmountPaid(Double amountPaid) {
+	public void setAmountPaid(BigDecimal amountPaid) {
 		this.amountPaid = amountPaid;
 	}
 

@@ -329,8 +329,15 @@
 
 						<!-- Wrap with th:with so nested fragments can access model vars reliably -->
 						<div th:with="ignored=${carId}">
+							<!-- Client-side validation alert -->
+							<div id="formAlert" class="alert alert-danger d-none" role="alert">
+								<i class="bi bi-exclamation-triangle-fill me-1"></i>
+								Please fill all mandatory fields marked with <strong>*</strong> before submitting the
+								booking.
+							</div>
+
 							<form th:action="@{/bookings}" th:object="${bookingForm}" th:method="post"
-								enctype="multipart/form-data">
+								enctype="multipart/form-data" class="needs-validation" novalidate>
 								<div class="row g-3">
 
 									<!-- SECTION: Car & Trip Details -->
@@ -344,29 +351,40 @@
 											<div class="col-md-4">
 												<label class="form-label">Car ID <span
 														class="text-danger">*</span></label>
-												<input type="text" class="form-control" th:field="*{carId}"
-													placeholder="e.g. 12" readonly>
+												<input type="text" class="form-control" th:field="*{carId}" readonly>
 											</div>
 
 											<div class="col-md-8">
 												<label class="form-label">Pickup Location <span
 														class="text-danger">*</span></label>
 												<input type="text" class="form-control" th:field="*{pickupLocation}"
-													placeholder="e.g. Whitefield, Bangalore">
+													placeholder="Enter your pickupLocation" required>
+												<div class="invalid-feedback">
+													Pickup location is required.
+												</div>
+
 											</div>
 
 											<div class="col-md-6">
 												<label class="form-label">Pickup Date &amp; Time <span
 														class="text-danger">*</span></label>
 												<input type="datetime-local" class="form-control"
-													th:field="*{pickupDateTime}">
+													th:field="*{pickupDateTime}" required>
+												<div class="invalid-feedback">
+													Pickup date & time is required.
+												</div>
+
 											</div>
 
 											<div class="col-md-6">
 												<label class="form-label">Drop Date &amp; Time <span
 														class="text-danger">*</span></label>
 												<input type="datetime-local" class="form-control"
-													th:field="*{dropDateTime}">
+													th:field="*{dropDateTime}" required>
+												<div class="invalid-feedback">
+													Drop date & time is required.
+												</div>
+
 											</div>
 										</div>
 									</div>
@@ -383,7 +401,11 @@
 												<label class="form-label">Customer Name <span
 														class="text-danger">*</span></label>
 												<input type="text" class="form-control" th:field="*{customerName}"
-													placeholder="Enter your full name">
+													required>
+												<div class="invalid-feedback">
+													Customer name is required.
+												</div>
+
 											</div>
 
 											<div class="col-md-6">
@@ -392,7 +414,11 @@
 												<div class="input-group">
 													<span class="input-group-text"><i class="bi bi-envelope"></i></span>
 													<input type="email" class="form-control" th:field="*{email}"
-														placeholder="yourname@example.com">
+														required>
+													<div class="invalid-feedback">
+														Valid email address is required.
+													</div>
+
 												</div>
 											</div>
 
@@ -403,7 +429,11 @@
 													<span class="input-group-text"><i
 															class="bi bi-telephone"></i></span>
 													<input type="tel" class="form-control" th:field="*{phone}"
-														placeholder="10-digit mobile number">
+														pattern="[0-9]{10}" required>
+													<div class="invalid-feedback">
+														Enter a valid 10-digit mobile number.
+													</div>
+
 												</div>
 											</div>
 
@@ -434,66 +464,48 @@
 												<label class="form-label">Driving License Number <span
 														class="text-danger">*</span></label>
 												<input type="text" class="form-control"
-													th:field="*{drivingLicenseNumber}"
-													placeholder="DL Number as per license">
+													th:field="*{drivingLicenseNumber}" required>
+												<div class="invalid-feedback">
+													Driving license number is required.
+												</div>
+
 											</div>
 
 											<div class="col-md-3">
 												<label class="form-label">DL Expiry Date <span
 														class="text-danger">*</span></label>
 												<input type="date" class="form-control"
-													th:field="*{drivingLicenseExpiry}">
+													th:field="*{drivingLicenseExpiry}" required>
+												<div class="invalid-feedback">
+													Driving license expiry date is required.
+												</div>
+
 											</div>
 
 											<div class="col-md-3">
 												<label class="form-label">DL Issuing State</label>
 												<input type="text" class="form-control"
-													th:field="*{drivingLicenseState}" placeholder="e.g. KA">
+													th:field="*{drivingLicenseState}" placeholder="Issuing State">
 											</div>
 
 											<div class="col-md-6">
 												<label class="form-label">Aadhar Card Number <span
 														class="text-danger">*</span></label>
 												<input type="text" class="form-control" th:field="*{aadharNumber}"
-													placeholder="12-digit Aadhar number">
+													pattern="[0-9]{12}" required>
+												<div class="invalid-feedback">
+													Enter a valid 12-digit Aadhar number.
+												</div>
+
 											</div>
 
 											<div class="col-md-6">
 												<label class="form-label">Fixed Deposit Amount (₹)</label>
 												<input type="number" min="0" step="0.01" class="form-control"
-													th:field="*{fixedDepositAmount}" placeholder="e.g. 25000">
+													th:field="*{fixedDepositAmount}">
 											</div>
 										</div>
 									</div>
-
-									<!-- SECTION: Payment Details -->
-									<div class="section-card">
-										<div class="section-header">
-											<i class="bi bi-wallet2"></i>
-											<span>Payment Details</span>
-										</div>
-										<div class="form-section-divider"></div>
-										<div class="row g-3">
-											<div class="col-md-6">
-												<label class="form-label">Payment Method <span
-														class="text-danger">*</span></label>
-												<select class="form-select" th:field="*{paymentMethod}">
-													<option value="">Select method</option>
-													<option value="UPI">UPI</option>
-													<option value="CARD">Credit / Debit Card</option>
-													<option value="CASH">Cash</option>
-												</select>
-											</div>
-
-											<div class="col-md-6">
-												<label class="form-label">Estimated Amount (₹) <span
-														class="text-danger">*</span></label>
-												<input type="number" min="0" step="0.01" class="form-control"
-													th:field="*{amount}" placeholder="e.g. 1200">
-											</div>
-										</div>
-									</div>
-
 									<!-- SECTION: Document Uploads -->
 									<div class="section-card">
 										<div class="section-header">
@@ -512,7 +524,11 @@
 													<small>Accepted formats: PDF, JPG, PNG (Max size as per
 														policy)</small>
 													<input type="file" class="form-control mt-2" name="addressProofFile"
-														accept=".pdf,image/*">
+														accept=".pdf,image/*" required>
+													<div class="invalid-feedback">
+														Address proof document is required.
+													</div>
+
 												</label>
 											</div>
 
@@ -525,7 +541,11 @@
 													<small>Accepted formats: PDF, JPG, PNG (Front & back if
 														possible)</small>
 													<input type="file" class="form-control mt-2"
-														name="drivingLicenseFile" accept=".pdf,image/*">
+														name="drivingLicenseFile" accept=".pdf,image/*" required>
+													<div class="invalid-feedback">
+														Driving license copy is required.
+													</div>
+
 												</label>
 											</div>
 										</div>
@@ -558,6 +578,24 @@
 	</footer>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		(() => {
+			const form = document.querySelector('.needs-validation');
+			const alertBox = document.getElementById('formAlert');
+
+			form.addEventListener('submit', event => {
+				if (!form.checkValidity()) {
+					event.preventDefault();
+					event.stopPropagation();
+					alertBox.classList.remove('d-none');
+					alertBox.scrollIntoView({behavior: 'smooth', block: 'center'});
+				} else {
+					alertBox.classList.add('d-none');
+				}
+				form.classList.add('was-validated');
+			}, false);
+		})();
+	</script>
 </body>
 
 </html>

@@ -3,15 +3,20 @@ package com.surya.carpool.controller;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.surya.carpool.bookings.Booking;
+import com.surya.carpool.bookings.BookingService;
 import com.surya.carpool.model.BookingForm;
 import com.surya.carpool.model.Car;
 import com.surya.carpool.model.PaymentReceipt;
@@ -19,9 +24,10 @@ import com.surya.carpool.service.CarService;
 
 @Controller
 @SessionAttributes("currentBooking")  // keep booking data between pages
-public class BookingPageController {
+public class BookingPageController<PaymentService> {
 	private final CarService carService; // service to fetch car details
-
+    @Autowired
+    BookingService bookingService;
     public BookingPageController(CarService carService) {
         this.carService = carService;
     }
@@ -61,7 +67,7 @@ public class BookingPageController {
     @PostMapping("/bookings")
     public String handleBookingSubmit(
             BookingForm form,
-            @ModelAttribute("currentBooking") BookingForm sessionBooking) {
+            @ModelAttribute("currentBooking") BookingForm sessionBooking,RedirectAttributes redirectAttributes) {
 
         // copy submitted fields into session booking
         sessionBooking.setCarId(form.getCarId());
@@ -84,8 +90,30 @@ public class BookingPageController {
         sessionBooking.setPaymentMethod(form.getPaymentMethod());
         sessionBooking.setAmount(form.getAmount());
 
-        // here you could also save to DB using your existing Booking entity
+     // 2. Map BookingForm → Booking Entity
+        Booking booking = new Booking();
+        booking.setCarId(sessionBooking.getCarId());
+        booking.setPickupLocation(sessionBooking.getPickupLocation());
+        booking.setPickupDateTime(sessionBooking.getPickupDateTime());
+        booking.setDropDateTime(sessionBooking.getDropDateTime());
 
+        booking.setCustomerName(sessionBooking.getCustomerName());
+        booking.setEmail(sessionBooking.getEmail());
+        booking.setPhone(sessionBooking.getPhone());
+        booking.setCustomerAddress(sessionBooking.getCustomerAddress());
+        booking.setNotes(sessionBooking.getNotes());
+        booking.setPaymentMethod(sessionBooking.getPaymentMethod());
+
+        booking.setCreatedAt(LocalDateTime.now());
+        booking.setStatus("PENDING_PAYMENT");
+
+        // 3. Save to database
+        Booking savedBooking = bookingService.createBookingFromEntity(booking);
+
+        // 4. Store DB booking ID in session (used later in receipt)
+        sessionBooking.setId(savedBooking.getId());
+        // here you could also save to DB using your existing Booking entity
+        redirectAttributes.addAttribute("bookingId", booking.getId());
         // redirect to payment page
         return "redirect:/payments/ui";
     }

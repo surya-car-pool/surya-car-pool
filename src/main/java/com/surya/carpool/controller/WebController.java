@@ -61,16 +61,6 @@ public class WebController {
 		return "rides"; // templates/rides.html
 	}
 
-	// BOOKINGS UI (table is handled client-side against /api/bookings)
-	// Bookings UI (with optional carId from "Book a Car" link)
-	/*
-	 * @GetMapping("/bookings/ui") public String bookingsUi(@RequestParam(value =
-	 * "carId", required = false) Long carId, Model model) {
-	 * 
-	 * if (carId != null) { model.addAttribute("carId", carId); } return "bookings";
-	 * // templates/bookings.html }
-	 */
-
 	// ABOUT US
 	@GetMapping("/aboutus/ui")
 	public String aboutUsUi() {
