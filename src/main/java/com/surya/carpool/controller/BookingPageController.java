@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -23,148 +22,149 @@ import com.surya.carpool.model.PaymentReceipt;
 import com.surya.carpool.service.CarService;
 
 @Controller
-@SessionAttributes("currentBooking")  // keep booking data between pages
+@SessionAttributes("currentBooking") // keep booking data between pages
 public class BookingPageController<PaymentService> {
 	private final CarService carService; // service to fetch car details
-    @Autowired
-    BookingService bookingService;
-    public BookingPageController(CarService carService) {
-        this.carService = carService;
-    }
-    @ModelAttribute("currentBooking")
-    public BookingForm currentBooking() {
-        return new BookingForm();
-    }
+	@Autowired
+	BookingService bookingService;
 
-    /**
-     * Called when user clicks "Confirm Booking" on bookings.html
-     * -> stores form in session and redirects to payment page.
-     */
-    @GetMapping("/bookings/ui")
-    public String bookingsUi(
-            @RequestParam(value = "carId", required = false) Long carId,
-            Model model) {
+	public BookingPageController(CarService carService) {
+		this.carService = carService;
+	}
 
-        // Load list of cars for the page (if needed)
-        model.addAttribute("cars", carService.findActiveCars());
+	@ModelAttribute("currentBooking")
+	public BookingForm currentBooking() {
+		return new BookingForm();
+	}
 
-        // Prepare booking form and pre-fill carId if present
-        BookingForm bookingForm = new BookingForm();
-        if (carId != null) {
-            bookingForm.setCarId(carId);
-            // Optional: load the selected car details (for display)
-            Car selected = carService.findById(carId);
-            if (selected != null) {
-                model.addAttribute("selectedCar", selected);
-            }
-        }
+	/**
+	 * Called when user clicks "Confirm Booking" on bookings.html -> stores form in
+	 * session and redirects to payment page.
+	 */
+	@GetMapping("/bookings/ui")
+	public String bookingsUi(@RequestParam(value = "carId", required = false) Long carId, Model model) {
 
-        model.addAttribute("bookingForm", bookingForm);
+		// Load list of cars for the page (if needed)
+		model.addAttribute("cars", carService.findActiveCars());
 
-        return "bookings"; // ensure this matches src/main/resources/templates/bookings.html
-    }
+		// Prepare booking form and pre-fill carId if present
+		BookingForm bookingForm = new BookingForm();
+		if (carId != null) {
+			bookingForm.setCarId(carId);
+			// Optional: load the selected car details (for display)
+			Car selected = carService.findById(carId);
+			if (selected != null) {
+				model.addAttribute("selectedCar", selected);
+			}
+		}
 
-    @PostMapping("/bookings")
-    public String handleBookingSubmit(
-            BookingForm form,
-            @ModelAttribute("currentBooking") BookingForm sessionBooking,RedirectAttributes redirectAttributes) {
+		model.addAttribute("bookingForm", bookingForm);
 
-        // copy submitted fields into session booking
-        sessionBooking.setCarId(form.getCarId());
-        sessionBooking.setPickupLocation(form.getPickupLocation());
-        sessionBooking.setPickupDateTime(form.getPickupDateTime());
-        sessionBooking.setDropDateTime(form.getDropDateTime());
+		return "bookings"; // ensure this matches src/main/resources/templates/bookings.html
+	}
 
-        sessionBooking.setCustomerName(form.getCustomerName());
-        sessionBooking.setEmail(form.getEmail());
-        sessionBooking.setPhone(form.getPhone());
-        sessionBooking.setCustomerAddress(form.getCustomerAddress());
-        sessionBooking.setNotes(form.getNotes());
+	@PostMapping("/bookings")
+	public String handleBookingSubmit(BookingForm form, @ModelAttribute("currentBooking") BookingForm sessionBooking,
+			RedirectAttributes redirectAttributes) {
 
-        sessionBooking.setDrivingLicenseNumber(form.getDrivingLicenseNumber());
-        sessionBooking.setDrivingLicenseExpiry(form.getDrivingLicenseExpiry());
-        sessionBooking.setDrivingLicenseState(form.getDrivingLicenseState());
-        sessionBooking.setAadharNumber(form.getAadharNumber());
-        sessionBooking.setFixedDepositAmount(form.getFixedDepositAmount());
+		// copy submitted fields into session booking
+		sessionBooking.setCarId(form.getCarId());
+		sessionBooking.setPickupLocation(form.getPickupLocation());
+		sessionBooking.setPickupDateTime(form.getPickupDateTime());
+		sessionBooking.setDropDateTime(form.getDropDateTime());
 
-        sessionBooking.setPaymentMethod(form.getPaymentMethod());
-        sessionBooking.setAmount(form.getAmount());
+		sessionBooking.setCustomerName(form.getCustomerName());
+		sessionBooking.setEmail(form.getEmail());
+		sessionBooking.setPhone(form.getPhone());
+		sessionBooking.setCustomerAddress(form.getCustomerAddress());
+		sessionBooking.setNotes(form.getNotes());
 
-     // 2. Map BookingForm → Booking Entity
-        Booking booking = new Booking();
-        booking.setCarId(sessionBooking.getCarId());
-        booking.setPickupLocation(sessionBooking.getPickupLocation());
-        booking.setPickupDateTime(sessionBooking.getPickupDateTime());
-        booking.setDropDateTime(sessionBooking.getDropDateTime());
+		sessionBooking.setDrivingLicenseNumber(form.getDrivingLicenseNumber());
+		sessionBooking.setDrivingLicenseExpiry(form.getDrivingLicenseExpiry());
+		sessionBooking.setDrivingLicenseState(form.getDrivingLicenseState());
+		sessionBooking.setAadharNumber(form.getAadharNumber());
+		sessionBooking.setFixedDepositAmount(form.getFixedDepositAmount());
 
-        booking.setCustomerName(sessionBooking.getCustomerName());
-        booking.setEmail(sessionBooking.getEmail());
-        booking.setPhone(sessionBooking.getPhone());
-        booking.setCustomerAddress(sessionBooking.getCustomerAddress());
-        booking.setNotes(sessionBooking.getNotes());
-        booking.setPaymentMethod(sessionBooking.getPaymentMethod());
+		sessionBooking.setPaymentMethod(form.getPaymentMethod());
+		sessionBooking.setAmount(form.getAmount());
 
-        booking.setCreatedAt(LocalDateTime.now());
-        booking.setStatus("PENDING_PAYMENT");
+		// 2. Map BookingForm → Booking Entity
+		Booking booking = new Booking();
+		booking.setCarId(sessionBooking.getCarId());
+		booking.setPickupLocation(sessionBooking.getPickupLocation());
+		booking.setPickupDateTime(sessionBooking.getPickupDateTime());
+		booking.setDropDateTime(sessionBooking.getDropDateTime());
 
-        // 3. Save to database
-        Booking savedBooking = bookingService.createBookingFromEntity(booking);
+		booking.setCustomerName(sessionBooking.getCustomerName());
+		booking.setEmail(sessionBooking.getEmail());
+		booking.setPhone(sessionBooking.getPhone());
+		booking.setCustomerAddress(sessionBooking.getCustomerAddress());
+		booking.setNotes(sessionBooking.getNotes());
+		booking.setPaymentMethod(sessionBooking.getPaymentMethod());
 
-        // 4. Store DB booking ID in session (used later in receipt)
-        sessionBooking.setId(savedBooking.getId());
-        // here you could also save to DB using your existing Booking entity
-        redirectAttributes.addAttribute("bookingId", booking.getId());
-        // redirect to payment page
-        return "redirect:/payments/ui";
-    }
+		booking.setCreatedAt(LocalDateTime.now());
+		booking.setStatus("PENDING_PAYMENT");
 
-    /**
-     * Payment page that shows booking summary and asks for payment confirmation.
-     */
-    @GetMapping("/payments/ui")
-    public String showPaymentPage(
-            @ModelAttribute("currentBooking") BookingForm booking,
-            Model model) {
+		// 3. Save to database
+		Booking savedBooking = bookingService.createBookingFromEntity(booking);
 
-        if (booking.getCustomerName() == null) {
-            // if user opens /payments/ui directly without booking
-            return "redirect:/bookings/ui";
-        }
+		// 4. Store DB booking ID in session (used later in receipt)
+		sessionBooking.setId(savedBooking.getId());
+		// here you could also save to DB using your existing Booking entity
+		redirectAttributes.addAttribute("bookingId", booking.getId());
+		// redirect to payment page
+		return "redirect:/payments/ui";
+	}
 
-        model.addAttribute("booking", booking);
-        return "payments";   // payments.html
-    }
+	/**
+	 * Payment page that shows booking summary and asks for payment confirmation.
+	 */
+	@GetMapping("/payments/ui")
+	public String showPaymentPage(@ModelAttribute("currentBooking") BookingForm booking, Model model) {
 
-    /**
-     * Called when user confirms payment on the payment page.
-     * -> Creates a receipt object and shows receipt page.
-     */
-    @PostMapping("/payments/confirm")
-    public String confirmPayment(
-            @ModelAttribute("currentBooking") BookingForm booking,
-            Model model,
-            SessionStatus sessionStatus) {
+		if (booking.getCustomerName() == null) {
+			// if user opens /payments/ui directly without booking
+			return "redirect:/bookings/ui";
+		}
 
-        if (booking.getCustomerName() == null) {
-            return "redirect:/bookings/ui";
-        }
+		model.addAttribute("booking", booking);
+		return "payments"; // payments.html
+	}
 
-        PaymentReceipt receipt = new PaymentReceipt();
-        receipt.setReceiptNumber("RCPT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
-        receipt.setPaymentDateTime(LocalDateTime.now());
-        receipt.setPaymentMethod(booking.getPaymentMethod());
-        //receipt.setAmountPaid(booking.getAmount());
-        receipt.setStatus("SUCCESS");
+	/**
+	 * Called when user confirms payment on the payment page. -> Creates a receipt
+	 * object and shows receipt page.
+	 */
+	@PostMapping("/payments/confirm")
+	public String confirmPayment(@ModelAttribute("currentBooking") BookingForm booking, Model model,
+			SessionStatus sessionStatus) {
 
-        receipt.setCustomerName(booking.getCustomerName());
-        receipt.setCarId(booking.getCarId());
-        receipt.setPickupLocation(booking.getPickupLocation());
+		if (booking.getCustomerName() == null) {
+			return "redirect:/bookings/ui";
+		}
 
-        model.addAttribute("receipt", receipt);
+		PaymentReceipt receipt = new PaymentReceipt();
+		receipt.setReceiptNumber("RCPT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+		receipt.setPaymentDateTime(LocalDateTime.now());
+		receipt.setPaymentMethod(booking.getPaymentMethod());
+		// receipt.setAmountPaid(booking.getAmount());
+		receipt.setStatus("SUCCESS");
 
-        // clear session booking
-        sessionStatus.setComplete();
+		receipt.setCustomerName(booking.getCustomerName());
+		receipt.setCarId(booking.getCarId());
+		receipt.setPickupLocation(booking.getPickupLocation());
 
-        return "payment-receipt";  // payment-receipt.html
-    }
+		model.addAttribute("receipt", receipt);
+
+		// clear session booking
+		sessionStatus.setComplete();
+
+		return "payment-receipt"; // payment-receipt.html
+	}
+
+	@GetMapping("/view-bookings")
+	public String viewBookingsPage() {
+		return "view-bookings";
+	}
+
 }
