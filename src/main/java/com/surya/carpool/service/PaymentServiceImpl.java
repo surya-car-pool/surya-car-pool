@@ -14,26 +14,26 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
 
-    @Autowired
-    private PaymentReceiptRepository paymentReceiptRepository;
+	@Autowired
+	private PaymentReceiptRepository paymentReceiptRepository;
 
-    @Autowired
-    private CarService carService;
+	@Autowired
+	private CarService carService;
 
-    @Override
-    public void processPayment(Long carId, Double amount, Long userId) {
+	@Override
+	public void processPayment(Long carId, Double amount, Long userId) {
 
-        // 1. Save payment
-        PaymentReceipt receipt = new PaymentReceipt();
-        receipt.setCarId(carId);
-        receipt.setUserId(userId);
-        receipt.setAmount(amount);
-        receipt.setPaymentStatus("SUCCESS");
-        receipt.setPaymentDate(LocalDateTime.now());
+		// 1. Save payment
+		PaymentReceipt receipt = new PaymentReceipt();
+		receipt.setCarId(carId);
+		receipt.setUserId(userId);
+		receipt.setAmount(amount);
+		receipt.setPaymentStatus("SUCCESS");
+		receipt.setPaymentDate(LocalDateTime.now());
 
-        paymentReceiptRepository.save(receipt);
+		paymentReceiptRepository.save(receipt);
 
-        // 2. Mark car as BOOKED
-        carService.markCarAsBooked(carId);
-    }
+		// 2. Mark car as BOOKED
+		carService.markCarAsBooked(carId);
+	}
 }

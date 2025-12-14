@@ -26,7 +26,8 @@ public class Car {
 	private String carNumber;
 	private String driverName;
 	@Enumerated(EnumType.STRING) // 🔴 REQUIRED
-	private CarStatus status;
+	@Column(nullable = false)
+    private CarStatus status = CarStatus.AVAILABLE;
 	private String make;
 	private String model;
 	private String variant;

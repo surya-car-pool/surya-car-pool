@@ -16,5 +16,4 @@ public interface CarService {
 
     void markCarAsBooked(Long carId);
 
-	List<Car> getAllCars();
 }

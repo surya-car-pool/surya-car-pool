@@ -1,7 +1,6 @@
 package com.surya.carpool.controller;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.surya.carpool.bookings.Booking;
 import com.surya.carpool.bookings.BookingService;
 import com.surya.carpool.model.BookingForm;
 import com.surya.carpool.model.Car;
-import com.surya.carpool.model.PaymentReceipt;
 import com.surya.carpool.service.CarService;
 
 @Controller
@@ -130,33 +127,6 @@ public class BookingPageController<PaymentService> {
 		model.addAttribute("booking", booking);
 		return "payments"; // payments.html
 	}
-
-	/**
-	 * Called when user confirms payment on the payment page. -> Creates a receipt
-	 * object and shows receipt page.
-	 *//*
-		 * @PostMapping("/payments/confirm") public String
-		 * confirmPayment(@ModelAttribute("currentBooking") BookingForm booking, Model
-		 * model, SessionStatus sessionStatus) {
-		 * 
-		 * if (booking.getCustomerName() == null) { return "redirect:/bookings/ui"; }
-		 * 
-		 * PaymentReceipt receipt = new PaymentReceipt();
-		 * receipt.setReceiptNumber("RCPT-" + UUID.randomUUID().toString().substring(0,
-		 * 8).toUpperCase()); receipt.setPaymentDateTime(LocalDateTime.now());
-		 * receipt.setPaymentMethod(booking.getPaymentMethod()); //
-		 * receipt.setAmountPaid(booking.getAmount()); receipt.setStatus("SUCCESS");
-		 * 
-		 * receipt.setCustomerName(booking.getCustomerName());
-		 * receipt.setCarId(booking.getCarId());
-		 * receipt.setPickupLocation(booking.getPickupLocation());
-		 * 
-		 * model.addAttribute("receipt", receipt);
-		 * 
-		 * // clear session booking sessionStatus.setComplete();
-		 * 
-		 * return "payment-receipt"; // payment-receipt.html }
-		 */
 
 	@GetMapping("/view-bookings")
 	public String viewBookingsPage() {

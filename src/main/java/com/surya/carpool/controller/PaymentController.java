@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.surya.carpool.model.Payment;
 import com.surya.carpool.repository.PaymentRepository;
+import com.surya.carpool.service.CarService;
 import com.surya.carpool.service.PaymentService;
 
 @Controller
@@ -20,6 +21,8 @@ public class PaymentController {
 	private PaymentService paymentService;
 	@Autowired
 	PaymentRepository paymentRepository;
+	@Autowired
+	private CarService carService;
 
 	@PostMapping("/success")
 	public ResponseEntity<String> paymentSuccess(@RequestParam Long carId, @RequestParam Double amount,
@@ -50,7 +53,8 @@ public class PaymentController {
 		payment.setNotes(notes);
 
 		paymentRepository.save(payment);
-
+		// 2. Mark car as BOOKED
+		carService.markCarAsBooked(carId);
 		model.addAttribute("payment", payment);
 		return "payment-receipt";
 	}
