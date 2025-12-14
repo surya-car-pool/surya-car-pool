@@ -157,7 +157,9 @@
 							</div>
 						</div>
 					</div>
-
+					<div class="text-danger">
+					    DEBUG pickupLocation = <span th:text="${booking.pickupLocation}"></span>
+					</div>
 					<form id="paymentForm" th:action="@{/payments/confirm}" method="post">
 						<!-- Hidden inputs to help server-side binding if session not used -->
 						<input type="hidden" name="customerName" id="inputCustomerName"
@@ -166,10 +168,10 @@
 						<input type="hidden" name="phone" id="inputPhone" th:value="${booking.phone}" />
 						<input type="hidden" name="carId" id="inputCarId" th:value="${booking.carId}" />
 						<input type="hidden" name="pickupLocation" id="inputPickupLocation"
-							th:value="${booking.pickupLocation}" />
+							th:value="${booking.pickupLocation != null ? booking.pickupLocation : 'N/A'}" />
 						<input type="hidden" name="pickupDateTime" id="inputPickupDateTime"
 							th:value="${booking.pickupDateTime}" />
-						<input type="hidden" name="amount" id="inputAmount" th:value="${booking.amount}" />
+						<input type="hidden" name="amount" id="inputAmount" th:value="${booking.fixedDepositAmount}" />
 
 						<div class="mb-3">
 							<label class="form-label">Payment method</label>

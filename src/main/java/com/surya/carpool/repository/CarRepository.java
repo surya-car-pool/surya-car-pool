@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.surya.carpool.model.Car;
+import com.surya.carpool.model.CarStatus;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
@@ -18,5 +19,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
 	// Optional: existing / future queries
 	// List<Car> findByOwnerId(Long ownerId);
-	List<Car> findByActiveTrue(); //
+	List<Car> findByActiveTrue(); 
+	List<Car> findByStatus(CarStatus status);
 }

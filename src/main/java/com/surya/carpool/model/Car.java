@@ -2,7 +2,10 @@ package com.surya.carpool.model;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +22,11 @@ public class Car {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String carName;
+	private String carNumber;
+	private String driverName;
+	@Enumerated(EnumType.STRING) // 🔴 REQUIRED
+	private CarStatus status;
 	private String make;
 	private String model;
 	private String variant;
@@ -27,6 +35,38 @@ public class Car {
 
 	private BigDecimal perDayRent;
 	private BigDecimal perKmRate;
+
+	public String getCarName() {
+		return carName;
+	}
+
+	public void setCarName(String carName) {
+		this.carName = carName;
+	}
+
+	public String getCarNumber() {
+		return carNumber;
+	}
+
+	public void setCarNumber(String carNumber) {
+		this.carNumber = carNumber;
+	}
+
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
+	}
+
+	public CarStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CarStatus status) {
+		this.status = status;
+	}
 
 	public String getActive() {
 		return active;

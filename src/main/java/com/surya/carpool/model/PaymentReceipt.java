@@ -1,106 +1,44 @@
 package com.surya.carpool.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
-/**
- * PaymentReceipt model used by Thymeleaf templates. Includes pickupDateTime
- * field and a formatted convenience getter.
- */
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "payment_receipt")
 public class PaymentReceipt {
 
-	private String receiptNumber;
-	private LocalDateTime paymentDateTime;
-	private String status;
-	private String paymentMethod;
-	private BigDecimal amountPaid;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	private String customerName;
-	private String customerEmail;
-	private String customerPhone;
-
+	// EXACT MATCH with service: setCarId(carId)
+	@Column(name = "car_id", nullable = false)
 	private Long carId;
-	private String pickupLocation;
-	// <-- NEW field required by template
-	private LocalDateTime pickupDateTime;
 
-	private String transactionId;
-	private String gateway;
+	// EXACT MATCH with service: setUserId(userId)
+	@Column(name = "user_id", nullable = false)
+	private Long userId;
 
-	private Double baseFare;
-	private Double taxes;
-	private Double discount;
+	@Column(nullable = false)
+	private Double amount;
 
-	// --- getters / setters ---
+	@Column(name = "payment_status", nullable = false)
+	private String paymentStatus;
 
-	public String getReceiptNumber() {
-		return receiptNumber;
+	@Column(name = "payment_date", nullable = false)
+	private LocalDateTime paymentDate;
+
+	// ===== Getters & Setters =====
+
+	public Long getId() {
+		return id;
 	}
-
-	public void setReceiptNumber(String receiptNumber) {
-		this.receiptNumber = receiptNumber;
-	}
-
-	public LocalDateTime getPaymentDateTime() {
-		return paymentDateTime;
-	}
-
-	public void setPaymentDateTime(LocalDateTime paymentDateTime) {
-		this.paymentDateTime = paymentDateTime;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-	
-	public BigDecimal getAmountPaid() {
-		return amountPaid;
-	}
-
-	public void setAmountPaid(BigDecimal amountPaid) {
-		this.amountPaid = amountPaid;
-	}
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public String getCustomerEmail() {
-		return customerEmail;
-	}
-
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
-	}
-
-	public String getCustomerPhone() {
-		return customerPhone;
-	}
-
-	public void setCustomerPhone(String customerPhone) {
-		this.customerPhone = customerPhone;
-	}
-
-	
 
 	public Long getCarId() {
 		return carId;
@@ -110,82 +48,35 @@ public class PaymentReceipt {
 		this.carId = carId;
 	}
 
-	public String getPickupLocation() {
-		return pickupLocation;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setPickupLocation(String pickupLocation) {
-		this.pickupLocation = pickupLocation;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	// NEW: pickupDateTime getter/setter
-	public LocalDateTime getPickupDateTime() {
-		return pickupDateTime;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setPickupDateTime(LocalDateTime pickupDateTime) {
-		this.pickupDateTime = pickupDateTime;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
-	public String getTransactionId() {
-		return transactionId;
+	public String getPaymentStatus() {
+		return paymentStatus;
 	}
 
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 
-	public String getGateway() {
-		return gateway;
+	public LocalDateTime getPaymentDate() {
+		return paymentDate;
 	}
 
-	public void setGateway(String gateway) {
-		this.gateway = gateway;
-	}
-
-	public Double getBaseFare() {
-		return baseFare;
-	}
-
-	public void setBaseFare(Double baseFare) {
-		this.baseFare = baseFare;
-	}
-
-	public Double getTaxes() {
-		return taxes;
-	}
-
-	public void setTaxes(Double taxes) {
-		this.taxes = taxes;
-	}
-
-	public Double getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(Double discount) {
-		this.discount = discount;
-	}
-
-	// Convenience formatted getter (optional for templates)
-	public String getPickupDateTimeFormatted() {
-		if (this.pickupDateTime == null)
-			return "";
-		return this.pickupDateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a"));
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(receiptNumber, transactionId);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		PaymentReceipt other = (PaymentReceipt) obj;
-		return Objects.equals(receiptNumber, other.receiptNumber) && Objects.equals(transactionId, other.transactionId);
+	public void setPaymentDate(LocalDateTime paymentDate) {
+		this.paymentDate = paymentDate;
 	}
 }

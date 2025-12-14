@@ -71,4 +71,9 @@ public class BookingService {
 	public Booking createBookingFromEntity(Booking booking) {
 		return bookingRepository.save(booking);
 	}
+
+	public boolean existsActiveBookingForCar(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

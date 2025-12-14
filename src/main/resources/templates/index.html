@@ -409,9 +409,16 @@
 					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
 						<small class="text-muted">Car ID: <span th:text="${car.id}">1</span></small>
 						<div class="d-flex gap-2">
-							<a th:href="@{/bookings/ui(carId=${car.id})}" class="btn btn-outline-primary btn-sm">
-							    <i class="bi bi-credit-card"></i> Book Car
+							<!-- BOOK CAR : AVAILABLE -->
+							<a th:if="${car.status == T(com.surya.carpool.model.CarStatus).AVAILABLE}"
+								th:href="@{/bookings/ui(carId=${car.id})}" class="btn btn-outline-primary btn-sm">
+								<i class="bi bi-credit-card"></i> Book Car
 							</a>
+
+							<button th:if="${car.status == T(com.surya.carpool.model.CarStatus).BOOKED}"
+								class="btn btn-secondary btn-sm" disabled>
+								<i class="bi bi-lock-fill"></i> Booked
+							</button>
 
 							<a th:href="@{'/users/ui'}" class="btn btn-link btn-sm">
 								<i class="bi bi-person-lines-fill"></i> Owner
@@ -455,6 +462,27 @@
 			const qs = params.toString(); if (qs) url += '?' + qs; window.location.href = url;
 		});
 	</script>
+	<script>
+		function makePayment(carId) {
+
+			const amount = 500; // example
+			const userId = 1;   // from session
+
+			fetch('/payments/success', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: `carId=${carId}&amount=${amount}&userId=${userId}`
+			})
+				.then(res => res.text())
+				.then(msg => {
+					alert(msg);
+					location.reload();
+				});
+		}
+	</script>
+
 </body>
 
 </html>

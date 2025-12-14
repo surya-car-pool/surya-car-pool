@@ -1,7 +1,8 @@
 package com.surya.carpool.service;
 
-import com.surya.carpool.model.Car;
 import java.util.List;
+
+import com.surya.carpool.model.Car;
 
 public interface CarService {
 
@@ -10,4 +11,10 @@ public interface CarService {
     Car findById(Long id);
 
     Car save(Car car);
+    
+    Car getCarById(Long id);
+
+    void markCarAsBooked(Long carId);
+
+	List<Car> getAllCars();
 }

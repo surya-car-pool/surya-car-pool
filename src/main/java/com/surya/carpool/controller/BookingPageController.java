@@ -134,33 +134,29 @@ public class BookingPageController<PaymentService> {
 	/**
 	 * Called when user confirms payment on the payment page. -> Creates a receipt
 	 * object and shows receipt page.
-	 */
-	@PostMapping("/payments/confirm")
-	public String confirmPayment(@ModelAttribute("currentBooking") BookingForm booking, Model model,
-			SessionStatus sessionStatus) {
-
-		if (booking.getCustomerName() == null) {
-			return "redirect:/bookings/ui";
-		}
-
-		PaymentReceipt receipt = new PaymentReceipt();
-		receipt.setReceiptNumber("RCPT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
-		receipt.setPaymentDateTime(LocalDateTime.now());
-		receipt.setPaymentMethod(booking.getPaymentMethod());
-		// receipt.setAmountPaid(booking.getAmount());
-		receipt.setStatus("SUCCESS");
-
-		receipt.setCustomerName(booking.getCustomerName());
-		receipt.setCarId(booking.getCarId());
-		receipt.setPickupLocation(booking.getPickupLocation());
-
-		model.addAttribute("receipt", receipt);
-
-		// clear session booking
-		sessionStatus.setComplete();
-
-		return "payment-receipt"; // payment-receipt.html
-	}
+	 *//*
+		 * @PostMapping("/payments/confirm") public String
+		 * confirmPayment(@ModelAttribute("currentBooking") BookingForm booking, Model
+		 * model, SessionStatus sessionStatus) {
+		 * 
+		 * if (booking.getCustomerName() == null) { return "redirect:/bookings/ui"; }
+		 * 
+		 * PaymentReceipt receipt = new PaymentReceipt();
+		 * receipt.setReceiptNumber("RCPT-" + UUID.randomUUID().toString().substring(0,
+		 * 8).toUpperCase()); receipt.setPaymentDateTime(LocalDateTime.now());
+		 * receipt.setPaymentMethod(booking.getPaymentMethod()); //
+		 * receipt.setAmountPaid(booking.getAmount()); receipt.setStatus("SUCCESS");
+		 * 
+		 * receipt.setCustomerName(booking.getCustomerName());
+		 * receipt.setCarId(booking.getCarId());
+		 * receipt.setPickupLocation(booking.getPickupLocation());
+		 * 
+		 * model.addAttribute("receipt", receipt);
+		 * 
+		 * // clear session booking sessionStatus.setComplete();
+		 * 
+		 * return "payment-receipt"; // payment-receipt.html }
+		 */
 
 	@GetMapping("/view-bookings")
 	public String viewBookingsPage() {
