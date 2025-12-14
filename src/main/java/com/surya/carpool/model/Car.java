@@ -2,6 +2,8 @@ package com.surya.carpool.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,6 +19,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "cars")
 public class Car {
+	public Car() {
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +29,13 @@ public class Car {
 	private String carName;
 	private String carNumber;
 	private String driverName;
-	@Enumerated(EnumType.STRING) // 🔴 REQUIRED
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-    private CarStatus status = CarStatus.AVAILABLE;
+	private CarStatus status = CarStatus.AVAILABLE;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner_id")
+	@JsonBackReference
+	private User owner;
 	private String make;
 	private String model;
 	private String variant;
@@ -82,25 +90,12 @@ public class Car {
 
 	private String registrationNo;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_id")
-	private User owner;
-
-	// -------------------------------
-	// Constructors
-	// -------------------------------
-	public Car() {
-	}
-
 	public Car(String make, String model, String variant, Integer seats) {
 		this.make = make;
 		this.model = model;
 		this.variant = variant;
 		this.seats = seats;
 	}
-
-	// -------------------------------
-	// Getters and Setters
 
 	public Long getId() {
 		return id;
