@@ -49,6 +49,16 @@
 			font-size: 2.3rem;
 			color: #0d6efd;
 		}
+
+		.navbar-custom {
+			background: rgba(15, 23, 42, 0.95);
+			backdrop-filter: blur(8px);
+		}
+
+		.nav-link i {
+			color: rgb(255, 128, 64);
+			margin-right: 4px;
+		}
 	</style>
 </head>
 
@@ -278,115 +288,115 @@
 	</div>
 
 	<script>
-    function showAlert(message, type) {
-        const placeholder = document.getElementById('alertPlaceholder');
-        placeholder.innerHTML = `
+		function showAlert(message, type) {
+			const placeholder = document.getElementById('alertPlaceholder');
+			placeholder.innerHTML = `
             <div class="alert alert-${type} alert-dismissible fade show" role="alert">
               ${message}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>`;
-    }
+		}
 
-    async function saveUser() {
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const enabled = document.getElementById('enabled').checked;
+		async function saveUser() {
+			const name = document.getElementById('name').value.trim();
+			const email = document.getElementById('email').value.trim();
+			const phone = document.getElementById('phone').value.trim();
+			const password = document.getElementById('password').value.trim();
+			const enabled = document.getElementById('enabled').checked;
 
-        const ownerAddress = document.getElementById('ownerAddress').value.trim();
-        const ownerCity = document.getElementById('ownerCity').value.trim();
-        const ownerState = document.getElementById('ownerState').value.trim();
-        const ownerPincode = document.getElementById('ownerPincode').value.trim();
-        const ownerAadharNo = document.getElementById('ownerAadharNo').value.trim();
-        const ownerPanNo = document.getElementById('ownerPanNo').value.trim();
+			const ownerAddress = document.getElementById('ownerAddress').value.trim();
+			const ownerCity = document.getElementById('ownerCity').value.trim();
+			const ownerState = document.getElementById('ownerState').value.trim();
+			const ownerPincode = document.getElementById('ownerPincode').value.trim();
+			const ownerAadharNo = document.getElementById('ownerAadharNo').value.trim();
+			const ownerPanNo = document.getElementById('ownerPanNo').value.trim();
 
-        const carMake = document.getElementById('carMake').value.trim();
-        const carModel = document.getElementById('carModel').value.trim();
-        const carVariant = document.getElementById('carVariant').value.trim();
-        const carRegistrationNo = document.getElementById('carRegistrationNo').value.trim();
-        const carYear = document.getElementById('carYear').value.trim();
-        const carColor = document.getElementById('carColor').value.trim();
-        const carSeats = document.getElementById('carSeats').value.trim();
-        const fuelType = document.getElementById('fuelType').value.trim();
-        const transmissionType = document.getElementById('transmissionType').value.trim();
-        const perDayRent = document.getElementById('perDayRent').value.trim();
-        const perKmRate = document.getElementById('perKmRate').value.trim();
+			const carMake = document.getElementById('carMake').value.trim();
+			const carModel = document.getElementById('carModel').value.trim();
+			const carVariant = document.getElementById('carVariant').value.trim();
+			const carRegistrationNo = document.getElementById('carRegistrationNo').value.trim();
+			const carYear = document.getElementById('carYear').value.trim();
+			const carColor = document.getElementById('carColor').value.trim();
+			const carSeats = document.getElementById('carSeats').value.trim();
+			const fuelType = document.getElementById('fuelType').value.trim();
+			const transmissionType = document.getElementById('transmissionType').value.trim();
+			const perDayRent = document.getElementById('perDayRent').value.trim();
+			const perKmRate = document.getElementById('perKmRate').value.trim();
 
-        if (!name || !email || !phone || !password ||
-            !carMake || !carModel || !carRegistrationNo) {
-            showAlert('Please fill all mandatory fields (*) for owner and car.', 'warning');
-            return;
-        }
+			if (!name || !email || !phone || !password ||
+				!carMake || !carModel || !carRegistrationNo) {
+				showAlert('Please fill all mandatory fields (*) for owner and car.', 'warning');
+				return;
+			}
 
-        const user = {
-            name: name,
-            email: email,
-            phone: phone,
-            password: password,
-            enabled: enabled,
-            ownerAddress: ownerAddress,
-            ownerCity: ownerCity,
-            ownerState: ownerState,
-            ownerPincode: ownerPincode,
-            ownerAadharNo: ownerAadharNo,
-            ownerPanNo: ownerPanNo,
-            cars: [
-                {
-                    make: carMake,
-                    model: carModel,
-                    variant: carVariant,
-                    registrationNo: carRegistrationNo,
-                    year: carYear ? parseInt(carYear, 10) : null,
-                    color: carColor,
-                    seats: carSeats ? parseInt(carSeats, 10) : null,
-                    fuelType: fuelType,
-                    transmissionType: transmissionType,
-                    perDayRent: perDayRent ? parseFloat(perDayRent) : null,
-                    perKmRate: perKmRate ? parseFloat(perKmRate) : null
-                }
-            ]
-        };
+			const user = {
+				name: name,
+				email: email,
+				phone: phone,
+				password: password,
+				enabled: enabled,
+				ownerAddress: ownerAddress,
+				ownerCity: ownerCity,
+				ownerState: ownerState,
+				ownerPincode: ownerPincode,
+				ownerAadharNo: ownerAadharNo,
+				ownerPanNo: ownerPanNo,
+				cars: [
+					{
+						make: carMake,
+						model: carModel,
+						variant: carVariant,
+						registrationNo: carRegistrationNo,
+						year: carYear ? parseInt(carYear, 10) : null,
+						color: carColor,
+						seats: carSeats ? parseInt(carSeats, 10) : null,
+						fuelType: fuelType,
+						transmissionType: transmissionType,
+						perDayRent: perDayRent ? parseFloat(perDayRent) : null,
+						perKmRate: perKmRate ? parseFloat(perKmRate) : null
+					}
+				]
+			};
 
-        try {
-            const response = await fetch('/api/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            });
+			try {
+				const response = await fetch('/api/users', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(user)
+				});
 
-            if (!response.ok) {
-                let msg = 'Failed to save owner & car.';
-                try {
-                    const err = await response.json();
-                    if (err && err.message) {
-                        msg = err.message;
-                    }
-                } catch (e) { }
-                showAlert(msg, 'danger');
-                return;
-            }
+				if (!response.ok) {
+					let msg = 'Failed to save owner & car.';
+					try {
+						const err = await response.json();
+						if (err && err.message) {
+							msg = err.message;
+						}
+					} catch (e) { }
+					showAlert(msg, 'danger');
+					return;
+				}
 
-            const saved = await response.json();
-            showAlert('Owner & car created successfully (ID: ' + saved.id + '). Redirecting...', 'success');
+				const saved = await response.json();
+				showAlert('Owner & car created successfully (ID: ' + saved.id + '). Redirecting...', 'success');
 
-            // 🔁 Redirect to users.html (served at /users/ui)
-            setTimeout(() => {
-                window.location.href = '/users/ui';
-            }, 1200);
+				// 🔁 Redirect to users.html (served at /users/ui)
+				setTimeout(() => {
+					window.location.href = '/users/ui';
+				}, 1200);
 
-        } catch (err) {
-            console.error(err);
-            showAlert('Error while saving owner & car.', 'danger');
-        }
-    }
-
-    document.getElementById('saveUserBtn').addEventListener('click', saveUser);
-</script>
+			} catch (err) {
+				console.error(err);
+				showAlert('Error while saving owner & car.', 'danger');
+			}
+		}
 
 		document.getElementById('saveUserBtn').addEventListener('click', saveUser);
+	</script>
+
+	document.getElementById('saveUserBtn').addEventListener('click', saveUser);
 	</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,12 +1,14 @@
 package com.surya.carpool.bookings;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.surya.carpool.dto.BookingCarViewDTO;
 import com.surya.carpool.model.BookingForm;
 import com.surya.carpool.service.FileStorageService;
 
@@ -75,5 +77,22 @@ public class BookingService {
 	public boolean existsActiveBookingForCar(Long id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public List<BookingCarViewDTO> getAllBookingCarDetails() {
+
+	    List<Object[]> rows = bookingRepository.findAllBookingCarDetailsRaw();
+
+	    return rows.stream().map(r -> new BookingCarViewDTO(
+	            ((Number) r[0]).longValue(),
+	            (String) r[1],
+	            (String) r[2],
+	            ((Number) r[3]).doubleValue(),
+	            (String) r[4],                 // status
+		        (String) r[5],                 // customerName
+		        (String) r[6],                 // pickupLocation
+	            ((Timestamp) r[7]).toLocalDateTime(),
+	            ((Timestamp) r[8]).toLocalDateTime()
+	    )).toList();
 	}
 }

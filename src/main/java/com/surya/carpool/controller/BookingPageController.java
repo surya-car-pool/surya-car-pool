@@ -1,6 +1,7 @@
 package com.surya.carpool.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,13 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.surya.carpool.bookings.Booking;
+import com.surya.carpool.bookings.BookingRepository;
 import com.surya.carpool.bookings.BookingService;
+import com.surya.carpool.dto.BookingCarViewDTO;
 import com.surya.carpool.model.BookingForm;
 import com.surya.carpool.model.Car;
+import com.surya.carpool.model.CarStatus;
+import com.surya.carpool.repository.CarRepository;
 import com.surya.carpool.service.CarService;
 
 @Controller
@@ -24,6 +30,10 @@ public class BookingPageController<PaymentService> {
 	private final CarService carService; // service to fetch car details
 	@Autowired
 	BookingService bookingService;
+	@Autowired
+	private CarRepository carRepository;
+	@Autowired
+	private BookingRepository bookingRepository;
 
 	public BookingPageController(CarService carService) {
 		this.carService = carService;
@@ -131,6 +141,18 @@ public class BookingPageController<PaymentService> {
 	@GetMapping("/view-bookings")
 	public String viewBookingsPage() {
 		return "view-bookings";
+	}
+
+	@GetMapping("/api/booked-cars")
+	@ResponseBody
+	public List<Car> getBookedCarsOnly() {
+		return carRepository.findByStatus(CarStatus.BOOKED);
+	}
+
+	@GetMapping("/api/view-bookings")
+	@ResponseBody
+	public List<BookingCarViewDTO> viewBookings() {
+		return bookingService.getAllBookingCarDetails();
 	}
 
 }
