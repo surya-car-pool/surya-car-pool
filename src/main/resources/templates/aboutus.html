@@ -7,110 +7,156 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
-		/* Hero Section Background */
-		.hero-section {
-			background: linear-gradient(rgba(0, 76, 255, 0.6), rgba(0, 76, 255, 0.6)),
-				url('/images/image2.png');
-			background-size: cover;
-			background-position: center;
-			color: #fff;
-			padding: 90px 0;
-			text-align: center;
-			border-radius: 12px;
-		}
-
 		body {
-			background: linear-gradient(135deg, #e3f2fd, #ffffff);
-			background-image: url('https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1600&q=80');
+			min-height: 100vh;
+			background: linear-gradient(135deg,
+					#ffecd2,
+					#fcb69f,
+					#a1c4fd,
+					#c2e9fb,
+					#d4fc79);
 			background-attachment: fixed;
-			background-size: cover;
-			background-repeat: no-repeat;
-			backdrop-filter: blur(5px);
 		}
 
-		/* About Section Background */
-		.about-bg {
-			background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
-				url('https://images.unsplash.com/photo-1518443952243-1e2b79c138ec?auto=format&fit=crop&w=1600&q=80');
-			background-size: cover;
-			background-attachment: fixed;
-			background-position: center;
-			border-radius: 12px;
-			padding: 60px 40px;
+		.content-wrapper {
+			backdrop-filter: blur(10px);
+			background: rgba(255, 255, 255, 0.75);
+			border-radius: 15px;
+			padding: 25px;
+			margin-top: 30px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 		}
 
-		.section-title {
-			font-weight: 700;
-			margin-bottom: 20px;
+		.hero-section {
+			background: linear-gradient(135deg, rgba(13, 110, 253, 0.85), rgba(59, 139, 255, 0.85));
+			color: white;
+			padding: 60px 20px;
+			border-radius: 15px;
+			text-align: center;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 		}
 
-		.icon-box i {
-			font-size: 40px;
-			color: rgb(0, 128, 255);
+		.contact-card {
+			border-radius: 15px;
+			background: rgba(255, 255, 255, 0.85);
+			backdrop-filter: blur(6px);
+			transition: transform 0.2s ease-in-out;
 		}
 
-		.icon-box {
-			padding: 20px;
-			border-radius: 8px;
-			background: #ffffffcc;
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-			transition: 0.3s;
-		}
-
-		.icon-box:hover {
+		.contact-card:hover {
 			transform: translateY(-5px);
 		}
 
-		/* Self-driving section specific styles (added) */
-		.selfdriving-section {
-			margin-top: 40px;
-		}
-
-		.selfdriving-card {
-			background: rgba(255, 255, 255, 0.95);
-			border-radius: 10px;
-			padding: 18px;
-			box-shadow: 0 6px 18px rgba(13, 110, 253, 0.06);
-			height: 100%;
-		}
-
-		.selfdriving-item {
-			display: flex;
-			gap: 12px;
-			align-items: flex-start;
-			margin-bottom: 14px;
-		}
-
-		.selfdriving-item i {
-			font-size: 22px;
+		.contact-icon {
+			font-size: 2.3rem;
 			color: #0d6efd;
-			margin-top: 4px;
-			min-width: 26px;
 		}
 
-		.selfdriving-item h6 {
-			margin: 0 0 4px 0;
-			font-weight: 700;
-			font-size: 0.95rem;
+		/* Navbar icons */
+		.nav-link i {
+			color: rgb(255, 128, 64);
+			margin-right: 4px;
 		}
 
-		.selfdriving-item p {
-			margin: 0;
-			color: #495057;
-			font-size: 0.92rem;
+		/* Page title icon */
+		.page-title i {
+			color: #0d6efd;
 		}
 
-		/* Footer Background */
-		footer {
-			background: url('https://images.unsplash.com/photo-1529078155058-5d716f45d604?auto=format&fit=crop&w=1600&q=80');
-			background-size: cover;
-			background-position: center;
-			color: #fff;
+		/* Action icon */
+		.btn-update i {
+			color: #ffffff;
 		}
 
-		footer .overlay {
-			background: rgba(0, 0, 0, 0.6);
-			padding: 20px 0;
+		/* Info icon (No bookings) */
+		.no-data i {
+			color: #ff6b6b;
+			font-size: 1.3rem;
+		}
+
+		/* Table container */
+		.table-card {
+			background: rgba(255, 255, 255, 0.92);
+			border-radius: 14px;
+			padding: 16px;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+		}
+
+		/* Table header */
+		.table thead th {
+			background: linear-gradient(135deg, #0d6efd, #3b8bff);
+			color: #ffffff;
+			text-align: center;
+			vertical-align: middle;
+			border: none;
+			font-size: 0.9rem;
+		}
+
+		/* Table body cells */
+		.table tbody td {
+			vertical-align: middle;
+			text-align: center;
+			border-color: #dee2e6;
+			font-size: 0.88rem;
+		}
+
+		/* Hover effect */
+		.table-hover tbody tr:hover {
+			background-color: rgba(13, 110, 253, 0.08);
+		}
+
+		/* Status badge */
+		.badge-booked {
+			background: linear-gradient(135deg, #22c55e, #16a34a);
+			color: #ffffff;
+			padding: 5px 10px;
+			border-radius: 999px;
+			font-size: 0.75rem;
+		}
+
+		/* Update button */
+		.btn-update {
+			background: linear-gradient(135deg, #f59e0b, #f97316);
+			color: white;
+			border-radius: 999px;
+			border: none;
+		}
+
+		.btn-update:hover {
+			background: linear-gradient(135deg, #f97316, #ea580c);
+		}
+
+		.file-input-label i {
+			color: #0d6efd;
+			margin-right: 6px;
+		}
+
+		.file-input-label small {
+			display: block;
+			color: #6b7280;
+		}
+
+		.form-section-divider {
+			height: 1px;
+			background: linear-gradient(to right, rgba(148, 163, 184, 0.1), rgba(148, 163, 184, 0.7), rgba(148, 163, 184, 0.1));
+			margin: 8px 0 14px;
+		}
+
+		.btn-gradient {
+			background: linear-gradient(135deg, #22c55e, #16a34a);
+			border: none;
+			border-radius: 999px;
+			padding: 10px 22px;
+			font-weight: 600;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+		}
+
+		.btn-gradient:hover {
+			background: linear-gradient(135deg, #16a34a, #15803d);
+			box-shadow: 0 10px 24px rgba(22, 163, 74, 0.45);
 		}
 
 		.navbar-custom {
@@ -118,9 +164,207 @@
 			backdrop-filter: blur(8px);
 		}
 
-		.nav-link i {
-			color: rgb(255, 128, 64);
-			margin-right: 4px;
+		.brand-title {
+			font-weight: 700;
+			letter-spacing: 0.03em;
+		}
+
+		.brand-tagline {
+			font-size: 0.8rem;
+		}
+
+		.payment-card {
+			border-radius: 18px;
+			border: 1px solid #e5e7eb;
+			background: #ffffff;
+			box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+		}
+
+		/* Section card */
+		.section-card {
+			background: #ffffff;
+			border: 1px solid #e5e7eb;
+			border-radius: 14px;
+			padding: 18px;
+			margin-bottom: 18px;
+		}
+
+		/* Section header */
+		.section-header {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-weight: 600;
+			font-size: 0.95rem;
+			color: #0f172a;
+		}
+
+		.section-header i {
+			color: #0d6efd;
+			font-size: 1.1rem;
+		}
+
+		/* Section titles */
+		.section-title {
+			font-weight: 700;
+			color: #0f172a;
+		}
+
+		/* Sub text */
+		.sub-text {
+			font-size: 0.85rem;
+			color: #64748b;
+		}
+
+		/* Form labels */
+		.form-label {
+			font-size: 0.8rem;
+			font-weight: 600;
+			color: #334155;
+		}
+
+		/* Inputs & selects */
+		.form-control,
+		.form-select {
+			border-radius: 10px;
+			border: 1px solid #cbd5e1;
+			font-size: 0.88rem;
+			padding: 10px 12px;
+		}
+
+		/* Input focus */
+		.form-control:focus,
+		.form-select:focus {
+			border-color: #0d6efd;
+			box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
+		}
+
+		/* Input groups */
+		.input-group-text {
+			border-radius: 10px 0 0 10px;
+			background: #f8fafc;
+			border: 1px solid #cbd5e1;
+		}
+
+		/* File upload */
+		.file-input-label {
+			border: 1px dashed #94a3b8;
+			border-radius: 12px;
+			padding: 14px;
+			background: #f8fafc;
+			cursor: pointer;
+		}
+
+		.file-input-label:hover {
+			background: #f1f5f9;
+		}
+
+		/* Mandatory star */
+		.text-danger {
+			font-weight: 700;
+		}
+
+		/* Secure badge */
+		.badge-soft {
+			background: rgba(34, 197, 94, 0.15);
+			color: #166534;
+			font-size: 0.7rem;
+			padding: 6px 10px;
+			border-radius: 999px;
+			font-weight: 600;
+		}
+
+		/* Submit button alignment */
+		.btn-gradient {
+			font-size: 0.9rem;
+		}
+
+		/* Validation feedback */
+		.invalid-feedback {
+			font-size: 0.7rem;
+		}
+
+		/* Responsive spacing */
+		@media (max-width: 768px) {
+			.section-card {
+				padding: 14px;
+			}
+		}
+
+		/* ===============================
+		   CORPORATE ABOUT HERO
+		   =============================== */
+
+		.about-hero {
+			position: relative;
+			height: 45vh;
+			/* shorter & professional */
+			min-height: 320px;
+			background: url('/images/hero-car.jpg') center/cover no-repeat;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* Soft corporate overlay */
+		.hero-overlay {
+			position: absolute;
+			inset: 0;
+			background: rgba(15, 23, 42, 0.65);
+		}
+
+		/* Content */
+		.hero-content {
+			position: relative;
+			text-align: center;
+			color: #ffffff;
+			z-index: 2;
+		}
+
+		/* Logo */
+		.hero-logo {
+			width: 110px;
+			height: auto;
+			margin-bottom: 14px;
+			background: #ffffff;
+			padding: 10px;
+			border-radius: 14px;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+		}
+
+		/* Title */
+		.hero-content h1 {
+			font-size: 2.3rem;
+			font-weight: 700;
+			margin-bottom: 8px;
+			letter-spacing: 0.02em;
+		}
+
+		/* Subtitle */
+		.hero-content p {
+			font-size: 1rem;
+			opacity: 0.9;
+			margin-bottom: 14px;
+		}
+
+		/* Divider */
+		.hero-divider {
+			width: 70px;
+			height: 4px;
+			background: #38bdf8;
+			margin: 0 auto;
+			border-radius: 2px;
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.about-hero {
+				height: 38vh;
+			}
+
+			.hero-content h1 {
+				font-size: 1.8rem;
+			}
 		}
 	</style>
 
@@ -155,7 +399,7 @@
 
 				<div class="d-flex flex-column">
 					<span class="brand-title text-white">Surya Car Pool</span>
-					<span class="brand-tagline text-white-50">Safe · Shared · Smart</span>
+					<span class="brand-tagline text-white-50">Self Drive Cars Provider</span>
 				</div>
 
 				<span class="ms-3 badge bg-white text-dark align-self-start" style="font-weight:600">Trusted</span>
@@ -203,32 +447,27 @@
 						</a>
 					</li>
 				</ul>
-				<!--<div class="d-flex align-items-center ms-3">
-							<span id="welcomeUser" class="text-white me-3 d-none">Hello, <strong id="userName"></strong></span>
-							<a id="loginLink" class="btn btn-outline-light btn-sm me-2" href="/login"><i
-									class="bi bi-box-arrow-in-right"></i> Login</a>
-							<button id="logoutBtn" class="btn btn-light btn-sm d-none">Logout</button>
-						</div>-->
+
 			</div>
 		</div>
 	</nav>
 
 	<!-- Hero -->
 	<div class="container mt-4">
-		<div class="hero-section" style="
-	        background-image: 
-	            
-	            linear-gradient(rgba(225, 225, 225, 0), rgba(225, 225, 225, 0)),
-	            url('/images/logo.png');
-	        background-repeat: no-repeat;
-	        background-size: 220px, cover, cover;
-	        background-position: center center, center, center;
-	    ">
-			<h1 class="display-5 fw-bold" style="background-color: aquamarine; color: darkgoldenrod;">About Surya Car
-				Pool</h1>
-			<p class="lead" style="background-color: aquamarine; color: darkgoldenrod;">Connecting people. Saving fuel.
-				Making travel smarter.</p>
-		</div>
+		<!-- CORPORATE HERO -->
+		<section class="about-hero">
+			<div class="hero-overlay"></div>
+
+			<div class="container hero-content">
+				<img src="/images/logo.png" alt="Surya Car Pool Logo" class="hero-logo">
+
+				<h1>About Surya Car Pool</h1>
+				<h4>Self Drive Cars Provider!!</h4>
+				<p>Connecting people · Saving fuel · Making travel smarter</p>
+
+				<div class="hero-divider"></div>
+			</div>
+		</section>
 	</div>
 
 
@@ -383,9 +622,14 @@
 	</div>
 
 	<!-- Footer with Background -->
-	<footer>
-		<div class="overlay text-center" style="color: rgb(128, 0, 64);">
-			<span>&copy; 2025 Surya Car Pool. All rights reserved.</span>
+	<!-- FOOTER -->
+	<footer class="bg-dark text-light mt-5">
+		<div class="container py-4 text-center small" style="color: brown;">
+			© Surya Car Pool -2025 · All rights reserved
+		</div>
+		<div class="text-center text-muted small py-2" style="background:rgba(0,0,0,0.04)">
+			Need help? Email <a href="mailto:support@suryacarpool.example"
+				class="text-muted">support@suryacarpool.example</a> · Terms apply
 		</div>
 	</footer>
 </body>
