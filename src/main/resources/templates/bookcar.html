@@ -2,9 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Surya Car Pool — Self Drive Cars</title>
+	<meta charset="UTF-8">
+	<title>Surya Car Pool | Book a Self-Drive Car</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Bootstrap -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +15,8 @@
 		:root {
 			--primary: #0d6efd;
 			--accent: #6610f2;
-			--orange: #ff8c00;
+			--orange: #ff9800;
+			--green: #28a745;
 			--max-width: 1200px;
 		}
 
@@ -28,56 +30,52 @@
 			backdrop-filter: blur(8px);
 		}
 
-		/* HERO */
-		.hero {
+		/* PAGE HERO */
+		.page-hero {
 			max-width: var(--max-width);
 			margin: 2rem auto;
-			padding: 3rem;
-			border-radius: 20px;
+			padding: 2.5rem;
+			border-radius: 22px;
 			background: linear-gradient(135deg, #0d6efd, #6610f2);
-			color: white;
+			color: #fff;
+			text-align: center;
 		}
 
-		.hero h1 span {
+		.page-hero span {
 			color: #ffd166;
 		}
 
-		/* SECTION */
-		.section {
+		/* TRUST STRIP */
+		.trust-strip {
 			max-width: var(--max-width);
-			margin: 3.5rem auto;
-			padding: 0 1rem;
-		}
-
-		.feature-card {
-			border: 0;
+			margin: 1.5rem auto;
+			padding: 1.2rem;
+			background: #fff;
 			border-radius: 16px;
 			box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-			transition: transform .2s ease;
-			height: 100%;
 		}
 
-		.feature-card:hover {
+		.trust-item i {
+			font-size: 28px;
+			margin-bottom: 6px;
+		}
+
+		/* CAR CARD */
+		.car-card {
+			border: 0;
+			border-radius: 18px;
+			box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+			height: 100%;
+			transition: transform .2s ease;
+		}
+
+		.car-card:hover {
 			transform: translateY(-6px);
 		}
 
-		.icon-circle {
-			width: 60px;
-			height: 60px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 28px;
-			margin: 0 auto 1rem;
-			color: white;
-		}
-
-		.step {
-			background: white;
-			border-radius: 16px;
-			padding: 2rem;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+		.badge-seats {
+			background: linear-gradient(90deg, var(--primary), var(--accent));
+			color: #fff;
 		}
 	</style>
 </head>
@@ -180,120 +178,119 @@
 		</div>
 	</nav>
 
-	<div th:if="${param.logout}" class="alert alert-success text-center mb-0">
-		You have been logged out successfully.
-	</div>
-
 	<!-- HERO -->
-	<section class="hero text-center">
+	<section class="page-hero">
 		<h1 class="fw-bold">
-			Drive Your Way with <span>Surya Car Pool</span>
+			Choose Your <span>Perfect Self-Drive Car</span>
 		</h1>
 		<p class="lead mt-3">
-			Affordable • Verified • Hassle-Free Self-Drive Cars
-			for City Rides, Office Travel & Weekend Getaways
+			Verified vehicles • Transparent pricing • Complete driving freedom
 		</p>
 
-		<div class="mt-4">
-			<a href="/bookcar/ui" class="btn btn-warning btn-lg me-2">
-				<i class="bi bi-car-front-fill"></i> Book a Car
-			</a>
-			<a href="/createuser/ui" class="btn btn-outline-light btn-lg">
-				<i class="bi bi-plus-circle"></i> Attach Your Car
-			</a>
-		</div>
-	</section>
-
-	<!-- WHY US -->
-	<section class="section">
-		<h2 class="text-center mb-4">Why Customers Choose Us</h2>
-
-		<div class="row g-4">
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-primary">
-						<i class="bi bi-shield-check"></i>
-					</div>
-					<h6>Verified & Safe</h6>
-					<p class="small text-muted">All cars and owners are verified for your safety.</p>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-success">
-						<i class="bi bi-cash-stack"></i>
-					</div>
-					<h6>No Hidden Charges</h6>
-					<p class="small text-muted">Clear per-day & per-km pricing you can trust.</p>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-warning">
-						<i class="bi bi-speedometer2"></i>
-					</div>
-					<h6>Freedom to Drive</h6>
-					<p class="small text-muted">No driver. No restrictions. Total control.</p>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-info">
-						<i class="bi bi-geo-alt-fill"></i>
-					</div>
-					<h6>Local & Reliable</h6>
-					<p class="small text-muted">Built for your city, trusted by locals.</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- HOW IT WORKS -->
-	<section class="section bg-light rounded-4 py-5">
-		<h2 class="text-center mb-4">How It Works</h2>
-
-		<div class="row g-4">
-			<div class="col-md-4">
-				<div class="step text-center">
-					<i class="bi bi-search fs-1 text-primary"></i>
-					<h5 class="mt-3">Choose a Car</h5>
-					<p class="small text-muted">Browse available self-drive cars near you.</p>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="step text-center">
-					<i class="bi bi-credit-card fs-1 text-success"></i>
-					<h5 class="mt-3">Book & Pay</h5>
-					<p class="small text-muted">Confirm booking with transparent pricing.</p>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="step text-center">
-					<i class="bi bi-car-front-fill fs-1 text-warning"></i>
-					<h5 class="mt-3">Drive & Return</h5>
-					<p class="small text-muted">Enjoy the ride and return as scheduled.</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- FOR OWNERS -->
-	<section class="section text-center">
-		<h2>Own a Car? Earn with Surya Car Pool</h2>
-		<p class="text-muted mt-2">
-			Attach your car, earn passive income, and stay in control.
-			We bring you verified customers.
-		</p>
-
-		<a href="/createuser/ui" class="btn btn-success btn-lg mt-3">
-			<i class="bi bi-car-front"></i> Attach My Car
+		<a href="/home" class="btn btn-outline-light mt-3">
+			<i class="bi bi-arrow-left"></i> Back to Home
 		</a>
 	</section>
+
+	<!-- TRUST STRIP -->
+	<section class="trust-strip">
+		<div class="row text-center">
+			<div class="col-md-3 trust-item">
+				<i class="bi bi-shield-check text-primary"></i>
+				<div class="fw-semibold">Verified Cars</div>
+				<small class="text-muted">Owner & vehicle verified</small>
+			</div>
+
+			<div class="col-md-3 trust-item">
+				<i class="bi bi-cash-stack text-success"></i>
+				<div class="fw-semibold">No Hidden Charges</div>
+				<small class="text-muted">Clear pricing policy</small>
+			</div>
+
+			<div class="col-md-3 trust-item">
+				<i class="bi bi-speedometer2 text-warning"></i>
+				<div class="fw-semibold">Drive Freely</div>
+				<small class="text-muted">No driver restrictions</small>
+			</div>
+
+			<div class="col-md-3 trust-item">
+				<i class="bi bi-geo-alt-fill text-info"></i>
+				<div class="fw-semibold">Local Support</div>
+				<small class="text-muted">Community-driven service</small>
+			</div>
+		</div>
+	</section>
+
+	<!-- AVAILABLE CARS -->
+	<main class="container my-5" style="max-width:1200px">
+
+		<h2 class="text-center mb-4">
+			Available Cars for Self-Drive
+		</h2>
+
+		<!-- No cars -->
+		<div th:if="${#lists.isEmpty(cars)}" class="alert alert-info text-center">
+			🚗 No self-drive cars are available right now. Please check again later.
+		</div>
+
+		<!-- Cars grid -->
+		<div class="row g-4" th:if="${!#lists.isEmpty(cars)}">
+
+			<div class="col-md-4" th:each="car : ${cars}">
+				<div class="card car-card">
+
+					<div class="card-body">
+						<h5 class="card-title fw-bold" th:text="${car.make} + ' ' + ${car.model}">
+							Car Name
+						</h5>
+
+						<p class="small text-muted mb-2">
+							<i class="bi bi-fuel-pump text-success"></i>
+							<span th:text="${car.fuelType}"></span>
+							&nbsp;·&nbsp;
+							<i class="bi bi-gear text-warning"></i>
+							<span th:text="${car.transmissionType}"></span>
+						</p>
+
+						<span class="badge badge-seats" th:text="${car.seats} + ' Seats'">
+							Seats
+						</span>
+
+						<p class="mt-3 mb-1 fs-5">
+							<strong class="text-success">
+								₹ <span th:text="${car.perDayRent}">0</span>
+							</strong>
+							<small class="text-muted">/ day</small>
+						</p>
+
+						<p class="small text-muted mb-0">
+							<i class="bi bi-person-badge"></i>
+							Owner:
+							<span th:text="${car.owner != null ? car.owner.name : 'N/A'}">Owner</span>
+						</p>
+					</div>
+
+					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+						<small class="text-muted">
+							ID: <span th:text="${car.id}">1</span>
+						</small>
+
+						<a th:if="${car.status == T(com.surya.carpool.model.CarStatus).AVAILABLE}"
+							th:href="@{/bookings/ui(carId=${car.id})}" class="btn btn-primary btn-sm">
+							<i class="bi bi-credit-card"></i> Book Now
+						</a>
+
+						<button th:if="${car.status == T(com.surya.carpool.model.CarStatus).BOOKED}"
+							class="btn btn-secondary btn-sm" disabled>
+							<i class="bi bi-lock-fill"></i> Booked
+						</button>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</main>
 
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">

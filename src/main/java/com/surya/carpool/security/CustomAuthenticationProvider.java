@@ -1,7 +1,7 @@
 package com.surya.carpool.security;
 
-import com.surya.carpool.model.User;
-import com.surya.carpool.repository.UserRepository;
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,8 +11,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
-import java.util.Optional;
+import com.surya.carpool.model.User;
+import com.surya.carpool.repository.UserRepository;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -30,12 +30,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String identifier = authentication.getName(); // email or phone
 		String rawPassword = authentication.getCredentials().toString();
 
-		Optional<User> userOpt = userRepository.findByEmail(identifier);
-		if (userOpt.isEmpty()) {
-			userOpt = userRepository.findByPhone(identifier);
+		List<User> users = userRepository.findByEmail(identifier);
+
+		if (users.isEmpty()) {
+			users = userRepository.findByPhone(identifier);
 		}
 
-		User user = userOpt.orElseThrow(() -> new BadCredentialsException("Invalid email/phone or password"));
+		if (users.isEmpty()) {
+			throw new BadCredentialsException("Invalid email/phone or password");
+		}
+
+		// pick the latest or first user
+		User user = users.get(0);
 
 		if (!user.isEnabled()) {
 			throw new BadCredentialsException("User is disabled");

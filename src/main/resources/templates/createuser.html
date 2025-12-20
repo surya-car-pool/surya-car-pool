@@ -8,12 +8,14 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<style>
 		body {
-			background: linear-gradient(135deg, #e3f2fd, #ffffff);
-			background-image: url('https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1600&q=80');
+			min-height: 100vh;
+			background: linear-gradient(135deg,
+					#ffecd2,
+					#fcb69f,
+					#a1c4fd,
+					#c2e9fb,
+					#d4fc79);
 			background-attachment: fixed;
-			background-size: cover;
-			background-repeat: no-repeat;
-			backdrop-filter: blur(5px);
 		}
 
 		.content-wrapper {
@@ -50,14 +52,250 @@
 			color: #0d6efd;
 		}
 
+		/* Navbar icons */
+		.nav-link i {
+			color: rgb(255, 128, 64);
+			margin-right: 4px;
+		}
+
+		/* Page title icon */
+		.page-title i {
+			color: #0d6efd;
+		}
+
+		/* Action icon */
+		.btn-update i {
+			color: #ffffff;
+		}
+
+		/* Info icon (No bookings) */
+		.no-data i {
+			color: #ff6b6b;
+			font-size: 1.3rem;
+		}
+
+		/* Table container */
+		.table-card {
+			background: rgba(255, 255, 255, 0.92);
+			border-radius: 14px;
+			padding: 16px;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+		}
+
+		/* Table header */
+		.table thead th {
+			background: linear-gradient(135deg, #0d6efd, #3b8bff);
+			color: #ffffff;
+			text-align: center;
+			vertical-align: middle;
+			border: none;
+			font-size: 0.9rem;
+		}
+
+		/* Table body cells */
+		.table tbody td {
+			vertical-align: middle;
+			text-align: center;
+			border-color: #dee2e6;
+			font-size: 0.88rem;
+		}
+
+		/* Hover effect */
+		.table-hover tbody tr:hover {
+			background-color: rgba(13, 110, 253, 0.08);
+		}
+
+		/* Status badge */
+		.badge-booked {
+			background: linear-gradient(135deg, #22c55e, #16a34a);
+			color: #ffffff;
+			padding: 5px 10px;
+			border-radius: 999px;
+			font-size: 0.75rem;
+		}
+
+		/* Update button */
+		.btn-update {
+			background: linear-gradient(135deg, #f59e0b, #f97316);
+			color: white;
+			border-radius: 999px;
+			border: none;
+		}
+
+		.btn-update:hover {
+			background: linear-gradient(135deg, #f97316, #ea580c);
+		}
+
+		.file-input-label i {
+			color: #0d6efd;
+			margin-right: 6px;
+		}
+
+		.file-input-label small {
+			display: block;
+			color: #6b7280;
+		}
+
+		.form-section-divider {
+			height: 1px;
+			background: linear-gradient(to right, rgba(148, 163, 184, 0.1), rgba(148, 163, 184, 0.7), rgba(148, 163, 184, 0.1));
+			margin: 8px 0 14px;
+		}
+
+		.btn-gradient {
+			background: linear-gradient(135deg, #22c55e, #16a34a);
+			border: none;
+			border-radius: 999px;
+			padding: 10px 22px;
+			font-weight: 600;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+		}
+
+		.btn-gradient:hover {
+			background: linear-gradient(135deg, #16a34a, #15803d);
+			box-shadow: 0 10px 24px rgba(22, 163, 74, 0.45);
+		}
+
 		.navbar-custom {
 			background: rgba(15, 23, 42, 0.95);
 			backdrop-filter: blur(8px);
 		}
 
-		.nav-link i {
-			color: rgb(255, 128, 64);
-			margin-right: 4px;
+		.brand-title {
+			font-weight: 700;
+			letter-spacing: 0.03em;
+		}
+
+		.brand-tagline {
+			font-size: 0.8rem;
+		}
+
+		/* Card that wraps the form */
+		.payment-card {
+			border-radius: 18px;
+			border: 1px solid #e5e7eb;
+			background: #ffffff;
+			box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+		}
+
+		/* Section card */
+		.section-card {
+			background: #ffffff;
+			border: 1px solid #e5e7eb;
+			border-radius: 14px;
+			padding: 18px;
+			margin-bottom: 18px;
+		}
+
+		/* Section header */
+		.section-header {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-weight: 600;
+			font-size: 0.95rem;
+			color: #0f172a;
+		}
+
+		.section-header i {
+			color: #0d6efd;
+			font-size: 1.1rem;
+		}
+
+		/* Section titles */
+		.section-title {
+			font-weight: 700;
+			color: #0f172a;
+		}
+
+		/* Sub text */
+		.sub-text {
+			font-size: 0.85rem;
+			color: #64748b;
+		}
+
+		/* Form labels */
+		.form-label {
+			font-size: 0.8rem;
+			font-weight: 600;
+			color: #334155;
+		}
+
+		/* Inputs & selects */
+		.form-control,
+		.form-select {
+			border-radius: 10px;
+			border: 1px solid #cbd5e1;
+			font-size: 0.88rem;
+			padding: 10px 12px;
+		}
+
+		/* Input focus */
+		.form-control:focus,
+		.form-select:focus {
+			border-color: #0d6efd;
+			box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
+		}
+
+		/* Input groups */
+		.input-group-text {
+			border-radius: 10px 0 0 10px;
+			background: #f8fafc;
+			border: 1px solid #cbd5e1;
+		}
+
+		/* File upload */
+		.file-input-label {
+			border: 1px dashed #94a3b8;
+			border-radius: 12px;
+			padding: 14px;
+			background: #f8fafc;
+			cursor: pointer;
+		}
+
+		.file-input-label:hover {
+			background: #f1f5f9;
+		}
+
+		/* Mandatory star */
+		.text-danger {
+			font-weight: 700;
+		}
+
+		/* Secure badge */
+		.badge-soft {
+			background: rgba(34, 197, 94, 0.15);
+			color: #166534;
+			font-size: 0.7rem;
+			padding: 6px 10px;
+			border-radius: 999px;
+			font-weight: 600;
+		}
+
+		/* Submit button alignment */
+		.btn-gradient {
+			font-size: 0.9rem;
+		}
+
+		/* Validation feedback */
+		.invalid-feedback {
+			font-size: 0.7rem;
+		}
+
+		/* Responsive spacing */
+		@media (max-width: 768px) {
+			.section-card {
+				padding: 14px;
+			}
+		}
+
+		.input-group-text {
+			font-weight: 600;
+			color: #0d6efd;
+			background: #f8fafc;
 		}
 	</style>
 </head>
@@ -157,92 +395,166 @@
 					<div class="card-body">
 
 						<!-- OWNER LOGIN & CONTACT -->
-						<h6 class="text-primary mb-2">Owner Login & Contact</h6>
 						<div class="mb-2">
-							<label class="form-label">Full Name *</label>
+							<label class="form-label">
+								<i class="bi bi-person-fill me-1 text-primary"></i>
+								Full Name <span class="text-danger">*</span>
+							</label>
 							<input id="name" type="text" class="form-control" required>
 						</div>
+
 						<div class="mb-2">
-							<label class="form-label">Email *</label>
+							<label class="form-label">
+								<i class="bi bi-envelope-fill me-1 text-primary"></i>
+								Email <span class="text-danger">*</span>
+							</label>
 							<input id="email" type="email" class="form-control" required>
 						</div>
+
 						<div class="mb-2">
-							<label class="form-label">Phone *</label>
+							<label class="form-label">
+								<i class="bi bi-telephone-fill me-1 text-primary"></i>
+								Phone <span class="text-danger">*</span>
+							</label>
 							<input id="phone" type="tel" class="form-control" required>
 						</div>
+
 						<div class="mb-3">
-							<label class="form-label">Password *</label>
+							<label class="form-label">
+								<i class="bi bi-lock-fill me-1 text-primary"></i>
+								Password <span class="text-danger">*</span>
+							</label>
 							<input id="password" type="password" class="form-control" required>
 						</div>
 
 						<!-- OWNER DETAILS -->
-						<h6 class="text-primary mb-2">Owner Details</h6>
+						<h6 class="text-primary mb-2">
+							<i class="bi bi-person-badge-fill me-1"></i> Owner Details
+						</h6>
+
 						<div class="mb-2">
-							<label class="form-label">Address</label>
+							<label class="form-label">
+								<i class="bi bi-geo-alt-fill me-1 text-primary"></i>
+								Address
+							</label>
 							<textarea id="ownerAddress" class="form-control" rows="2"></textarea>
 						</div>
+
 						<div class="row mb-2">
 							<div class="col-md-6 mb-2">
-								<label class="form-label">City</label>
+								<label class="form-label">
+									<i class="bi bi-buildings me-1 text-primary"></i>
+									City
+								</label>
 								<input id="ownerCity" type="text" class="form-control">
 							</div>
+
 							<div class="col-md-6 mb-2">
-								<label class="form-label">State</label>
+								<label class="form-label">
+									<i class="bi bi-map-fill me-1 text-primary"></i>
+									State
+								</label>
 								<input id="ownerState" type="text" class="form-control">
 							</div>
 						</div>
+
 						<div class="row mb-3">
 							<div class="col-md-4 mb-2">
-								<label class="form-label">Pincode</label>
+								<label class="form-label">
+									<i class="bi bi-mailbox me-1 text-primary"></i>
+									Pincode
+								</label>
 								<input id="ownerPincode" type="text" class="form-control">
 							</div>
+
 							<div class="col-md-4 mb-2">
-								<label class="form-label">Aadhaar No</label>
+								<label class="form-label">
+									<i class="bi bi-person-vcard-fill me-1 text-primary"></i>
+									Aadhaar No
+								</label>
 								<input id="ownerAadharNo" type="text" class="form-control">
 							</div>
+
 							<div class="col-md-4 mb-2">
-								<label class="form-label">PAN No</label>
+								<label class="form-label">
+									<i class="bi bi-credit-card-2-front-fill me-1 text-primary"></i>
+									PAN No
+								</label>
 								<input id="ownerPanNo" type="text" class="form-control">
 							</div>
 						</div>
 
 						<!-- CAR DETAILS -->
-						<h6 class="text-primary mb-2">Car Details</h6>
+						<h6 class="text-primary mb-2">
+							<i class="bi bi-car-front-fill me-1"></i> Car Details
+						</h6>
+
 						<div class="row mb-2">
 							<div class="col-md-6 mb-2">
-								<label class="form-label">Make *</label>
+								<label class="form-label">
+									<i class="bi bi-car-front-fill me-1 text-primary"></i>
+									Name (Car / Company) <span class="text-danger">*</span>
+								</label>
 								<input id="carMake" type="text" class="form-control" required>
 							</div>
+
 							<div class="col-md-6 mb-2">
-								<label class="form-label">Model *</label>
+								<label class="form-label">
+									<i class="bi bi-badge-tm-fill me-1 text-primary"></i>
+									Model <span class="text-danger">*</span>
+								</label>
 								<input id="carModel" type="text" class="form-control" required>
 							</div>
 						</div>
+
 						<div class="mb-2">
-							<label class="form-label">Variant</label>
+							<label class="form-label">
+								<i class="bi bi-layers-fill me-1 text-primary"></i>
+								Variant
+							</label>
 							<input id="carVariant" type="text" class="form-control">
 						</div>
+
 						<div class="mb-2">
-							<label class="form-label">Registration No *</label>
+							<label class="form-label">
+								<i class="bi bi-card-list me-1 text-primary"></i>
+								Registration No <span class="text-danger">*</span>
+							</label>
 							<input id="carRegistrationNo" type="text" class="form-control" required>
 						</div>
+
 						<div class="row mb-2">
 							<div class="col-md-4 mb-2">
-								<label class="form-label">Year</label>
+								<label class="form-label">
+									<i class="bi bi-calendar-event-fill me-1 text-primary"></i>
+									Year
+								</label>
 								<input id="carYear" type="number" class="form-control" min="1990" max="2100">
 							</div>
+
 							<div class="col-md-4 mb-2">
-								<label class="form-label">Color</label>
+								<label class="form-label">
+									<i class="bi bi-palette-fill me-1 text-primary"></i>
+									Color
+								</label>
 								<input id="carColor" type="text" class="form-control">
 							</div>
+
 							<div class="col-md-4 mb-2">
-								<label class="form-label">Seats</label>
+								<label class="form-label">
+									<i class="bi bi-people-fill me-1 text-primary"></i>
+									Seats
+								</label>
 								<input id="carSeats" type="number" class="form-control" min="2" max="9">
 							</div>
 						</div>
+
 						<div class="row mb-2">
 							<div class="col-md-6 mb-2">
-								<label class="form-label">Fuel Type</label>
+								<label class="form-label">
+									<i class="bi bi-fuel-pump-fill me-1 text-primary"></i>
+									Fuel Type
+								</label>
 								<select id="fuelType" class="form-select">
 									<option value="">Select</option>
 									<option>PETROL</option>
@@ -251,8 +563,12 @@
 									<option>EV</option>
 								</select>
 							</div>
+
 							<div class="col-md-6 mb-2">
-								<label class="form-label">Transmission</label>
+								<label class="form-label">
+									<i class="bi bi-gear-fill me-1 text-primary"></i>
+									Transmission
+								</label>
 								<select id="transmissionType" class="form-select">
 									<option value="">Select</option>
 									<option>MANUAL</option>
@@ -261,29 +577,51 @@
 							</div>
 						</div>
 						<div class="row mb-3">
-							<div class="col-md-6 mb-2">
-								<label class="form-label">Per Day Rent</label>
-								<input id="perDayRent" type="number" step="0.01" class="form-control">
+							<div class="col-md-6">
+								<label class="form-label">
+									<i class="bi bi-cash-stack me-1 text-primary"></i>
+									Per Day Rent <span class="text-danger">*</span>
+								</label>
+								<div class="input-group">
+									<span class="input-group-text">
+										<i class="bi bi-currency-rupee"></i>
+									</span>
+									<input id="perDayRent" type="number" class="form-control" placeholder="0.00"
+										step="0.01" min="0" required>
+								</div>
 							</div>
-							<div class="col-md-6 mb-2">
-								<label class="form-label">Per Km Rate</label>
-								<input id="perKmRate" type="number" step="0.01" class="form-control">
+
+							<div class="col-md-6">
+								<label class="form-label">
+									<i class="bi bi-speedometer2 me-1 text-primary"></i>
+									Per Km Rate <span class="text-danger">*</span>
+								</label>
+								<div class="input-group">
+									<span class="input-group-text">
+										<i class="bi bi-currency-rupee"></i>
+									</span>
+									<input id="perKmRate" type="number" class="form-control" placeholder="0.00"
+										step="0.01" min="0" required>
+								</div>
 							</div>
 						</div>
 
-						<div class="form-check mb-3">
-							<input class="form-check-input" type="checkbox" id="enabled" checked>
-							<label class="form-check-label" for="enabled">Enabled</label>
-						</div>
-
-						<button id="saveUserBtn" type="button" class="btn btn-primary">
-							<i class="bi bi-save"></i> Save Owner & Car
-						</button>
 
 					</div>
+
+					<div class="form-check mb-3">
+						<input class="form-check-input" type="checkbox" id="enabled" checked>
+						<label class="form-check-label" for="enabled">Enabled</label>
+					</div>
+
+					<button id="saveUserBtn" type="button" class="btn btn-primary">
+						<i class="bi bi-save"></i> Save Owner & Car
+					</button>
+
 				</div>
 			</div>
 		</div>
+	</div>
 
 	</div>
 
@@ -324,11 +662,12 @@
 			const perKmRate = document.getElementById('perKmRate').value.trim();
 
 			if (!name || !email || !phone || !password ||
-				!carMake || !carModel || !carRegistrationNo) {
-				showAlert('Please fill all mandatory fields (*) for owner and car.', 'warning');
+				!carMake || !carModel || !carRegistrationNo ||
+				!perDayRent || !perKmRate) {
+
+				showAlert('Please fill all mandatory fields (*) before saving.', 'warning');
 				return;
 			}
-
 			const user = {
 				name: name,
 				email: email,
@@ -392,11 +731,7 @@
 				showAlert('Error while saving owner & car.', 'danger');
 			}
 		}
-
 		document.getElementById('saveUserBtn').addEventListener('click', saveUser);
-	</script>
-
-	document.getElementById('saveUserBtn').addEventListener('click', saveUser);
 	</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

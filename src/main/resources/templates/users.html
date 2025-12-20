@@ -1,69 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<title>Users - Surya Car Pool</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 	<style>
 		body {
-			background: linear-gradient(135deg, #e3f2fd, #ffffff);
-			background-image: url('https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1600&q=80');
+			min-height: 100vh;
+			background: linear-gradient(135deg,
+					#ffecd2,
+					#fcb69f,
+					#a1c4fd,
+					#c2e9fb,
+					#d4fc79);
 			background-attachment: fixed;
-			background-size: cover;
-			background-repeat: no-repeat;
-			backdrop-filter: blur(5px);
-		}
-
-		.content-wrapper {
-			backdrop-filter: blur(10px);
-			background: rgba(255, 255, 255, 0.75);
-			border-radius: 15px;
-			padding: 25px;
-			margin-top: 30px;
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-		}
-
-		.hero-section {
-			background: linear-gradient(135deg, rgba(13, 110, 253, 0.85), rgba(59, 139, 255, 0.85));
-			color: white;
-			padding: 60px 20px;
-			border-radius: 15px;
-			text-align: center;
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-		}
-
-		.contact-card {
-			border-radius: 15px;
-			background: rgba(255, 255, 255, 0.85);
-			backdrop-filter: blur(6px);
-			transition: transform 0.2s ease-in-out;
-		}
-
-		.contact-card:hover {
-			transform: translateY(-5px);
-		}
-
-		.contact-icon {
-			font-size: 2.3rem;
-			color: #0d6efd;
 		}
 
 		.navbar-custom {
 			background: rgba(15, 23, 42, 0.95);
-			backdrop-filter: blur(8px);
 		}
 
-		.nav-link i {
-			color: rgb(255, 128, 64);
-			margin-right: 4px;
+		.table thead th {
+			background: linear-gradient(135deg, #0d6efd, #3b8bff);
+			color: #fff;
+			text-align: center;
+		}
+
+		.table tbody td {
+			text-align: center;
+			vertical-align: middle;
 		}
 	</style>
 </head>
 
 <body>
-
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
 		<div class="container">
@@ -83,12 +56,12 @@
 						<path d="M36 42 L40 42" stroke-dasharray="4 3" />
 						<path d="M48 43 L52 43" stroke-dasharray="4 3" />
 					</g>
-					<path d="M18 36 h10 l3-5 h8 l3 5h3 v3 h-30 v-3 z" fill="#fff" />
+					<path d="M18 36 h10 l3-5 h8 l3 5 h3 v3 h-30 v-3 z" fill="#fff" />
 				</svg>
 
-				<div class="d-flex flex-column">
+				<div class="d-flex flex-column ms-2">
 					<span class="brand-title text-white">Surya Car Pool</span>
-					<span class="brand-tagline text-white-50">Safe · Shared · Smart</span>
+					<span class="brand-tagline text-white-50">Self Drive Cars Provider</span>
 				</div>
 
 				<span class="ms-3 badge bg-white text-dark align-self-start" style="font-weight:600">Trusted</span>
@@ -107,7 +80,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link active" href="/users/ui">
+						<a class="nav-link" href="/users/ui">
 							<i class="bi bi-people-fill"></i> Users
 						</a>
 					</li>
@@ -119,8 +92,8 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link" href="/bookings/ui">
-							<i class="bi bi-journal-check"></i> Bookings
+						<a class="nav-link active" aria-current="page" href="/bookings/ui">
+							<i class="bi bi-journal-check"></i> Bookings / Book a Car
 						</a>
 					</li>
 
@@ -142,178 +115,137 @@
 
 	<div class="container py-4">
 
-		<!-- Alerts -->
-		<div id="alertPlaceholder"></div>
-
-		<div class="row mb-3">
-			<div class="col-12 d-flex justify-content-between align-items-center">
-				<h3 class="mb-0">Owners & Cars</h3>
-				<a href="/createuser/ui" class="btn btn-primary">
-					<i class="bi bi-plus-circle"></i> Create New Owner
-				</a>
-			</div>
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h3>Owners & Cars</h3>
+			<a href="/createuser/ui" class="btn btn-primary">
+				<i class="bi bi-plus-circle"></i> Create New Owner
+			</a>
 		</div>
 
-		<div class="row">
-			<!-- Users table only (create is on separate page now) -->
-			<div class="col-12">
-				<div class="card">
-					<div class="card-header d-flex justify-content-between align-items-center">
-						<strong>Existing Owners</strong>
-						<button type="button" class="btn btn-sm btn-outline-secondary" id="refreshUsersBtn">
-							<i class="bi bi-arrow-clockwise"></i> Refresh
-						</button>
-					</div>
-					<div class="card-body p-0">
-						<div class="table-responsive">
-							<table class="table mb-0 table-hover align-middle">
-								<thead class="table-light">
-									<tr>
-										<th>ID</th>
-										<th>Owner</th>
-										<th>Phone</th>
-										<th>Email</th>
-										<th>Car(s)</th>
-										<th>Reg No(s)</th>
-										<th>Seat(s)</th>
-										<th>Status</th>
-										<th>Actions</th>
-									</tr>
-								</thead>
-								<tbody id="usersTableBody">
-									<!-- Filled by JavaScript from GET /api/users -->
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<strong>Existing Owners</strong>
+				<button class="btn btn-sm btn-outline-secondary" id="refreshUsersBtn">
+					<i class="bi bi-arrow-clockwise"></i> Refresh
+				</button>
 			</div>
 
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<table class="table table-hover mb-0">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Owner</th>
+								<th>Phone</th>
+								<th>Email</th>
+								<th>Car(s)</th>
+								<th>Reg No(s)</th>
+								<th>Seat(s)</th>
+								<th>Status</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody id="usersTableBody">
+							<!-- JS fills this -->
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 	<script>
-		// Show Bootstrap-like alerts
-		function showAlert(message, type = 'success') {
-			const alertPlaceholder = document.getElementById('alertPlaceholder');
-			alertPlaceholder.innerHTML = `
-        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-          ${message}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      `;
+		/* =========================
+		   SINGLE SOURCE OF TRUTH
+		   ========================= */
+
+		function getUserIdFromUrl() {
+			return new URLSearchParams(window.location.search).get('id');
 		}
 
-		// Load users from /api/users and fill table
 		async function loadUsers() {
+			const tbody = document.getElementById('usersTableBody');
+			tbody.innerHTML = '';
+
 			try {
-				const response = await fetch('/api/users');
+				const userId = getUserIdFromUrl();
+				const url = userId ? `/api/users/${userId}` : '/api/users';
+
+				const response = await fetch(url);
 				if (!response.ok) {
 					throw new Error('Failed to load users');
 				}
-				const users = await response.json();
-				const tbody = document.getElementById('usersTableBody');
-				tbody.innerHTML = '';
 
-				if (!users || users.length === 0) {
+				let data = await response.json();
+				const users = Array.isArray(data) ? data : [data];
+
+				if (users.length === 0) {
 					tbody.innerHTML = `
-            <tr>
-              <td colspan="9" class="text-center text-muted py-3">
-                No owners / cars found.
-              </td>
-            </tr>`;
+						<tr>
+							<td colspan="9" class="text-center text-muted py-3">
+								No users found
+							</td>
+						</tr>`;
 					return;
 				}
 
 				users.forEach(u => {
-					const tr = document.createElement('tr');
-
 					const cars = Array.isArray(u.cars) ? u.cars : [];
 
-					const carNames = cars.length
-						? cars.map(c => {
-							const label = `${c.make || ''} ${c.model || ''}`.trim();
-							return label || (c.registrationNo || 'Car');
-						}).join('<br>')
-						: '-';
+					const carNames = cars.map(c => `${c.make || ''} ${c.model || ''}`.trim()).join('<br>') || '-';
+					const regNos = cars.map(c => c.registrationNo || '-').join('<br>') || '-';
+					const seats = cars.map(c => c.seats ?? '-').join(', ') || '-';
 
-					const regNos = cars.length
-						? cars.map(c => c.registrationNo || '-').join('<br>')
-						: '-';
-
-					const seats = cars.length
-						? cars.map(c => (c.seats != null ? c.seats : '-')).join(', ')
-						: '-';
-
+					const tr = document.createElement('tr');
 					tr.innerHTML = `
-            <td>${u.id}</td>
-            <td>${u.name || '-'}</td>
-            <td>${u.phone || '-'}</td>
-            <td>${u.email || '-'}</td>
-            <td>${carNames}</td>
-            <td>${regNos}</td>
-            <td>${seats}</td>
-            <td>
-              <span class="${u.enabled ? 'text-success' : 'text-danger'}">
-                ${u.enabled ? 'Active' : 'Disabled'}
-              </span>
-            </td>
-            <td>
-              <button type="button"
-                      class="btn btn-sm btn-outline-danger"
-                      onclick="deleteUser(${u.id})">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          `;
+						<td>${u.id}</td>
+						<td>${u.name || '-'}</td>
+						<td>${u.phone || '-'}</td>
+						<td>${u.email || '-'}</td>
+						<td>${carNames}</td>
+						<td>${regNos}</td>
+						<td>${seats}</td>
+						<td>${u.enabled ? 'Active' : 'Disabled'}</td>
+						<td>
+							<button class="btn btn-sm btn-outline-danger"
+								onclick="deleteUser(${u.id})">
+								<i class="bi bi-trash"></i>
+							</button>
+						</td>
+					`;
 					tbody.appendChild(tr);
 				});
 
-			} catch (err) {
-				console.error(err);
-				showAlert('Unable to load users. Please try again.', 'danger');
+			} catch (e) {
+				console.error(e);
+				tbody.innerHTML = `
+					<tr>
+						<td colspan="9" class="text-center text-danger py-3">
+							Error loading users
+						</td>
+					</tr>`;
 			}
 		}
 
-		// Delete user via DELETE /api/users/{id}
 		async function deleteUser(id) {
-			if (!confirm('Are you sure you want to delete user with ID ' + id + '?')) {
-				return;
-			}
+			if (!confirm(`Delete user ${id}?`)) return;
 
-			try {
-				const response = await fetch('/api/users/' + id, {
-					method: 'DELETE'
-				});
-
-				if (!response.ok && response.status !== 204) {
-					let msg = 'Failed to delete user. Please try again.';
-					try {
-						const errBody = await response.json();
-						if (errBody && errBody.message) {
-							msg = errBody.message; // will show FK message from backend
-						}
-					} catch (e) {
-						// ignore parse error
-					}
-					showAlert(msg, 'danger');
-					return;
-				}
-
-				showAlert('User deleted successfully.', 'success');
-				loadUsers();
-			} catch (err) {
-				console.error(err);
-				showAlert('An error occurred while deleting user.', 'danger');
-			}
+			await fetch(`/api/users/${id}`, {method: 'DELETE'});
+			loadUsers();
 		}
 
 		document.getElementById('refreshUsersBtn').addEventListener('click', loadUsers);
-
-		// Initial load
 		loadUsers();
 	</script>
+
+	<footer class="bg-dark text-light mt-5">
+		<div class="container py-3 text-center small">
+			© Surya Car Pool - 2025
+		</div>
+	</footer>
 
 </body>
 
