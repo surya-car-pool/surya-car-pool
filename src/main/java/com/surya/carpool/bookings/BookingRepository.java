@@ -9,8 +9,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 	@Query(value = """
 			    SELECT
 			        c.id,
-			        c.car_name,
-			        c.car_number,
+			        c.make,
+			        c.registration_no,
 			        c.per_day_rent,
 			        c.status,
 			        b.customer_name,

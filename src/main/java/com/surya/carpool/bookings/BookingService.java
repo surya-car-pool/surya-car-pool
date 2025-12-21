@@ -78,21 +78,26 @@ public class BookingService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public List<BookingCarViewDTO> getAllBookingCarDetails() {
 
-	    List<Object[]> rows = bookingRepository.findAllBookingCarDetailsRaw();
+		List<Object[]> rows = bookingRepository.findAllBookingCarDetailsRaw();
 
-	    return rows.stream().map(r -> new BookingCarViewDTO(
-	            ((Number) r[0]).longValue(),
-	            (String) r[1],
-	            (String) r[2],
-	            ((Number) r[3]).doubleValue(),
-	            (String) r[4],                 // status
-		        (String) r[5],                 // customerName
-		        (String) r[6],                 // pickupLocation
-	            ((Timestamp) r[7]).toLocalDateTime(),
-	            ((Timestamp) r[8]).toLocalDateTime()
-	    )).toList();
+		return rows.stream().map(r -> {
+			Long carId = ((Number) r[0]).longValue();
+			String carName = (String) r[1];
+			String carNumber = (String) r[2];
+			Double perDayRent = ((Number) r[3]).doubleValue();
+			String status = (String) r[4];
+			String customerName = (String) r[5];
+			String pickupLocation = (String) r[6];
+			Timestamp pickupTs = (Timestamp) r[7];
+			Timestamp dropTs = (Timestamp) r[8];
+			System.out.println("CAR NAME FROM DB = " + r[1]);
+
+			return new BookingCarViewDTO(carId, carName, carNumber, perDayRent, status, customerName, pickupLocation,
+					pickupTs.toLocalDateTime(), dropTs.toLocalDateTime());
+		}).toList();
 	}
+
 }
