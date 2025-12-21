@@ -48,4 +48,10 @@ public class CarServiceImpl implements CarService {
 		carRepository.save(car);
 	}
 
+	public Car updateStatus(Long carId, CarStatus status) {
+		Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Car not found"));
+
+		car.setStatus(status);
+		return carRepository.save(car);
+	}
 }

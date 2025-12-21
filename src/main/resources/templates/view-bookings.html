@@ -275,10 +275,13 @@
 							<td>${b.pickupDateTime?.replace('T', ' ')}</td>
 							<td>${b.dropDateTime?.replace('T', ' ')}</td>
 							<td>
-								<a href="/bookings/update/${b.carId}" class="btn btn-update btn-sm">
-									<i class="bi bi-pencil-square"></i> Update
-								</a>
+							    <a href="/bookings/update/${b.carId}"
+							       class="btn btn-update btn-sm"
+							       onclick="return markAvailable(${b.carId}, this)">
+							        <i class="bi bi-pencil-square"></i> Update
+							    </a>
 							</td>
+
 						</tr>
 					`;
 				});
@@ -287,6 +290,91 @@
 				console.error('Error loading bookings:', error);
 			});
 	</script>
+	<script>
+		function markAvailable(carId, el) {
+			event.preventDefault(); // stops page navigation
+
+			if (!confirm("Mark this car as AVAILABLE?")) {
+				return false;
+			}
+
+			fetch(`/api/cars/${carId}/status`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({status: "AVAILABLE"})
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("Failed to update status");
+					}
+					return response.json();
+				})
+				.then(() => {
+					// update status badge instantly (UI feedback)
+					const row = el.closest("tr");
+					const statusCell = row.children[4];
+
+					statusCell.innerHTML = `
+		                <span class="badge badge-booked">
+		                    AVAILABLE
+		                </span>
+		            `;
+
+					alert("Car status updated to AVAILABLE");
+				})
+				.catch(err => {
+					console.error(err);
+					alert("Error updating car status");
+				});
+
+			return false; // ensures link never navigates
+		}
+	</script>
+	<script>
+		function markAvailable(carId, el) {
+			event.preventDefault(); // stops page navigation
+
+			if (!confirm("Mark this car as AVAILABLE?")) {
+				return false;
+			}
+
+			fetch(`/api/cars/${carId}/status`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({status: "AVAILABLE"})
+			})
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("Failed to update status");
+					}
+					return response.json();
+				})
+				.then(() => {
+					// update status badge instantly (UI feedback)
+					const row = el.closest("tr");
+					const statusCell = row.children[4];
+
+					statusCell.innerHTML = `
+		                <span class="badge badge-booked">
+		                    AVAILABLE
+		                </span>
+		            `;
+
+					alert("Car status updated to AVAILABLE");
+				})
+				.catch(err => {
+					console.error(err);
+					alert("Error updating car status");
+				});
+
+			return false; // ensures link never navigates
+		}
+	</script>
+
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">
 		<div class="container py-4 text-center small" style="color: brown;">
