@@ -22,6 +22,11 @@
 		.navbar-custom {
 			background: rgba(15, 23, 42, 0.95);
 		}
+		/* Navbar icons - copied from Bookings page */
+		.nav-link i {
+		    color: rgb(255, 128, 64);
+		    margin-right: 4px;
+		}
 
 		.table thead th {
 			background: linear-gradient(135deg, #0d6efd, #3b8bff);
@@ -80,9 +85,9 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link" href="/users/ui">
-							<i class="bi bi-people-fill"></i> Users
-						</a>
+					    <a class="nav-link active" aria-current="page" href="/users/ui">
+					        <i class="bi bi-people-fill"></i> Users
+					    </a>
 					</li>
 
 					<li class="nav-item">
@@ -92,7 +97,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/bookings/ui">
+						<a class="nav-link" href="/bookings/ui">
 							<i class="bi bi-journal-check"></i> Bookings / Book a Car
 						</a>
 					</li>
