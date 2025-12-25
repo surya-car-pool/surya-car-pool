@@ -268,11 +268,12 @@
 						<div class="mb-3">
 							<label class="form-label">Payment method</label>
 							<div class="pay-methods d-flex gap-2 flex-wrap">
-								<button type="button" data-method="CARD" class="btn btn-outline-primary">Card</button>
-								<button type="button" data-method="UPI" class="btn btn-outline-success">UPI</button>
-								<button type="button" data-method="NETBANKING"
-									class="btn btn-outline-warning">Netbanking</button>
-								<button type="button" data-method="CASH" class="btn btn-outline-secondary">Cash</button>
+								<button type="button" class="btn btn-outline-success"
+									onclick="startPayment('UPI')">UPI</button>
+								<button type="button" class="btn btn-outline-primary"
+									onclick="startPayment('CARD')">Card</button>
+								<button type="button" class="btn btn-outline-secondary"
+									onclick="startPayment('CASH')">Cash</button>
 							</div>
 							<input type="hidden" name="paymentMethod" id="paymentMethodInput" />
 
@@ -287,6 +288,15 @@
 						<div class="d-flex gap-2">
 							<button id="confirmBtn" type="submit" class="btn btn-primary btn-lg">Confirm & Pay</button>
 						</div>
+						<div id="upiSection" class="d-none text-center mt-4">
+							<h6>Scan & Pay using UPI</h6>
+							<img id="upiQrImg" width="220" />
+							<br />
+							<button type="button" class="btn btn-success mt-3" onclick="confirmUpiPayment()">
+								I have paid
+							</button>
+						</div>
+
 					</form>
 				</div>
 
@@ -410,6 +420,54 @@
 			});
 		});
 	</script>
+	<script>
+		let currentPaymentId = null;
+
+		async function startPayment(method) {
+
+			document.getElementById("paymentMethodInput").value = method;
+
+			const payload = {
+				customerName: document.getElementById("inputCustomerName").value,
+				email: document.getElementById("inputEmail").value,
+				phone: document.getElementById("inputPhone").value,
+				carId: document.getElementById("inputCarId").value,
+				pickupLocation: document.getElementById("inputPickupLocation").value,
+				amount: document.getElementById("inputAmount").value,
+				paymentMethod: method
+			};
+
+			const res = await fetch("/api/payments/initiate", {
+				method: "POST",
+				headers: {"Content-Type": "application/json"},
+				body: JSON.stringify(payload)
+			});
+
+			const data = await res.json();
+			currentPaymentId = data.paymentId;
+
+			if (method === "UPI") {
+				document.getElementById("upiQrImg").src =
+					"https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" +
+					encodeURIComponent(data.upiQr);
+				document.getElementById("upiSection").classList.remove("d-none");
+			}
+		}
+
+		async function confirmUpiPayment() {
+
+			// 1️⃣ Verify payment via API (mock success)
+			await fetch(`/api/payments/verify?paymentId=${currentPaymentId}&success=true`, {
+				method: "POST"
+			});
+
+			// 2️⃣ Submit the existing form
+			// This will POST to /payments/confirm
+			// and render payment-receipt.html correctly
+			document.getElementById("paymentForm").submit();
+		}
+	</script>
+
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">
 		<div class="container py-4 text-center small" style="color: brown;">
