@@ -34,7 +34,7 @@ public class PaymentApiController {
 
 		// ✅ Correct comparison: String vs Enum
 		if (PaymentMethod.UPI.name().equals(saved.getPaymentMethod())) {
-			response.put("upiQr", "upi://pay?pa=surya@upi&pn=SuryaCarPool&am=" + saved.getAmount());
+			response.put("upiQr", "upi://pay?pa=8121767185@axl&pn=SuryaCarPool&am=" + saved.getAmount());
 		}
 
 		return ResponseEntity.ok(response);
