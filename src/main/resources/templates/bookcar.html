@@ -4,35 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Surya Car Pool | Book a Self-Drive Car</title>
-
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- Bootstrap -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 	<style>
-		:root {
-			--primary: #0d6efd;
-			--accent: #6610f2;
-			--orange: #ff9800;
-			--green: #28a745;
-			--max-width: 1200px;
-		}
-
 		body {
-			font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
-			background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+			font-family: Inter, system-ui, sans-serif;
+			background: linear-gradient(180deg, #f8fafc, #eef2ff);
 		}
 
-		.navbar-custom {
-			background: rgba(15, 23, 42, 0.95);
-			backdrop-filter: blur(8px);
-		}
-
-		/* PAGE HERO */
 		.page-hero {
-			max-width: var(--max-width);
+			max-width: 1200px;
 			margin: 2rem auto;
 			padding: 2.5rem;
 			border-radius: 22px;
@@ -41,271 +25,255 @@
 			text-align: center;
 		}
 
-		.page-hero span {
-			color: #ffd166;
-		}
-
-		/* TRUST STRIP */
-		.trust-strip {
-			max-width: var(--max-width);
-			margin: 1.5rem auto;
-			padding: 1.2rem;
-			background: #fff;
-			border-radius: 16px;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-		}
-
-		.trust-item i {
-			font-size: 28px;
-			margin-bottom: 6px;
-		}
-
-		/* CAR CARD */
 		.car-card {
-			border: 0;
 			border-radius: 18px;
 			box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
-			height: 100%;
-			transition: transform .2s ease;
+			transition: .2s;
 		}
 
 		.car-card:hover {
-			transform: translateY(-6px);
+			transform: translateY(-6px)
 		}
 
-		.badge-seats {
-			background: linear-gradient(90deg, var(--primary), var(--accent));
-			color: #fff;
+		.terms-header {
+			background: linear-gradient(135deg, #ff6a00, #ee0979);
+			color: white;
 		}
 
-		/* Navbar icons - copied from Bookings page */
-		.nav-link i {
-			color: rgb(255, 128, 64);
-			margin-right: 4px;
+		.terms-section {
+			border-left: 5px solid #0d6efd;
+			padding-left: 12px;
+			margin-bottom: 16px;
+		}
+
+		.refund-box {
+			background: #e8f5e9;
+			border-left: 6px solid #28a745;
+			padding: 12px;
+			border-radius: 8px;
+		}
+
+		.warning-box {
+			background: #fff3cd;
+			border-left: 6px solid #ffc107;
+			padding: 12px;
+			border-radius: 8px;
+		}
+
+		.responsibility-box {
+			background: #e3f2fd;
+			border-left: 6px solid #0d6efd;
+			padding: 12px;
+			border-radius: 8px;
+		}
+
+		.deposit-box {
+			background: #f3e5f5;
+			border-left: 6px solid #9c27b0;
+			padding: 12px;
+			border-radius: 8px;
+		}
+
+		.consent-box {
+			background: #f8f9ff;
+			border: 2px solid #dbe3ff;
+			border-radius: 10px;
+		}
+
+		.consent-item {
+			font-size: 15px;
+			line-height: 1.6;
+		}
+
+		.consent-checkbox {
+			transform: scale(1.3);
+			margin-right: 10px;
 		}
 	</style>
 </head>
 
 <body>
 
-	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-		<div class="container">
-			<a class="navbar-brand d-flex align-items-center brand-logo" href="/home" aria-label="Surya Car Pool home">
-				<svg class="brand-svg" viewBox="0 0 64 64" xmlns="/images/logo.png" role="img"
-					aria-labelledby="logoTitle logoDesc">
-					<title id="logoTitle">Surya Car Pool logo</title>
-					<desc id="logoDesc">Sun rising above a road — Surya Car Pool</desc>
-					<img src="/images/logo.png" alt="Surya Car Pool"
-						style="width:70px; height:70px; border-radius:14px; object-fit:contain;" />
-					<rect width="64" height="64" rx="10" fill="url(#g1)" />
-					<circle cx="20" cy="18" r="8" fill="#fff5d6" />
-					<path d="M6 44 C18 38,46 38,58 44 L58 50 C46 44,18 44,6 50 Z" fill="#0f1724" />
-					<g stroke="#ffd166" stroke-width="1.8" stroke-linecap="round">
-						<path d="M12 43 L16 43" stroke-dasharray="4 3" />
-						<path d="M24 42 L28 42" stroke-dasharray="4 3" />
-						<path d="M36 42 L40 42" stroke-dasharray="4 3" />
-						<path d="M48 43 L52 43" stroke-dasharray="4 3" />
-					</g>
-					<path d="M18 36 h10 l3-5 h8 l3 5 h3 v3 h-30 v-3 z" fill="#fff" />
-				</svg>
-
-				<div class="d-flex flex-column">
-					<span class="brand-title text-white">Surya Car Pool</span>
-					<span class="brand-tagline text-white-50">Self Drive Cars Provider</span>
-				</div>
-
-				<span class="ms-3 badge bg-white text-dark align-self-start" style="font-weight:600">Trusted</span>
-			</a>
-
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navMain">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="/home">
-							<i class="bi bi-house-door-fill"></i> Home
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/users/ui">
-							<i class="bi bi-people-fill"></i> Users
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/rides/ui">
-							<i class="bi bi-car-front-fill"></i> Rides
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/bookings/ui">
-							<i class="bi bi-journal-check"></i> Bookings
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/aboutus/ui">
-							<i class="bi bi-info-circle-fill"></i> About Us
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/contactus/ui">
-							<i class="bi bi-envelope-fill"></i> Contact Us
-						</a>
-					</li>
-				</ul>
-
-				<!-- AUTH AREA: Login / Logout -->
-				<div class="d-flex align-items-center ms-3">
-					<!-- Show when logged in -->
-					<span class="text-white me-3" sec:authorize="isAuthenticated()">
-						Hello,
-						<strong th:text="${#authentication.principal.name} ?: 'User'">User</strong>
-					</span>
-
-					<!-- Login button (only for anonymous users) -->
-					<a class="btn btn-outline-light btn-sm me-2" href="/login" sec:authorize="isAnonymous()">
-						<i class="bi bi-box-arrow-in-right"></i> Login
-					</a>
-
-					<!-- Logout button (only for authenticated users) -->
-					<form th:action="@{/logout}" method="post" class="d-inline" sec:authorize="isAuthenticated()">
-						<button type="submit" class="btn btn-light btn-sm">
-							<i class="bi bi-box-arrow-right"></i> Logout
-						</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</nav>
-
-	<!-- HERO -->
 	<section class="page-hero">
-		<h1 class="fw-bold">
-			Choose Your <span>Perfect Self-Drive Car</span>
-		</h1>
-		<p class="lead mt-3">
-			Verified vehicles • Transparent pricing • Complete driving freedom
-		</p>
-
-		<a href="/home" class="btn btn-outline-light mt-3">
-			<i class="bi bi-arrow-left"></i> Back to Home
-		</a>
+		<h1>Choose Your <span style="color:#ffd166">Perfect Self-Drive Car</span></h1>
+		<p class="lead">Verified vehicles • Transparent pricing • Complete driving freedom</p>
 	</section>
 
-	<!-- TRUST STRIP -->
-	<section class="trust-strip">
-		<div class="row text-center">
-			<div class="col-md-3 trust-item">
-				<i class="bi bi-shield-check text-primary"></i>
-				<div class="fw-semibold">Verified Cars</div>
-				<small class="text-muted">Owner & vehicle verified</small>
-			</div>
+	<main class="container my-5">
 
-			<div class="col-md-3 trust-item">
-				<i class="bi bi-cash-stack text-success"></i>
-				<div class="fw-semibold">No Hidden Charges</div>
-				<small class="text-muted">Clear pricing policy</small>
-			</div>
-
-			<div class="col-md-3 trust-item">
-				<i class="bi bi-speedometer2 text-warning"></i>
-				<div class="fw-semibold">Drive Freely</div>
-				<small class="text-muted">No driver restrictions</small>
-			</div>
-
-			<div class="col-md-3 trust-item">
-				<i class="bi bi-geo-alt-fill text-info"></i>
-				<div class="fw-semibold">Local Support</div>
-				<small class="text-muted">Community-driven service</small>
-			</div>
-		</div>
-	</section>
-
-	<!-- AVAILABLE CARS -->
-	<main class="container my-5" style="max-width:1200px">
-
-		<h2 class="text-center mb-4">
-			Available Cars for Self-Drive
-		</h2>
-
-		<!-- No cars -->
-		<div th:if="${#lists.isEmpty(cars)}" class="alert alert-info text-center">
-			🚗 No self-drive cars are available right now. Please check again later.
-		</div>
-
-		<!-- Cars grid -->
 		<div class="row g-4" th:if="${!#lists.isEmpty(cars)}">
-
 			<div class="col-md-4" th:each="car : ${cars}">
 				<div class="card car-card">
 
 					<div class="card-body">
-						<h5 class="card-title fw-bold" th:text="${car.make} + ' ' + ${car.model}">
-							Car Name
-						</h5>
-
-						<p class="small text-muted mb-2">
-							<i class="bi bi-fuel-pump text-success"></i>
-							<span th:text="${car.fuelType}"></span>
-							&nbsp;·&nbsp;
-							<i class="bi bi-gear text-warning"></i>
-							<span th:text="${car.transmissionType}"></span>
-						</p>
-
-						<span class="badge badge-seats" th:text="${car.seats} + ' Seats'">
-							Seats
-						</span>
-
-						<p class="mt-3 mb-1 fs-5">
-							<strong class="text-success">
-								₹ <span th:text="${car.perDayRent}">0</span>
-							</strong>
-							<small class="text-muted">/ day</small>
-						</p>
-
-						<p class="small text-muted mb-0">
-							<i class="bi bi-person-badge"></i>
-							Owner:
-							<span th:text="${car.owner != null ? car.owner.name : 'N/A'}">Owner</span>
-						</p>
+						<h5 th:text="${car.make} + ' ' + ${car.model}"></h5>
+						<p class="text-success fw-bold">₹ <span th:text="${car.perDayRent}"></span> / day</p>
 					</div>
 
-					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-						<small class="text-muted">
-							ID: <span th:text="${car.id}">1</span>
-						</small>
+					<div class="card-footer bg-white d-flex justify-content-between">
 
 						<a th:if="${car.status == T(com.surya.carpool.model.CarStatus).AVAILABLE}"
-							th:href="@{/bookings/ui(carId=${car.id})}" class="btn btn-primary btn-sm">
+							href="javascript:void(0)" th:attr="data-book-url=@{/bookings/ui(carId=${car.id})}"
+							class="btn btn-primary btn-sm" onclick="openTermsModal(this)">
 							<i class="bi bi-credit-card"></i> Book Now
 						</a>
 
 						<button th:if="${car.status == T(com.surya.carpool.model.CarStatus).BOOKED}"
 							class="btn btn-secondary btn-sm" disabled>
-							<i class="bi bi-lock-fill"></i> Booked
+							Booked
 						</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+	<footer class="bg-dark text-light text-center p-3">
+		© Surya Car Pool – 2025
+	</footer>
+
+	<!-- ================= TERMS MODAL ================= -->
+
+	<div class="modal fade" id="termsModal" tabindex="-1">
+		<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+
+				<div class="modal-header terms-header">
+					<h5 class="modal-title">
+						<i class="bi bi-shield-check"></i> Self-Drive Booking Terms & Conditions
+					</h5>
+					<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+				</div>
+
+				<div class="modal-body">
+
+					<div class="terms-section">
+						<h6><i class="bi bi-person-check-fill text-primary"></i> Eligibility</h6>
+						<p>Customer must be at least <b>18 years old</b> to book and drive the vehicle.</p>
+					</div>
+
+					<div class="terms-section">
+						<h6><i class="bi bi-file-earmark-text-fill text-success"></i> Required Documents</h6>
+						<p>Driving License, Aadhar Card & Selfie photo are mandatory for identity verification.</p>
+						<p>Documents are required only once for your first booking.</p>
+					</div>
+
+					<div class="warning-box mb-3">
+						<i class="bi bi-exclamation-triangle-fill text-warning"></i>
+						<b>Important:</b> Documents must be uploaded and approved before pickup time.
+						Failure will result in <b>automatic cancellation with no refund.</b>
+					</div>
+
+					<div class="refund-box mb-3">
+						<i class="bi bi-cash-coin text-success"></i>
+						<b>Refund Policy:</b><br>
+						Full refund available if booking is cancelled at least <b>3 hours before pickup time</b>.
+						Cancellations within 3 hours are <b>non-refundable</b>.
+					</div>
+
+					<div class="responsibility-box mb-3">
+						<i class="bi bi-receipt-cutoff text-primary"></i>
+						<b>Customer Responsibilities:</b>
+						<ul class="mb-0">
+							<li>All traffic challans / fines</li>
+							<li>All toll gate charges</li>
+							<li>Fuel expenses during rental</li>
+						</ul>
+					</div>
+
+					<!-- ✅ New Security Deposit Section -->
+					<div class="deposit-box mb-3">
+						<i class="bi bi-lock-fill text-purple"></i>
+						<b>Security Deposit Requirement:</b>
+						<p class="mb-1">
+							At the time of vehicle pickup, the customer must provide <b>any one</b> of the following as
+							a security deposit:
+						</p>
+						<ul class="mb-0">
+							<li>One Bike (two-wheeler)</li>
+							<li>Original Driving License</li>
+							<li>Original Passport</li>
+							<li>Cash deposit of <b>₹10,000 (Indian Rupees)</b></li>
+						</ul>
+						<p class="mt-2 mb-0">
+							The security deposit will be returned after the vehicle is safely returned without damages
+							or pending dues.
+						</p>
+					</div>
+
+					<div class="terms-section">
+						<h6><i class="bi bi-car-front-fill text-danger"></i> Vehicle Usage Rules</h6>
+						<ul>
+							<li>No illegal activities or racing</li>
+							<li>No sub-leasing or commercial usage</li>
+							<li>Customer responsible for vehicle damages</li>
+						</ul>
+					</div>
+
+					<hr>
+
+					<div class="consent-box mt-4 p-3">
+
+						<div class="form-check consent-item">
+							<input class="form-check-input consent-checkbox" type="checkbox" id="ageCheck">
+							<label class="form-check-label">
+								<i class="bi bi-person-check-fill text-primary me-1"></i>
+								I confirm that I am <strong>18 years of age or older</strong> and legally eligible to
+								drive.
+							</label>
+						</div>
+
+						<div class="form-check consent-item mt-3">
+							<input class="form-check-input consent-checkbox" type="checkbox" id="termsCheck">
+							<label class="form-check-label">
+								<i class="bi bi-file-earmark-text-fill text-success me-1"></i>
+								I have carefully read, understood, and agree to all the
+								<strong>Terms & Conditions</strong> of Surya Car Pool.
+							</label>
+						</div>
+
+					</div>
+
+					<div id="termsError" class="alert alert-danger mt-3 d-none">
+						Please confirm your age and accept terms to continue.
 					</div>
 
 				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+						<i class="bi bi-x-circle"></i> Cancel
+					</button>
+					<button class="btn btn-success" onclick="proceedBooking()">
+						<i class="bi bi-arrow-right-circle"></i> Continue Booking
+					</button>
+				</div>
+
 			</div>
-
 		</div>
-	</main>
-
-	<!-- FOOTER -->
-	<footer class="bg-dark text-light mt-5">
-		<div class="container py-4 text-center small" style="color:brown">
-			© Surya Car Pool – 2025 · All rights reserved
-		</div>
-	</footer>
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		let bookingUrl = "";
+
+		function openTermsModal(el) {
+			bookingUrl = el.getAttribute("data-book-url");
+			new bootstrap.Modal(document.getElementById("termsModal")).show();
+		}
+
+		function proceedBooking() {
+			if (!ageCheck.checked || !termsCheck.checked) {
+				document.getElementById("termsError").classList.remove("d-none");
+				return;
+			}
+			window.location.href = bookingUrl;
+		}
+	</script>
+
 </body>
 
 </html>
