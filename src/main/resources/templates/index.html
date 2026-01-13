@@ -6,15 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Surya Car Pool — Self Drive Cars</title>
 
-	<!-- Bootstrap -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 	<style>
 		:root {
-			--primary: #0d6efd;
-			--accent: #6610f2;
-			--orange: #ff8c00;
 			--max-width: 1200px;
 		}
 
@@ -28,7 +24,6 @@
 			backdrop-filter: blur(8px);
 		}
 
-		/* HERO */
 		.hero {
 			max-width: var(--max-width);
 			margin: 2rem auto;
@@ -42,7 +37,6 @@
 			color: #ffd166;
 		}
 
-		/* SECTION */
 		.section {
 			max-width: var(--max-width);
 			margin: 3.5rem auto;
@@ -80,10 +74,99 @@
 			box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
 		}
 
-		/* Navbar icons - copied from Bookings page */
 		.nav-link i {
 			color: rgb(255, 128, 64);
 			margin-right: 4px;
+		}
+
+		.big-icon {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 32px;
+			color: #fff;
+			margin: 0 auto 1rem;
+		}
+
+		.color1 {
+			background: #0d6efd
+		}
+
+		.color2 {
+			background: #198754
+		}
+
+		.color3 {
+			background: #ffc107
+		}
+
+		.color4 {
+			background: #dc3545
+		}
+
+		.color5 {
+			background: #6f42c1
+		}
+
+		.color6 {
+			background: #0dcaf0
+		}
+
+		.step,
+		.testimonial,
+		.safety-box,
+		.owner-box {
+			background: #fff;
+			border-radius: 16px;
+			padding: 2rem;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+			text-align: center;
+			height: 100%;
+		}
+
+		/* Floating social media ads */
+		.social-float {
+			position: fixed;
+			right: 15px;
+			top: 50%;
+			transform: translateY(-50%);
+			z-index: 9999;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.social-float a {
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #fff;
+			font-size: 22px;
+			text-decoration: none;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+			transition: transform 0.2s ease;
+		}
+
+		.social-float a:hover {
+			transform: scale(1.1);
+		}
+
+		.social-whatsapp {
+			background: #25D366;
+		}
+
+		.social-facebook {
+			background: #1877F2;
+		}
+
+		.social-instagram {
+			background: #E1306C;
 		}
 	</style>
 </head>
@@ -93,167 +176,140 @@
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
 		<div class="container">
-			<a class="navbar-brand d-flex align-items-center brand-logo" href="/home" aria-label="Surya Car Pool home">
-				<svg class="brand-svg" viewBox="0 0 64 64" xmlns="/images/logo.png" role="img"
-					aria-labelledby="logoTitle logoDesc">
-					<title id="logoTitle">Surya Car Pool logo</title>
-					<desc id="logoDesc">Sun rising above a road — Surya Car Pool</desc>
-					<img src="/images/logo.png" alt="Surya Car Pool"
-						style="width:70px; height:70px; border-radius:14px; object-fit:contain;" />
-					<rect width="64" height="64" rx="10" fill="url(#g1)" />
-					<circle cx="20" cy="18" r="8" fill="#fff5d6" />
-					<path d="M6 44 C18 38,46 38,58 44 L58 50 C46 44,18 44,6 50 Z" fill="#0f1724" />
-					<g stroke="#ffd166" stroke-width="1.8" stroke-linecap="round">
-						<path d="M12 43 L16 43" stroke-dasharray="4 3" />
-						<path d="M24 42 L28 42" stroke-dasharray="4 3" />
-						<path d="M36 42 L40 42" stroke-dasharray="4 3" />
-						<path d="M48 43 L52 43" stroke-dasharray="4 3" />
-					</g>
-					<path d="M18 36 h10 l3-5 h8 l3 5 h3 v3 h-30 v-3 z" fill="#fff" />
-				</svg>
-
-				<div class="d-flex flex-column">
-					<span class="brand-title text-white">Surya Car Pool</span>
-					<span class="brand-tagline text-white-50">Self Drive Cars Provider</span>
+			<a class="navbar-brand d-flex align-items-center" href="/home">
+				<img src="/images/logo.png" style="width:70px;height:70px;border-radius:14px;" />
+				<div class="ms-2">
+					<div class="text-white fw-bold">Surya Car Pool</div>
+					<div class="text-white-50 small">Self Drive Cars Provider</div>
 				</div>
-
-				<span class="ms-3 badge bg-white text-dark align-self-start" style="font-weight:600">Trusted</span>
+				<span class="ms-3 badge bg-white text-dark">Trusted</span>
 			</a>
 
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+			<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMain">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="navMain">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="/home">
-							<i class="bi bi-house-door-fill"></i> Home
-						</a>
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" href="/home"><i class="bi bi-house-door-fill"></i> Home</a>
 					</li>
-					<!--<li class="nav-item">
-						<a class="nav-link" href="/users/ui">
-							<i class="bi bi-people-fill"></i> Users
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/rides/ui">
-							<i class="bi bi-car-front-fill"></i> Rides
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/bookings/ui">
-							<i class="bi bi-journal-check"></i> Bookings
-						</a>
-					</li>-->
-
-					<li class="nav-item">
-						<a class="nav-link" href="/aboutus/ui">
-							<i class="bi bi-info-circle-fill"></i> About Us
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/contactus/ui">
-							<i class="bi bi-envelope-fill"></i> Contact Us
-						</a>
-					</li>
+					<li class="nav-item"><a class="nav-link" href="/aboutus/ui"><i class="bi bi-info-circle-fill"></i>
+							About Us</a></li>
+					<li class="nav-item"><a class="nav-link" href="/contactus/ui"><i class="bi bi-envelope-fill"></i>
+							Contact Us</a></li>
 				</ul>
 
-				<!-- AUTH AREA: Login / Logout -->
-				<div class="d-flex align-items-center ms-3">
-					<!-- Show when logged in -->
-					<span class="text-white me-3" sec:authorize="isAuthenticated()">
-						Hello,
-						<strong th:text="${#authentication.principal.name} ?: 'User'">User</strong>
-					</span>
-
-					<!-- Login button (only for anonymous users) -->
-					<a class="btn btn-outline-light btn-sm me-2" href="/login" sec:authorize="isAnonymous()">
-						<i class="bi bi-box-arrow-in-right"></i> Login
-					</a>
-
-					<!-- Logout button (only for authenticated users) -->
-					<form th:action="@{/logout}" method="post" class="d-inline" sec:authorize="isAuthenticated()">
-						<button type="submit" class="btn btn-light btn-sm">
-							<i class="bi bi-box-arrow-right"></i> Logout
-						</button>
-					</form>
+				<div class="ms-3 text-white" sec:authorize="isAuthenticated()">
+					Hello, <strong th:text="${#authentication.principal.name} ?: 'User'">User</strong>
 				</div>
+
+				<a class="btn btn-outline-light btn-sm ms-3" href="/login" sec:authorize="isAnonymous()">Login</a>
+
+				<form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+					<button class="btn btn-light btn-sm ms-2">Logout</button>
+				</form>
 			</div>
 		</div>
 	</nav>
 
-	<div th:if="${param.logout}" class="alert alert-success text-center mb-0">
-		You have been logged out successfully.
-	</div>
-
 	<!-- HERO -->
 	<section class="hero text-center">
-		<h1 class="fw-bold">
-			Drive Your Way with <span>Surya Car Pool</span>
-		</h1>
-		<p class="lead mt-3">
-			Affordable • Verified • Hassle-Free Self-Drive Cars
-			for City Rides, Office Travel & Weekend Getaways
-		</p>
+		<h1 class="fw-bold">Drive Your Way with <span>Surya Car Pool</span></h1>
+		<p class="lead mt-3">Affordable • Verified • Hassle-Free Self-Drive Cars for Every Journey</p>
 
 		<div class="mt-4">
-			<a href="/bookcar/ui" class="btn btn-warning btn-lg me-2">
-				<i class="bi bi-car-front-fill"></i> Book a Car
-			</a>
-			<a href="/createuser/ui" class="btn btn-outline-light btn-lg">
-				<i class="bi bi-plus-circle"></i> Attach Your Car
-			</a>
+			<a href="/bookcar/ui" class="btn btn-warning btn-lg me-2">Book a Car</a>
+			<a href="/createuser/ui" class="btn btn-outline-light btn-lg">Attach Your Car</a>
+		</div>
+	</section>
+
+	<!-- TRUST STRIP -->
+	<section class="section">
+		<div class="row text-center g-4">
+			<div class="col-md-3"><i class="bi bi-file-earmark-check fs-2 text-primary"></i>
+				<p class="fw-semibold mt-2">RTO Compliant Vehicles</p>
+			</div>
+			<div class="col-md-3"><i class="bi bi-shield-lock fs-2 text-success"></i>
+				<p class="fw-semibold mt-2">Insurance Covered</p>
+			</div>
+			<div class="col-md-3"><i class="bi bi-geo fs-2 text-warning"></i>
+				<p class="fw-semibold mt-2">GPS Enabled Cars</p>
+			</div>
+			<div class="col-md-3"><i class="bi bi-stars fs-2 text-info"></i>
+				<p class="fw-semibold mt-2">Clean & Sanitized</p>
+			</div>
 		</div>
 	</section>
 
 	<!-- WHY US -->
 	<section class="section">
 		<h2 class="text-center mb-4">Why Customers Choose Us</h2>
-
 		<div class="row g-4">
+
 			<div class="col-md-3">
 				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-primary">
-						<i class="bi bi-shield-check"></i>
-					</div>
+					<div class="icon-circle bg-primary"><i class="bi bi-shield-check"></i></div>
 					<h6>Verified & Safe</h6>
-					<p class="small text-muted">All cars and owners are verified for your safety.</p>
+					<p class="small text-muted">All cars verified</p>
 				</div>
 			</div>
 
 			<div class="col-md-3">
 				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-success">
-						<i class="bi bi-cash-stack"></i>
-					</div>
+					<div class="icon-circle bg-success"><i class="bi bi-cash-stack"></i></div>
 					<h6>No Hidden Charges</h6>
-					<p class="small text-muted">Clear per-day & per-km pricing you can trust.</p>
+					<p class="small text-muted">Transparent pricing</p>
 				</div>
 			</div>
 
 			<div class="col-md-3">
 				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-warning">
-						<i class="bi bi-speedometer2"></i>
-					</div>
+					<div class="icon-circle bg-warning"><i class="bi bi-speedometer2"></i></div>
 					<h6>Freedom to Drive</h6>
-					<p class="small text-muted">No driver. No restrictions. Total control.</p>
+					<p class="small text-muted">No driver</p>
 				</div>
 			</div>
 
 			<div class="col-md-3">
 				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-info">
-						<i class="bi bi-geo-alt-fill"></i>
-					</div>
+					<div class="icon-circle bg-info"><i class="bi bi-geo-alt-fill"></i></div>
 					<h6>Local & Reliable</h6>
-					<p class="small text-muted">Built for your city, trusted by locals.</p>
+					<p class="small text-muted">Trusted locally</p>
 				</div>
 			</div>
+
+			<div class="col-md-3">
+				<div class="card feature-card p-3 text-center">
+					<div class="icon-circle bg-secondary"><i class="bi bi-person-badge"></i></div>
+					<h6>ID Verified Users</h6>
+					<p class="small text-muted">Government ID verified</p>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card feature-card p-3 text-center">
+					<div class="icon-circle bg-primary"><i class="bi bi-arrow-repeat"></i></div>
+					<h6>Easy Cancellation</h6>
+					<p class="small text-muted">Transparent policy</p>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card feature-card p-3 text-center">
+					<div class="icon-circle bg-success"><i class="bi bi-headset"></i></div>
+					<h6>Customer Support</h6>
+					<p class="small text-muted">Phone & WhatsApp</p>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card feature-card p-3 text-center">
+					<div class="icon-circle bg-danger"><i class="bi bi-tools"></i></div>
+					<h6>24/7 Roadside Help</h6>
+					<p class="small text-muted">Always available</p>
+				</div>
+			</div>
+
 		</div>
 	</section>
 
@@ -263,48 +319,137 @@
 
 		<div class="row g-4">
 			<div class="col-md-4">
-				<div class="step text-center">
-					<i class="bi bi-search fs-1 text-primary"></i>
-					<h5 class="mt-3">Choose a Car</h5>
-					<p class="small text-muted">Browse available self-drive cars near you.</p>
+				<div class="step">
+					<div class="big-icon color1"><i class="bi bi-search"></i></div>
+					<h5>Choose Car</h5>
+					<p class="text-muted small">Browse nearby available cars</p>
 				</div>
 			</div>
 
 			<div class="col-md-4">
-				<div class="step text-center">
-					<i class="bi bi-credit-card fs-1 text-success"></i>
-					<h5 class="mt-3">Book & Pay</h5>
-					<p class="small text-muted">Confirm booking with transparent pricing.</p>
+				<div class="step">
+					<div class="big-icon color2"><i class="bi bi-credit-card"></i></div>
+					<h5>Book & Pay</h5>
+					<p class="text-muted small">Secure & transparent payment</p>
 				</div>
 			</div>
 
 			<div class="col-md-4">
-				<div class="step text-center">
-					<i class="bi bi-car-front-fill fs-1 text-warning"></i>
-					<h5 class="mt-3">Drive & Return</h5>
-					<p class="small text-muted">Enjoy the ride and return as scheduled.</p>
+				<div class="step">
+					<div class="big-icon color3"><i class="bi bi-car-front-fill"></i></div>
+					<h5>Drive & Return</h5>
+					<p class="text-muted small">Enjoy your trip & return safely</p>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- FOR OWNERS -->
+	<!-- TESTIMONIALS -->
+	<section class="section bg-light rounded-4 py-5">
+		<h2 class="text-center mb-4">What Our Customers Say</h2>
+
+		<div class="row g-4">
+			<div class="col-md-4">
+				<div class="testimonial">
+					<div class="big-icon color4"><i class="bi bi-person-circle"></i></div>
+					<p>“Clean car and smooth booking.”</p>
+					<strong>- Ramesh</strong>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="testimonial">
+					<div class="big-icon color5"><i class="bi bi-person-circle"></i></div>
+					<p>“Very affordable and reliable.”</p>
+					<strong>- Priya</strong>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="testimonial">
+					<div class="big-icon color6"><i class="bi bi-person-circle"></i></div>
+					<p>“Perfect for weekend trips.”</p>
+					<strong>- Akash</strong>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- SAFETY -->
+	<section class="section text-center">
+		<h2>Your Safety is Our Priority</h2>
+
+		<div class="row g-4 mt-3">
+			<div class="col-md-3">
+				<div class="safety-box">
+					<div class="big-icon color1"><i class="bi bi-shield-check"></i></div>
+					Verified Cars
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="safety-box">
+					<div class="big-icon color2"><i class="bi bi-person-badge"></i></div>
+					Verified Users
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="safety-box">
+					<div class="big-icon color3"><i class="bi bi-file-earmark-check"></i></div>
+					Insurance Covered
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="safety-box">
+					<div class="big-icon color4"><i class="bi bi-headset"></i></div>
+					24/7 Support
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- OWNERS -->
 	<section class="section text-center">
 		<h2>Own a Car? Earn with Surya Car Pool</h2>
-		<p class="text-muted mt-2">
-			Attach your car, earn passive income, and stay in control.
-			We bring you verified customers.
-		</p>
 
-		<a href="/createuser/ui" class="btn btn-success btn-lg mt-3">
-			<i class="bi bi-car-front"></i> Attach My Car
-		</a>
+		<div class="row justify-content-center mt-3">
+			<div class="col-md-6">
+				<div class="owner-box">
+					<div class="big-icon color5"><i class="bi bi-car-front-fill"></i></div>
+					<p>Attach your car and earn passive income.</p>
+					<a href="/createuser/ui" class="btn btn-success btn-lg mt-2">Attach My Car</a>
+				</div>
+			</div>
+		</div>
 	</section>
+	<!-- Floating Social Media Advertising Clips -->
+	<div class="social-float">
+		<!-- WhatsApp -->
+		<a href="https://wa.me/919949425597" target="_blank" class="social-whatsapp" title="Chat with us on WhatsApp">
+			<i class="bi bi-whatsapp"></i>
+		</a>
+
+		<!-- Facebook -->
+		<a href="https://www.facebook.com/ShanthappaSappati/" target="_blank" class="social-facebook"
+			title="Follow us on Facebook">
+			<i class="bi bi-facebook"></i>
+		</a>
+
+		<!-- Instagram -->
+		<a href="#" target="_blank" class="social-instagram" title="Follow us on Instagram">
+			<i class="bi bi-instagram"></i>
+		</a>
+	</div>
+
 
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">
-		<div class="container py-4 text-center small" style="color:brown">
-			© Surya Car Pool – 2025 · All rights reserved
+		<div class="container py-4 text-center small">
+			<p class="mb-1">© 2025 Surya Car Pool. All rights reserved.</p>
+			<p class="text-muted mb-0">Reliable • Affordable • Secure Self Drive Cars</p>
 		</div>
 	</footer>
 
