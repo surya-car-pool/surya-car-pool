@@ -45,6 +45,28 @@ public class User {
 
 	@Column(nullable = false)
 	private boolean enabled = true;
+	@Column(name = "car_image_path")
+	private String carImagePath;
+
+	@Column(name = "rc_image_path")
+	private String rcImagePath;
+
+
+	public String getCarImagePath() {
+		return carImagePath;
+	}
+
+	public void setCarImagePath(String carImagePath) {
+		this.carImagePath = carImagePath;
+	}
+
+	public String getRcImagePath() {
+		return rcImagePath;
+	}
+
+	public void setRcImagePath(String rcImagePath) {
+		this.rcImagePath = rcImagePath;
+	}
 
 	// OWNER DETAILS
 	private String ownerAddress;

@@ -419,7 +419,7 @@
 						</a>
 					</li>
 
-					<!--<li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="/users/ui">
 							<i class="bi bi-people-fill"></i> Users
 						</a>
@@ -435,7 +435,7 @@
 						<a class="nav-link active" aria-current="page" href="/bookings/ui">
 							<i class="bi bi-journal-check"></i> Bookings / Book a Car
 						</a>
-					</li>-->
+					</li>
 
 					<li class="nav-item">
 						<a class="nav-link" href="/aboutus/ui">
@@ -462,61 +462,73 @@
 		<!-- Cars grid -->
 		<div class="row g-4" th:if="${!#lists.isEmpty(cars)}">
 
-			<div class="col-md-4" th:each="car : ${cars}">
+			<div class="col-md-3 col-sm-6" th:each="car : ${cars}">
 				<div class="card car-card">
 
+					<!-- ✅ Car Image -->
+					<img th:if="${car.carImagePath != null}" th:src="@{${car.carImagePath}}" class="card-img-top"
+						alt="Car Image"
+						style="height:140px; object-fit:cover; border-top-left-radius:18px; border-top-right-radius:18px;">
+
+					<!-- Fallback image if not uploaded -->
+					<img th:if="${car.carImagePath == null}" src="/images/no-car.png" class="card-img-top"
+						alt="No Image"
+						style="height:200px; object-fit:cover; border-top-left-radius:18px; border-top-right-radius:18px;">
+
 					<div class="card-body">
-						<h5 class="card-title fw-bold" th:text="${car.make} + ' ' + ${car.model}">
-							Car Name
-						</h5>
 
-						<p class="small text-muted mb-2">
-							<i class="bi bi-fuel-pump text-success"></i>
-							<span th:text="${car.fuelType}"></span>
-							&nbsp;·&nbsp;
-							<i class="bi bi-gear text-warning"></i>
-							<span th:text="${car.transmissionType}"></span>
-						</p>
+						<div class="card-body">
+							<h5 class="card-title fw-bold" th:text="${car.make} + ' ' + ${car.model}">
+								Car Name
+							</h5>
 
-						<span class="badge badge-seats" th:text="${car.seats} + ' Seats'">
-							Seats
-						</span>
+							<p class="small text-muted mb-2">
+								<i class="bi bi-fuel-pump text-success"></i>
+								<span th:text="${car.fuelType}"></span>
+								&nbsp;·&nbsp;
+								<i class="bi bi-gear text-warning"></i>
+								<span th:text="${car.transmissionType}"></span>
+							</p>
 
-						<p class="mt-3 mb-1 fs-5">
-							<strong class="text-success">
-								₹ <span th:text="${car.perDayRent}">0</span>
-							</strong>
-							<small class="text-muted">/ day</small>
-						</p>
+							<span class="badge badge-seats" th:text="${car.seats} + ' Seats'">
+								Seats
+							</span>
 
-						<p class="small text-muted mb-0">
-							<i class="bi bi-person-badge"></i>
-							Owner:
-							<span th:text="${car.owner != null ? car.owner.name : 'N/A'}">Owner</span>
-						</p>
+							<p class="mt-3 mb-1 fs-5">
+								<strong class="text-success">
+									₹ <span th:text="${car.perDayRent}">0</span>
+								</strong>
+								<small class="text-muted">/ day</small>
+							</p>
+
+							<p class="small text-muted mb-0">
+								<i class="bi bi-person-badge"></i>
+								Owner:
+								<span th:text="${car.owner != null ? car.owner.name : 'N/A'}">Owner</span>
+							</p>
+						</div>
+
+						<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+							<small class="text-muted">
+								ID: <span th:text="${car.id}">1</span>
+							</small>
+
+							<a th:if="${car.status == T(com.surya.carpool.model.CarStatus).AVAILABLE}"
+								href="javascript:void(0)" th:attr="data-book-url=@{/bookings/ui(carId=${car.id})}"
+								class="btn btn-primary btn-sm" onclick="openTermsModal(this)">
+								<i class="bi bi-credit-card"></i> Book Now
+							</a>
+
+							<button th:if="${car.status == T(com.surya.carpool.model.CarStatus).BOOKED}"
+								class="btn btn-secondary btn-sm" disabled>
+								<i class="bi bi-lock-fill"></i> Booked
+							</button>
+						</div>
+
 					</div>
-
-					<div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-						<small class="text-muted">
-							ID: <span th:text="${car.id}">1</span>
-						</small>
-
-						<a th:if="${car.status == T(com.surya.carpool.model.CarStatus).AVAILABLE}"
-							href="javascript:void(0)" th:attr="data-book-url=@{/bookings/ui(carId=${car.id})}"
-							class="btn btn-primary btn-sm" onclick="openTermsModal(this)">
-							<i class="bi bi-credit-card"></i> Book Now
-						</a>
-
-						<button th:if="${car.status == T(com.surya.carpool.model.CarStatus).BOOKED}"
-							class="btn btn-secondary btn-sm" disabled>
-							<i class="bi bi-lock-fill"></i> Booked
-						</button>
-					</div>
-
 				</div>
-			</div>
 
-		</div>
+			</div>
 
 	</main>
 

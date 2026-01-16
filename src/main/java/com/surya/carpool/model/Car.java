@@ -41,7 +41,26 @@ public class Car {
 	private String variant;
 	private String active;
 	private Integer seats;
+	@Column(name = "car_image_path")
+	private String carImagePath;
+	public String getCarImagePath() {
+		return carImagePath;
+	}
 
+	public void setCarImagePath(String carImagePath) {
+		this.carImagePath = carImagePath;
+	}
+
+	public String getRcImagePath() {
+		return rcImagePath;
+	}
+
+	public void setRcImagePath(String rcImagePath) {
+		this.rcImagePath = rcImagePath;
+	}
+
+	@Column(name = "rc_image_path")
+	private String rcImagePath;
 	private BigDecimal perDayRent;
 	private BigDecimal perKmRate;
 

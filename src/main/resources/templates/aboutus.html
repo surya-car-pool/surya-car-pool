@@ -8,364 +8,177 @@
 
 	<style>
 		body {
-			min-height: 100vh;
-			background: linear-gradient(135deg,
-					#ffecd2,
-					#fcb69f,
-					#a1c4fd,
-					#c2e9fb,
-					#d4fc79);
-			background-attachment: fixed;
+		    min-height: 100vh;
+		    background: linear-gradient(135deg,
+		            #ffecd2,
+		            #fcb69f,
+		            #a1c4fd,
+		            #c2e9fb,
+		            #d4fc79);
+		    background-attachment: fixed;
 		}
 
 		.content-wrapper {
-			backdrop-filter: blur(10px);
-			background: rgba(255, 255, 255, 0.75);
-			border-radius: 15px;
-			padding: 25px;
-			margin-top: 30px;
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+		    backdrop-filter: blur(10px);
+		    background: rgba(255, 255, 255, 0.75);
+		    border-radius: 15px;
+		    padding: 25px;
+		    margin-top: 30px;
+		    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 		}
 
-		.hero-section {
-			background: linear-gradient(135deg, rgba(13, 110, 253, 0.85), rgba(59, 139, 255, 0.85));
-			color: white;
-			padding: 60px 20px;
-			border-radius: 15px;
-			text-align: center;
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-		}
-
-		.contact-card {
-			border-radius: 15px;
-			background: rgba(255, 255, 255, 0.85);
-			backdrop-filter: blur(6px);
-			transition: transform 0.2s ease-in-out;
-		}
-
-		.contact-card:hover {
-			transform: translateY(-5px);
-		}
-
-		.contact-icon {
-			font-size: 2.3rem;
-			color: #0d6efd;
-		}
-
-		/* Navbar icons */
-		.nav-link i {
-			color: rgb(255, 128, 64);
-			margin-right: 4px;
-		}
-
-		/* Page title icon */
-		.page-title i {
-			color: #0d6efd;
-		}
-
-		/* Action icon */
-		.btn-update i {
-			color: #ffffff;
-		}
-
-		/* Info icon (No bookings) */
-		.no-data i {
-			color: #ff6b6b;
-			font-size: 1.3rem;
-		}
-
-		/* Table container */
-		.table-card {
-			background: rgba(255, 255, 255, 0.92);
-			border-radius: 14px;
-			padding: 16px;
-			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-		}
-
-		/* Table header */
-		.table thead th {
-			background: linear-gradient(135deg, #0d6efd, #3b8bff);
-			color: #ffffff;
-			text-align: center;
-			vertical-align: middle;
-			border: none;
-			font-size: 0.9rem;
-		}
-
-		/* Table body cells */
-		.table tbody td {
-			vertical-align: middle;
-			text-align: center;
-			border-color: #dee2e6;
-			font-size: 0.88rem;
-		}
-
-		/* Hover effect */
-		.table-hover tbody tr:hover {
-			background-color: rgba(13, 110, 253, 0.08);
-		}
-
-		/* Status badge */
-		.badge-booked {
-			background: linear-gradient(135deg, #22c55e, #16a34a);
-			color: #ffffff;
-			padding: 5px 10px;
-			border-radius: 999px;
-			font-size: 0.75rem;
-		}
-
-		/* Update button */
-		.btn-update {
-			background: linear-gradient(135deg, #f59e0b, #f97316);
-			color: white;
-			border-radius: 999px;
-			border: none;
-		}
-
-		.btn-update:hover {
-			background: linear-gradient(135deg, #f97316, #ea580c);
-		}
-
-		.file-input-label i {
-			color: #0d6efd;
-			margin-right: 6px;
-		}
-
-		.file-input-label small {
-			display: block;
-			color: #6b7280;
-		}
-
-		.form-section-divider {
-			height: 1px;
-			background: linear-gradient(to right, rgba(148, 163, 184, 0.1), rgba(148, 163, 184, 0.7), rgba(148, 163, 184, 0.1));
-			margin: 8px 0 14px;
-		}
-
-		.btn-gradient {
-			background: linear-gradient(135deg, #22c55e, #16a34a);
-			border: none;
-			border-radius: 999px;
-			padding: 10px 22px;
-			font-weight: 600;
-			display: inline-flex;
-			align-items: center;
-			gap: 6px;
-			box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
-		}
-
-		.btn-gradient:hover {
-			background: linear-gradient(135deg, #16a34a, #15803d);
-			box-shadow: 0 10px 24px rgba(22, 163, 74, 0.45);
-		}
-
+		/* Navbar */
 		.navbar-custom {
-			background: rgba(15, 23, 42, 0.95);
-			backdrop-filter: blur(8px);
+		    background: rgba(15, 23, 42, 0.95);
+		    backdrop-filter: blur(8px);
+		}
+
+		.nav-link i {
+		    color: rgb(255, 128, 64);
+		    margin-right: 4px;
 		}
 
 		.brand-title {
-			font-weight: 700;
-			letter-spacing: 0.03em;
+		    font-weight: 700;
+		    letter-spacing: 0.03em;
 		}
 
 		.brand-tagline {
-			font-size: 0.8rem;
+		    font-size: 0.8rem;
 		}
 
-		.payment-card {
-			border-radius: 18px;
-			border: 1px solid #e5e7eb;
-			background: #ffffff;
-			box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+		/* Hero section */
+		.about-hero {
+		    position: relative;
+		    height: 45vh;
+		    min-height: 320px;
+		    background: url('/images/hero-car.jpg') center/cover no-repeat;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
 		}
 
-		/* Section card */
+		.hero-overlay {
+		    position: absolute;
+		    inset: 0;
+		    background: rgba(15, 23, 42, 0.65);
+		}
+
+		.hero-content {
+		    position: relative;
+		    text-align: center;
+		    color: #ffffff;
+		    z-index: 2;
+		}
+
+		.hero-logo {
+		    width: 110px;
+		    height: auto;
+		    margin-bottom: 14px;
+		    background: #ffffff;
+		    padding: 10px;
+		    border-radius: 14px;
+		    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+		}
+
+		.hero-content h1 {
+		    font-size: 2.3rem;
+		    font-weight: 700;
+		    margin-bottom: 8px;
+		    letter-spacing: 0.02em;
+		}
+
+		.hero-content p {
+		    font-size: 1rem;
+		    opacity: 0.9;
+		    margin-bottom: 14px;
+		}
+
+		.hero-divider {
+		    width: 70px;
+		    height: 4px;
+		    background: #38bdf8;
+		    margin: 0 auto;
+		    border-radius: 2px;
+		}
+
+		/* About / Founder section */
 		.section-card {
-			background: #ffffff;
-			border: 1px solid #e5e7eb;
-			border-radius: 14px;
-			padding: 18px;
-			margin-bottom: 18px;
+		    background: #ffffff;
+		    border: 1px solid #e5e7eb;
+		    border-radius: 14px;
+		    padding: 18px;
+		    margin-bottom: 18px;
 		}
 
-		/* Section header */
 		.section-header {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			font-weight: 600;
-			font-size: 0.95rem;
-			color: #0f172a;
+		    display: flex;
+		    align-items: center;
+		    gap: 10px;
+		    font-weight: 600;
+		    font-size: 0.95rem;
+		    color: #0f172a;
 		}
 
 		.section-header i {
-			color: #0d6efd;
-			font-size: 1.1rem;
+		    color: #0d6efd;
+		    font-size: 1.1rem;
 		}
 
-		/* Section titles */
 		.section-title {
-			font-weight: 700;
-			color: #0f172a;
+		    font-weight: 700;
+		    color: #0f172a;
 		}
 
-		/* Sub text */
 		.sub-text {
-			font-size: 0.85rem;
-			color: #64748b;
+		    font-size: 0.85rem;
+		    color: #64748b;
 		}
 
-		/* Form labels */
-		.form-label {
-			font-size: 0.8rem;
-			font-weight: 600;
-			color: #334155;
+		.established-text {
+		    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+		    font-size: 0.95rem;
+		    font-weight: 500;
+		    color: #0f3d6e;
+		    background: linear-gradient(90deg, #e3f2fd, #ffffff);
+		    padding: 10px 14px;
+		    border-left: 4px solid #0d6efd;
+		    border-radius: 6px;
 		}
 
-		/* Inputs & selects */
-		.form-control,
-		.form-select {
-			border-radius: 10px;
-			border: 1px solid #cbd5e1;
-			font-size: 0.88rem;
-			padding: 10px 12px;
+		.founder-name {
+		    color: #1e3a8a;
+		    font-weight: 700;
+		    letter-spacing: 0.4px;
+		    position: relative;
 		}
 
-		/* Input focus */
-		.form-control:focus,
-		.form-select:focus {
-			border-color: #0d6efd;
-			box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.15);
-		}
-
-		/* Input groups */
-		.input-group-text {
-			border-radius: 10px 0 0 10px;
-			background: #f8fafc;
-			border: 1px solid #cbd5e1;
-		}
-
-		/* File upload */
-		.file-input-label {
-			border: 1px dashed #94a3b8;
-			border-radius: 12px;
-			padding: 14px;
-			background: #f8fafc;
-			cursor: pointer;
-		}
-
-		.file-input-label:hover {
-			background: #f1f5f9;
-		}
-
-		/* Mandatory star */
-		.text-danger {
-			font-weight: 700;
-		}
-
-		/* Secure badge */
-		.badge-soft {
-			background: rgba(34, 197, 94, 0.15);
-			color: #166534;
-			font-size: 0.7rem;
-			padding: 6px 10px;
-			border-radius: 999px;
-			font-weight: 600;
-		}
-
-		/* Submit button alignment */
-		.btn-gradient {
-			font-size: 0.9rem;
-		}
-
-		/* Validation feedback */
-		.invalid-feedback {
-			font-size: 0.7rem;
-		}
-
-		/* Responsive spacing */
-		@media (max-width: 768px) {
-			.section-card {
-				padding: 14px;
-			}
-		}
-
-		/* ===============================
-		   CORPORATE ABOUT HERO
-		   =============================== */
-
-		.about-hero {
-			position: relative;
-			height: 45vh;
-			/* shorter & professional */
-			min-height: 320px;
-			background: url('/images/hero-car.jpg') center/cover no-repeat;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		/* Soft corporate overlay */
-		.hero-overlay {
-			position: absolute;
-			inset: 0;
-			background: rgba(15, 23, 42, 0.65);
-		}
-
-		/* Content */
-		.hero-content {
-			position: relative;
-			text-align: center;
-			color: #ffffff;
-			z-index: 2;
-		}
-
-		/* Logo */
-		.hero-logo {
-			width: 110px;
-			height: auto;
-			margin-bottom: 14px;
-			background: #ffffff;
-			padding: 10px;
-			border-radius: 14px;
-			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-		}
-
-		/* Title */
-		.hero-content h1 {
-			font-size: 2.3rem;
-			font-weight: 700;
-			margin-bottom: 8px;
-			letter-spacing: 0.02em;
-		}
-
-		/* Subtitle */
-		.hero-content p {
-			font-size: 1rem;
-			opacity: 0.9;
-			margin-bottom: 14px;
-		}
-
-		/* Divider */
-		.hero-divider {
-			width: 70px;
-			height: 4px;
-			background: #38bdf8;
-			margin: 0 auto;
-			border-radius: 2px;
+		.founder-name::after {
+		    content: "";
+		    display: block;
+		    width: 70px;
+		    height: 3px;
+		    margin-top: 6px;
+		    background: linear-gradient(90deg, #0d6efd, #38bdf8);
+		    border-radius: 3px;
 		}
 
 		/* Responsive */
 		@media (max-width: 768px) {
-			.about-hero {
-				height: 38vh;
-			}
+		    .about-hero {
+		        height: 38vh;
+		    }
 
-			.hero-content h1 {
-				font-size: 1.8rem;
-			}
+		    .hero-content h1 {
+		        font-size: 1.8rem;
+		    }
+
+		    .section-card {
+		        padding: 14px;
+		    }
 		}
+        /* Icon Boxes */
+
 	</style>
 
 	<!-- Icons -->
@@ -484,14 +297,14 @@
 							<span>Founder & Establishment</span>
 						</div>
 
-						<h5 class="section-title mt-2">Shanthappa Sappati — Founder & Managing Director</h5>
+						<h5 class="section-title mt-2 founder-name">
+						    Shanthappa Sappati — Founder & Managing Director
+						</h5>
 
-						<p class="sub-text mb-3">
+						<p class="sub-text mb-3 established-text">
 							Established in <strong>October 2025</strong>, Surya Car Pool was founded with a clear vision
-							to
-							modernize urban mobility in India through reliable, affordable, and technology-driven
-							self-drive
-							and ride-sharing solutions.
+							to modernize urban mobility in India through reliable, affordable, and technology-driven
+							self-drive and ride-sharing solutions.
 						</p>
 
 						<p>
