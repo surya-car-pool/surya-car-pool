@@ -6,6 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
+
+	// ✅ NEW: For "My Bookings" page (user-specific)
+	List<Booking> findByEmail(String email);
+
+	// ✅ Existing admin/dashboard query (keep as-is)
 	@Query(value = """
 			    SELECT
 			        c.id,

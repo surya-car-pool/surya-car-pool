@@ -40,7 +40,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("Invalid email/phone or password");
 		}
 
-		// pick the latest or first user
 		User user = users.get(0);
 
 		if (!user.isEnabled()) {
@@ -51,7 +50,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("Invalid email/phone or password");
 		}
 
-		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		// ✅ FIX: Proper Spring Security role format
+		String role = user.getRole(); // USER or ADMIN
+		if (role == null || role.isBlank()) {
+			role = "USER";
+		}
+
+		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
 		return new UsernamePasswordAuthenticationToken(user, null, authorities);
 	}

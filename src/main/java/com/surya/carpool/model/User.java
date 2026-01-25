@@ -42,6 +42,16 @@ public class User {
 
 	@Column(nullable = false)
 	private String password;
+	@Column(nullable = false)
+	private String role = "USER"; // USER or ADMIN
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	@Column(nullable = false)
 	private boolean enabled = true;

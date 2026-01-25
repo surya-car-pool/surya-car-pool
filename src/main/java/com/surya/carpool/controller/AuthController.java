@@ -33,7 +33,7 @@ public class AuthController {
         user.setPhone(regPhone);
         user.setPassword(passwordEncoder.encode(regPassword)); // hash password
         user.setEnabled(true);
-
+        user.setRole("USER");
         userRepository.save(user);
 
         // Redirect to login page

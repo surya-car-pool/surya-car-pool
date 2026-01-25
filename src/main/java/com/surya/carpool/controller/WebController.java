@@ -3,11 +3,16 @@ package com.surya.carpool.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.surya.carpool.bookings.Booking;
+import com.surya.carpool.bookings.BookingRepository;
 import com.surya.carpool.model.Car;
 import com.surya.carpool.model.Ride;
 import com.surya.carpool.model.User;
@@ -17,6 +22,8 @@ import com.surya.carpool.repository.UserRepository;
 
 @Controller
 public class WebController {
+	@Autowired
+	private BookingRepository bookingRepository;
 
 	private final RideRepository rideRepository;
 	private final UserRepository userRepository;
@@ -101,15 +108,35 @@ public class WebController {
 		}
 		return "login";
 	}
+
 	// BOOK SELF-DRIVE CARS PAGE
 	@GetMapping("/bookcar/ui")
 	public String bookCarUi(Model model) {
 
-	    // Reuse existing logic (same as home page)
-	    List<Car> activeCars = carRepository.findByOwnerEnabledTrue();
-	    model.addAttribute("cars", activeCars);
+		// Reuse existing logic (same as home page)
+		List<Car> activeCars = carRepository.findByOwnerEnabledTrue();
+		model.addAttribute("cars", activeCars);
 
-	    return "bookcar"; // templates/bookcar.html
+		return "bookcar"; // templates/bookcar.html
+	}
+
+	// MY BOOKINGS PAGE (User)
+	@GetMapping("/mybookings/ui")
+	public String myBookingsUi(Model model, Authentication authentication) {
+
+		if (authentication == null) {
+			return "redirect:/login";
+		}
+
+		String email = authentication.getName(); // will be "mohanlal@gmail.com"
+
+		System.out.println("Logged in email = " + email); // debug
+
+		List<Booking> bookings = bookingRepository.findByEmail(email);
+
+		model.addAttribute("bookings", bookings);
+
+		return "mybookings";
 	}
 
 }

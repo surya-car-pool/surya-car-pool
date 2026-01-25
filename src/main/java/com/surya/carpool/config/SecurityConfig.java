@@ -17,16 +17,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	// Password encoder for registration + login
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	// Our custom AuthenticationProvider: identifier (email/phone) + password
 	@Bean
 	public AuthenticationProvider authenticationProvider(UserRepository userRepository,
 			PasswordEncoder passwordEncoder) {
+
 		return new CustomAuthenticationProvider(userRepository, passwordEncoder);
 	}
 
@@ -34,26 +33,41 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
 			throws Exception {
 
-		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
-				// Public endpoints
-				.requestMatchers("/", // landing/root
-						"/home", // home is public so user can see it after logout
-						"/login", // login page + POST /login
-						"/register", // registration POST
-						"/css/**", "/js/**", "/images/**")
-				.permitAll()
-				// Everything else requires login (including /users/ui, /rides/ui, etc.)
-				.anyRequest().authenticated()).formLogin(form -> form.loginPage("/login") // GET /login -> login.html
-						.loginProcessingUrl("/login") // POST /login
-						.usernameParameter("identifier") // from login.html
-						.passwordParameter("password") // from login.html
-						.defaultSuccessUrl("/home", true) // on success
-						.failureUrl("/login?error=true") // on failure -> friendly error block
-						.permitAll())
-				.logout(logout -> logout.logoutUrl("/logout")
-						// after logout go to home (you can show a message using param.logout on
-						// home.html)
-						.logoutSuccessUrl("/home?logout=true").permitAll())
+		http.csrf(csrf -> csrf.disable())
+
+				// -------- AUTHORIZATION --------
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/", "/home", "/login", "/admin/login", "/register", "/css/**", "/js/**",
+								"/images/**")
+						.permitAll()
+
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+
+						.anyRequest().authenticated())
+
+				// -------- SINGLE LOGIN CONFIG --------
+				.formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").usernameParameter("identifier")
+						.passwordParameter("password")
+
+						// ✅ ONLY CHANGE IS HERE
+						.successHandler((request, response, authentication) -> {
+
+							boolean isAdmin = authentication.getAuthorities().stream()
+									.anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+							if (isAdmin) {
+								response.sendRedirect("/admin/dashboard");
+							} else {
+								response.sendRedirect("/home");
+							}
+
+						})
+
+						.failureUrl("/login?error=true").permitAll())
+
+				// -------- LOGOUT --------
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/home?logout=true").permitAll())
+
 				.authenticationProvider(authenticationProvider);
 
 		return http.build();
@@ -61,6 +75,7 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+
 		return configuration.getAuthenticationManager();
 	}
 }
