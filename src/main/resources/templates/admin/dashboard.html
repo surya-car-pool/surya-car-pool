@@ -8,6 +8,7 @@
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/responsive.css">
 
 	<style>
 		body {
@@ -94,7 +95,8 @@
 
 			<div class="ms-auto d-flex align-items-center">
 				<span class="text-white me-3">
-					Welcome, <strong>Admin</strong>
+					Welcome, <strong th:text="${#authentication.principal.name}">Admin</strong>
+
 				</span>
 
 				<form th:action="@{/logout}" method="post">
@@ -156,7 +158,7 @@
 					<h5>Attach New Car</h5>
 					<p class="text-muted small">Register and attach new vehicles</p>
 					<!--<a href="/owner/register" class="btn btn-secondary btn-sm">Attach Car</a>-->
-					<a href="/createuser/ui" class="btn btn-secondary btn-sm">Attach Car</a>
+					<a href="/attachcar/ui" class="btn btn-secondary btn-sm">Attach Car</a>
 				</div>
 			</div>
 
