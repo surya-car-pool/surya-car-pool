@@ -41,12 +41,10 @@ public class BookingServiceImpl implements BookingService {
 
 		User currentUser = getCurrentUser();
 
-		// ❌ Block owners from booking
 		if (currentUser.getRole() == Role.OWNER) {
 			throw new IllegalStateException("Car owners cannot book cars");
 		}
 
-		// ❌ Block unapproved accounts
 		if (currentUser.getApprovalStatus() != ApprovalStatus.APPROVED) {
 			throw new IllegalStateException("User account not approved for booking");
 		}
@@ -59,12 +57,6 @@ public class BookingServiceImpl implements BookingService {
 		}
 
 		Booking booking = new Booking();
-
-		// ✅ IMPORTANT:
-		// Your Booking entity does NOT have setUser(...)
-		// So we only set car + dates + status
-		// (booking user is handled elsewhere in your system)
-
 		booking.setCar(car);
 		booking.setStartDate(form.getStartDate());
 		booking.setEndDate(form.getEndDate());
@@ -94,12 +86,26 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	// =========================
-	// Helper
+	// ✅ FIXED Helper
 	// =========================
 	private User getCurrentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() == null
+				|| "anonymousUser".equals(auth.getPrincipal())) {
+			throw new RuntimeException("User not logged in");
+		}
+
+		Object principal = auth.getPrincipal();
+
+		// Your project stores User directly in SecurityContext
+		if (principal instanceof User) {
+			return (User) principal;
+		}
+
+		// Fallback (if only email is stored)
+		String email = auth.getName();
 		return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Logged in user not found"));
 	}
 
@@ -109,13 +115,9 @@ public class BookingServiceImpl implements BookingService {
 
 		Booking booking = new Booking();
 
-		// Car
 		Car car = carRepository.findById(form.getCarId()).orElseThrow(() -> new RuntimeException("Car not found"));
 		booking.setCar(car);
 
-		// ============================
-		// 🔐 SET LOGGED IN USER
-		// ============================
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
@@ -123,11 +125,8 @@ public class BookingServiceImpl implements BookingService {
 		}
 
 		User user = (User) auth.getPrincipal();
-		booking.setCustomer(user); // ✅ THIS FIXES YOUR ERROR
+		booking.setCustomer(user);
 
-		// ============================
-		// Booking details
-		// ============================
 		booking.setCustomerName(form.getCustomerName());
 		booking.setEmail(form.getEmail());
 		booking.setPhone(form.getPhone());
@@ -138,9 +137,12 @@ public class BookingServiceImpl implements BookingService {
 		booking.setNotes(form.getNotes());
 		booking.setStatus(BookingStatus.ACTIVE);
 
-		Booking saved = bookingRepository.save(booking);
-
-		return saved;
+		return bookingRepository.save(booking);
 	}
 
+	@Override
+	public List<Booking> getBookingsForCurrentUser() {
+		User currentUser = getCurrentUser();
+		return bookingRepository.findByCustomer_Id(currentUser.getId());
+	}
 }

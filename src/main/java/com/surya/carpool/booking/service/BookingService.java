@@ -18,6 +18,10 @@ public interface BookingService {
 	boolean existsActiveBookingForCar(Long carId);
 
 	List<BookingCarViewDTO> getAllBookingCarDetails();
+
 	Booking createBookingFromForm(BookingForm form);
+
+	List<Booking> getBookingsForCurrentUser();
+
 
 }

@@ -184,7 +184,9 @@
 
 						<div class="summary-item">
 							<div class="muted">Car ID</div>
-							<div id="carId" class="fw-semibold" th:value="${booking.car.id}">Car</div>
+							<!--<div id="carId" class="fw-semibold" th:value="${booking.car.id}">Car</div>-->
+							<div id="carId" class="fw-semibold" th:text="${booking.car.id}">Car</div>
+
 						</div>
 
 						<div class="summary-item">
@@ -204,7 +206,7 @@
 						<div>
 							<div class="muted">Amount to pay</div>
 							<div class="amount-pill">₹ <span id="amount"
-									th:text="${booking.fixedDepositAmount}">0</span></div>
+									th:text="${booking.amount}">0</span></div>
 						</div>
 					</div>
 
@@ -220,7 +222,7 @@
 							th:value="${booking.pickupLocation != null ? booking.pickupLocation : 'N/A'}" />
 						<input type="hidden" name="pickupDateTime" id="inputPickupDateTime"
 							th:value="${booking.pickupDateTime}" />
-						<input type="hidden" name="amount" id="inputAmount" th:value="${booking.fixedDepositAmount}" />
+						<input type="hidden" name="amount" id="inputAmount" th:value="${booking.amount}" />
 						<input type="hidden" name="paymentMethod" id="paymentMethodInput" />
 
 						<div class="mb-3">

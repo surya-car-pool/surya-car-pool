@@ -54,4 +54,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 			    JOIN b.car c
 			""")
 	List<Object[]> findAllBookingCarDetailsRaw();
+	
+	List<Booking> findByCustomer_Id(Long customerId);
+
+
 }

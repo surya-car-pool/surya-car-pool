@@ -121,9 +121,10 @@
 				<div class="booking-card">
 
 					<div class="d-flex justify-content-between align-items-center mb-2">
-						<h6 class="fw-bold mb-0" th:text="${booking.carModel}">Car Model</h6>
+						<h6 class="fw-bold mb-0" th:text="${booking.car.model}">Car Model</h6>
 
 						<span class="status-badge" th:text="${booking.status}"
+
 							th:classappend="${booking.status == 'ACTIVE'} ? ' status-active' :
 	                                         (${booking.status == 'COMPLETED'} ? ' status-completed' : ' status-cancelled')">
 							Status
@@ -138,11 +139,9 @@
 						📍 <span th:text="${booking.pickupLocation}">Location</span>
 					</p>
 
-					<p class="small mb-2">
-						📅 <span th:text="${#temporals.format(booking.pickupDateTime, 'dd MMM yyyy')}"></span>
-						–
-						<span th:text="${#temporals.format(booking.dropDateTime, 'dd MMM yyyy')}"></span>
-					</p>
+					<span th:text="${booking.pickupDateTime != null ? #temporals.format(booking.pickupDateTime, 'dd MMM yyyy') : '—'}"></span>
+					–
+					<span th:text="${booking.dropDateTime != null ? #temporals.format(booking.dropDateTime, 'dd MMM yyyy') : '—'}"></span>
 
 					<p class="fw-semibold mb-3">
 						₹ <span th:text="${booking.amount}">0</span>
