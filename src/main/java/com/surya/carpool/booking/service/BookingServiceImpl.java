@@ -1,6 +1,7 @@
 package com.surya.carpool.booking.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -145,4 +146,50 @@ public class BookingServiceImpl implements BookingService {
 		User currentUser = getCurrentUser();
 		return bookingRepository.findByCustomer_Id(currentUser.getId());
 	}
+
+	@Override
+	@Transactional
+	public void cancelBooking(Long bookingId) {
+
+	    Booking booking = bookingRepository.findById(bookingId)
+	            .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+	    // Rule 1: Only ACTIVE
+	    if (!booking.getStatus().name().equals("ACTIVE")) {
+	        throw new RuntimeException("This booking cannot be cancelled.");
+	    }
+
+	    // Rule 2: Pickup time must be in future
+	    if (booking.getPickupDateTime() != null &&
+	        booking.getPickupDateTime().isBefore(LocalDateTime.now())) {
+
+	        throw new RuntimeException("Booking cannot be cancelled after pickup time.");
+	    }
+
+	    booking.setStatus(BookingStatus.CANCELLED);
+	    bookingRepository.save(booking);
+	}
+
+
+	@Override
+	@Transactional
+	public void extendBooking(Long bookingId, LocalDateTime newDropDate) {
+		Booking booking = bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new RuntimeException("Booking not found"));
+
+		booking.setDropDateTime(newDropDate);
+		bookingRepository.save(booking);
+	}
+
+	@Override
+	@Transactional
+	public void rescheduleBooking(Long bookingId, LocalDateTime newPickup, LocalDateTime newDropDate) {
+		Booking booking = bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new RuntimeException("Booking not found"));
+
+		booking.setPickupDateTime(newPickup);
+		booking.setDropDateTime(newDropDate);
+		bookingRepository.save(booking);
+	}
+
 }
