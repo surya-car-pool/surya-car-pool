@@ -136,10 +136,15 @@ public class BookingController {
 	// EXTEND SUBMIT
 	@PostMapping("/bookings/extend")
 	public String extendBooking(@RequestParam Long bookingId,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime newDropDate) {
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime newDropDate,
+			RedirectAttributes ra) {
 
 		bookingService.extendBooking(bookingId, newDropDate);
-		return "redirect:/mybookings";
+
+		ra.addFlashAttribute("extendSuccess", true);
+		ra.addFlashAttribute("successMessage", "Your trip has been extended successfully!");
+
+		return "redirect:/mybookings/ui";
 	}
 
 	// RESCHEDULE PAGE
