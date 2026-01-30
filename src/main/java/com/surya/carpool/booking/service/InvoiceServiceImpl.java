@@ -16,7 +16,13 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.draw.LineSeparator;
 import com.surya.carpool.booking.model.Booking;
@@ -33,11 +39,23 @@ public class InvoiceServiceImpl implements InvoiceService {
 		Document document = new Document(PageSize.A4, 36, 36, 36, 36);
 
 		try {
-			PdfWriter.getInstance(document, out);
+			PdfWriter writer = PdfWriter.getInstance(document, out);
 			document.open();
 
+			// ==================================================
+			// WATERMARK (CENTER, BACKGROUND, DIAGONAL)
+			// ==================================================
+			Font watermarkFont = new Font(Font.HELVETICA, 52, Font.BOLD, new Color(226, 232, 240));
+
+			Phrase watermarkPhrase = new Phrase("SURYA CAR POOL", watermarkFont);
+
+			PdfContentByte canvas = writer.getDirectContentUnder();
+
+			ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, watermarkPhrase, PageSize.A4.getWidth() / 2,
+					PageSize.A4.getHeight() / 2, 45);
+
 			// =========================
-			// FONTS (OpenPDF-correct)
+			// FONTS
 			// =========================
 			Font titleFont = FontFactory.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, true, 18, Font.BOLD);
 
@@ -46,7 +64,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			Font normalFont = FontFactory.getFont(BaseFont.HELVETICA, BaseFont.WINANSI, true, 10, Font.NORMAL);
 
 			// =========================
-			// LOGO (classpath-safe)
+			// LOGO
 			// =========================
 			InputStream logoStream = getClass().getResourceAsStream("/static/images/logo.png");
 
@@ -58,52 +76,47 @@ public class InvoiceServiceImpl implements InvoiceService {
 			}
 
 			// =========================
-			// COMPANY HEADER (LOGO COLORS)
+			// COMPANY HEADER
 			// =========================
-
-			// Logo-matched colors
-			Color brandBlue = new Color(30, 58, 138); // #1E3A8A
-			Color softGray = new Color(71, 85, 105); // #475569
+			Color brandBlue = new Color(30, 58, 138);
+			Color softGray = new Color(71, 85, 105);
 			Color dividerGray = new Color(226, 232, 240);
 
-			// Fonts with explicit colors
 			Font brandFont = new Font(Font.HELVETICA, 20, Font.BOLD, brandBlue);
 			Font taglineFont = new Font(Font.HELVETICA, 10, Font.NORMAL, softGray);
 			Font contactFont = new Font(Font.HELVETICA, 9, Font.NORMAL, softGray);
 
-			// Company Name
 			Paragraph company = new Paragraph("SURYA CAR POOL", brandFont);
 			company.setAlignment(Element.ALIGN_RIGHT);
-			company.setSpacingAfter(4f);
 			document.add(company);
 
-			// Tagline
 			Paragraph tagline = new Paragraph("Self Drive Cars Provider", taglineFont);
 			tagline.setAlignment(Element.ALIGN_RIGHT);
-			tagline.setSpacingAfter(2f);
 			document.add(tagline);
 
-			// Contact details
 			Paragraph companyInfo = new Paragraph("Hyderabad, India\n+91-9949425597\nsupport@suryacarpool.com",
 					contactFont);
 			companyInfo.setAlignment(Element.ALIGN_RIGHT);
 			companyInfo.setSpacingAfter(10f);
 			document.add(companyInfo);
 
-			// Divider
 			LineSeparator divider = new LineSeparator();
 			divider.setLineColor(dividerGray);
-			divider.setLineWidth(1f);
 			document.add(divider);
-
 			document.add(Chunk.NEWLINE);
+
+			Paragraph gstInfo = new Paragraph("GSTIN : 36ABCDE1234F1Z5\nTAX INVOICE",
+					new Font(Font.HELVETICA, 9, Font.BOLD));
+			gstInfo.setAlignment(Element.ALIGN_RIGHT);
+			gstInfo.setSpacingAfter(12f);
+			document.add(gstInfo);
 
 			// =========================
 			// INVOICE TITLE
 			// =========================
-			Paragraph invoiceTitle = new Paragraph("INVOICE\n\n");
-			invoiceTitle.setFont(sectionFont);
+			Paragraph invoiceTitle = new Paragraph("INVOICE", sectionFont);
 			invoiceTitle.setAlignment(Element.ALIGN_CENTER);
+			invoiceTitle.setSpacingAfter(15f);
 			document.add(invoiceTitle);
 
 			// =========================
@@ -135,29 +148,63 @@ public class InvoiceServiceImpl implements InvoiceService {
 			document.add(Chunk.NEWLINE);
 
 			// =========================
-			// PAYMENT SUMMARY
+			// PAYMENT SUMMARY (TABLE)
 			// =========================
 			document.add(new Paragraph("PAYMENT SUMMARY", sectionFont));
+			document.add(Chunk.NEWLINE);
+
+			PdfPTable table = new PdfPTable(2);
+			table.setWidthPercentage(60);
+			table.setWidths(new float[] { 3f, 2f });
 
 			BigDecimal base = booking.getAmount() != null ? booking.getAmount() : BigDecimal.ZERO;
 
 			BigDecimal gst = base.multiply(BigDecimal.valueOf(0.05));
 			BigDecimal total = base.add(gst);
 
-			document.add(new Paragraph("Base Amount : ₹ " + base, normalFont));
-			document.add(new Paragraph("GST (5%) : ₹ " + gst, normalFont));
-			document.add(new Paragraph("----------------------------------", normalFont));
-			document.add(new Paragraph("Total Paid : ₹ " + total, sectionFont));
-			document.add(new Paragraph("Payment Status : " + (booking.isPaymentConfirmed() ? "PAID" : "PENDING"),
-					normalFont));
+			Font tableLabelFont = new Font(Font.HELVETICA, 10);
+			Font tableValueFont = new Font(Font.HELVETICA, 10, Font.BOLD);
 
+			PdfPCell cell;
+
+			cell = new PdfPCell(new Phrase("Base Amount", tableLabelFont));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+
+			cell = new PdfPCell(new Phrase("₹ " + base, tableValueFont));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+
+			cell = new PdfPCell(new Phrase("GST (5%)", tableLabelFont));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+
+			cell = new PdfPCell(new Phrase("₹ " + gst, tableValueFont));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+
+			document.add(table);
 			document.add(Chunk.NEWLINE);
+
+			// =========================
+			// TOTAL & STATUS
+			// =========================
+			Color successGreen = new Color(22, 163, 74);
+			Color warningOrange = new Color(234, 88, 12);
+
+			Font totalFont = new Font(Font.HELVETICA, 14, Font.BOLD, successGreen);
+			Font statusFont = new Font(Font.HELVETICA, 10, Font.BOLD,
+					booking.isPaymentConfirmed() ? successGreen : warningOrange);
+
+			document.add(new Paragraph("Total Paid : ₹ " + total, totalFont));
+
+			document.add(new Paragraph("Payment Status : " + (booking.isPaymentConfirmed() ? "PAID" : "PENDING"),
+					statusFont));
 
 			// =========================
 			// FOOTER
 			// =========================
-			Paragraph footer = new Paragraph("Thank you for choosing Surya Car Pool!\nDrive Safe 🚗");
-			footer.setFont(normalFont);
+			Paragraph footer = new Paragraph("\nThank you for choosing Surya Car Pool!\nDrive Safe 🚗", normalFont);
 			footer.setAlignment(Element.ALIGN_CENTER);
 			document.add(footer);
 
