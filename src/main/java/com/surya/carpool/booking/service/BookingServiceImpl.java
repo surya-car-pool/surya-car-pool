@@ -151,25 +151,24 @@ public class BookingServiceImpl implements BookingService {
 	@Transactional
 	public void cancelBooking(Long bookingId) {
 
-	    Booking booking = bookingRepository.findById(bookingId)
-	            .orElseThrow(() -> new RuntimeException("Booking not found"));
+		Booking booking = bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new RuntimeException("Booking not found"));
 
-	    // Rule 1: Only ACTIVE
-	    if (!booking.getStatus().name().equals("ACTIVE")) {
-	        throw new RuntimeException("This booking cannot be cancelled.");
-	    }
+		// Rule 1: Only ACTIVE
+		if (!booking.getStatus().name().equals("ACTIVE")) {
+			throw new RuntimeException("This booking cannot be cancelled.");
+		}
 
-	    // Rule 2: Pickup time must be in future
-	    if (booking.getPickupDateTime() != null &&
-	        booking.getPickupDateTime().isBefore(LocalDateTime.now())) {
+		// Rule 2: Pickup time must be in future
+		// ✅ Allow cancel only BEFORE pickup time
+		if (LocalDateTime.now().isAfter(booking.getPickupDateTime())) {
+		    throw new RuntimeException("Booking cannot be cancelled after pickup time.");
+		}
 
-	        throw new RuntimeException("Booking cannot be cancelled after pickup time.");
-	    }
 
-	    booking.setStatus(BookingStatus.CANCELLED);
-	    bookingRepository.save(booking);
+		booking.setStatus(BookingStatus.CANCELLED);
+		bookingRepository.save(booking);
 	}
-
 
 	@Override
 	@Transactional
@@ -183,19 +182,33 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	@Transactional
-	public void rescheduleBooking(Long bookingId, LocalDateTime newPickup, LocalDateTime newDropDate) {
+	public void rescheduleBooking(Long bookingId, LocalDateTime newPickup, LocalDateTime newDrop) {
+
 		Booking booking = bookingRepository.findById(bookingId)
-				.orElseThrow(() -> new RuntimeException("Booking not found"));
+				.orElseThrow(() -> new RuntimeException("Booking not found with id " + bookingId));
+
+		if (!booking.getStatus().name().equals("ACTIVE")) {
+			throw new RuntimeException("Only ACTIVE bookings can be rescheduled");
+		}
+
+		if (newPickup.isBefore(LocalDateTime.now())) {
+			throw new RuntimeException("Pickup date cannot be in the past");
+		}
+
+		if (!newDrop.isAfter(newPickup)) {
+			throw new RuntimeException("Drop date must be after pickup date");
+		}
 
 		booking.setPickupDateTime(newPickup);
-		booking.setDropDateTime(newDropDate);
+		booking.setDropDateTime(newDrop);
+
 		bookingRepository.save(booking);
 	}
+
 	@Override
 	public Booking getBookingById(Long id) {
 		return bookingRepository.findById(id)
-				.orElseThrow(() ->
-						new RuntimeException("Booking not found with id: " + id));
+				.orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
 	}
 
 }

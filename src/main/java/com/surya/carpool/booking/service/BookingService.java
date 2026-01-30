@@ -23,12 +23,13 @@ public interface BookingService {
 	Booking createBookingFromForm(BookingForm form);
 
 	List<Booking> getBookingsForCurrentUser();
-	
+
 	void cancelBooking(Long bookingId);
 
 	void extendBooking(Long bookingId, LocalDateTime newDropDate);
 
 	void rescheduleBooking(Long bookingId, LocalDateTime newPickup, LocalDateTime newDropDate);
+
 	Booking getBookingById(Long id);
 
 

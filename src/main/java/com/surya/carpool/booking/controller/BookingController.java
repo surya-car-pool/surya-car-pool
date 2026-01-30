@@ -167,12 +167,24 @@ public class BookingController {
 
 	// RESCHEDULE SUBMIT
 	@PostMapping("/bookings/reschedule")
-	public String rescheduleBooking(@RequestParam Long bookingId,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime pickup,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime drop) {
+	public String rescheduleBooking(
+	        @RequestParam Long bookingId,
+	        @RequestParam
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	        LocalDateTime pickup,
+	        @RequestParam
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	        LocalDateTime drop,
+	        RedirectAttributes ra) {
 
-		bookingService.rescheduleBooking(bookingId, pickup, drop);
-		return "redirect:/mybookings/ui";
+	    bookingService.rescheduleBooking(bookingId, pickup, drop);
+
+	    ra.addFlashAttribute("rescheduleSuccess", true);
+	    ra.addFlashAttribute(
+	            "successMessage",
+	            "Your booking has been rescheduled successfully.");
+
+	    return "redirect:/mybookings/ui";
 	}
 
 	// ==========================
