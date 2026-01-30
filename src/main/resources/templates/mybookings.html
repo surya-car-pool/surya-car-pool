@@ -228,7 +228,9 @@
 						</form>
 
 						<button class="btn btn-outline-secondary" id="rescheduleBtn">Reschedule</button>
-						<button class="btn btn-outline-dark" id="invoiceBtn">Download Invoice</button>
+						<a class="btn btn-outline-dark" id="invoiceBtn" href="#" target="_blank">
+							Download Invoice
+						</a>
 						<button class="btn btn-outline-info" id="supportBtn">Contact Support</button>
 
 					</div>
@@ -276,6 +278,9 @@
 			document.getElementById("modalPickup").innerText = pickup;
 			document.getElementById("modalDrop").innerText = drop;
 			document.getElementById("modalLocation").innerText = location;
+			document.getElementById("invoiceBtn").onclick = function () {
+			    window.open("/bookings/invoice/" + id, "_blank");
+			};
 
 			const badge = document.getElementById("modalStatus");
 			badge.innerText = status;
@@ -323,7 +328,8 @@
 			};
 
 			document.getElementById("rescheduleBtn").onclick = () => location.href = "/bookings/reschedule/" + id;
-			document.getElementById("invoiceBtn").onclick = () => location.href = "/bookings/invoice/" + id;
+			document.getElementById("invoiceBtn").href =
+				"/bookings/invoice/" + id;
 			document.getElementById("supportBtn").onclick = () => alert("Call: +91-9949425597");
 		}
 

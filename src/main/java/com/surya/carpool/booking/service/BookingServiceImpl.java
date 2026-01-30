@@ -191,5 +191,11 @@ public class BookingServiceImpl implements BookingService {
 		booking.setDropDateTime(newDropDate);
 		bookingRepository.save(booking);
 	}
+	@Override
+	public Booking getBookingById(Long id) {
+		return bookingRepository.findById(id)
+				.orElseThrow(() ->
+						new RuntimeException("Booking not found with id: " + id));
+	}
 
 }

@@ -29,7 +29,7 @@ public interface BookingService {
 	void extendBooking(Long bookingId, LocalDateTime newDropDate);
 
 	void rescheduleBooking(Long bookingId, LocalDateTime newPickup, LocalDateTime newDropDate);
-
+	Booking getBookingById(Long id);
 
 
 }

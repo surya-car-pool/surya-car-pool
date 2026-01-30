@@ -12,13 +12,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.surya.carpool.booking.model.Booking;
 import com.surya.carpool.booking.model.BookingForm;
 import com.surya.carpool.booking.service.BookingService;
+import com.surya.carpool.booking.service.InvoiceService;
 import com.surya.carpool.car.model.Car;
 import com.surya.carpool.car.model.CarStatus;
 import com.surya.carpool.car.repository.CarRepository;
@@ -30,10 +37,14 @@ public class BookingController {
 
 	private final BookingService bookingService;
 	private final CarRepository carRepository;
+	private final InvoiceService invoiceService;
 
-	public BookingController(BookingService bookingService, CarRepository carRepository) {
+	public BookingController(BookingService bookingService, CarRepository carRepository,
+			InvoiceService invoiceService) {
+
 		this.bookingService = bookingService;
 		this.carRepository = carRepository;
+		this.invoiceService = invoiceService;
 	}
 
 	// ==========================
@@ -43,8 +54,8 @@ public class BookingController {
 	public String bookCarUI(Model model) {
 
 		List<Car> cars = carRepository.findByActiveTrueAndOwnerEnabledTrueAndStatus(CarStatus.AVAILABLE);
-		model.addAttribute("cars", cars);
 
+		model.addAttribute("cars", cars);
 		return "bookcar";
 	}
 
@@ -107,7 +118,7 @@ public class BookingController {
 	}
 
 	// ==================================================
-	// NEW: MODAL BUTTON ACTION ENDPOINTS
+	// MODAL BUTTON ACTION ENDPOINTS
 	// ==================================================
 
 	// CANCEL
@@ -161,17 +172,24 @@ public class BookingController {
 			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime drop) {
 
 		bookingService.rescheduleBooking(bookingId, pickup, drop);
-		return "redirect:/mybookings";
+		return "redirect:/mybookings/ui";
 	}
 
-	// INVOICE (dummy PDF for now)
+	// ==========================
+	// INVOICE DOWNLOAD (REAL PDF)
+	// ==========================
 	@GetMapping("/bookings/invoice/{id}")
 	public ResponseEntity<byte[]> downloadInvoice(@PathVariable Long id) {
 
-		byte[] dummyPdf = "Invoice will be available soon".getBytes();
+		// Fetch booking
+		Booking booking = bookingService.getBookingById(id);
 
+		// Generate invoice PDF
+		byte[] pdf = invoiceService.generateInvoicePdf(booking);
+
+		// Download response
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice-" + id + ".pdf")
-				.contentType(MediaType.APPLICATION_PDF).body(dummyPdf);
+				.contentType(MediaType.APPLICATION_PDF).body(pdf);
 	}
 }
