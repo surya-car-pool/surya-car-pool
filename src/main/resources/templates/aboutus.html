@@ -9,177 +9,177 @@
 
 	<style>
 		body {
-		    min-height: 100vh;
-		    background: linear-gradient(135deg,
-		            #ffecd2,
-		            #fcb69f,
-		            #a1c4fd,
-		            #c2e9fb,
-		            #d4fc79);
-		    background-attachment: fixed;
+			min-height: 100vh;
+			background: linear-gradient(135deg,
+					#ffecd2,
+					#fcb69f,
+					#a1c4fd,
+					#c2e9fb,
+					#d4fc79);
+			background-attachment: fixed;
 		}
 
 		.content-wrapper {
-		    backdrop-filter: blur(10px);
-		    background: rgba(255, 255, 255, 0.75);
-		    border-radius: 15px;
-		    padding: 25px;
-		    margin-top: 30px;
-		    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+			backdrop-filter: blur(10px);
+			background: rgba(255, 255, 255, 0.75);
+			border-radius: 15px;
+			padding: 25px;
+			margin-top: 30px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 		}
 
 		/* Navbar */
 		.navbar-custom {
-		    background: rgba(15, 23, 42, 0.95);
-		    backdrop-filter: blur(8px);
+			background: rgba(15, 23, 42, 0.95);
+			backdrop-filter: blur(8px);
 		}
 
 		.nav-link i {
-		    color: rgb(255, 128, 64);
-		    margin-right: 4px;
+			color: rgb(255, 128, 64);
+			margin-right: 4px;
 		}
 
 		.brand-title {
-		    font-weight: 700;
-		    letter-spacing: 0.03em;
+			font-weight: 700;
+			letter-spacing: 0.03em;
 		}
 
 		.brand-tagline {
-		    font-size: 0.8rem;
+			font-size: 0.8rem;
 		}
 
 		/* Hero section */
 		.about-hero {
-		    position: relative;
-		    height: 45vh;
-		    min-height: 320px;
-		    background: url('/images/hero-car.jpg') center/cover no-repeat;
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
+			position: relative;
+			height: 45vh;
+			min-height: 320px;
+			background: url('/images/hero-car.jpg') center/cover no-repeat;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		.hero-overlay {
-		    position: absolute;
-		    inset: 0;
-		    background: rgba(15, 23, 42, 0.65);
+			position: absolute;
+			inset: 0;
+			background: rgba(15, 23, 42, 0.65);
 		}
 
 		.hero-content {
-		    position: relative;
-		    text-align: center;
-		    color: #ffffff;
-		    z-index: 2;
+			position: relative;
+			text-align: center;
+			color: #ffffff;
+			z-index: 2;
 		}
 
 		.hero-logo {
-		    width: 110px;
-		    height: auto;
-		    margin-bottom: 14px;
-		    background: #ffffff;
-		    padding: 10px;
-		    border-radius: 14px;
-		    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+			width: 110px;
+			height: auto;
+			margin-bottom: 14px;
+			background: #ffffff;
+			padding: 10px;
+			border-radius: 14px;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 		}
 
 		.hero-content h1 {
-		    font-size: 2.3rem;
-		    font-weight: 700;
-		    margin-bottom: 8px;
-		    letter-spacing: 0.02em;
+			font-size: 2.3rem;
+			font-weight: 700;
+			margin-bottom: 8px;
+			letter-spacing: 0.02em;
 		}
 
 		.hero-content p {
-		    font-size: 1rem;
-		    opacity: 0.9;
-		    margin-bottom: 14px;
+			font-size: 1rem;
+			opacity: 0.9;
+			margin-bottom: 14px;
 		}
 
 		.hero-divider {
-		    width: 70px;
-		    height: 4px;
-		    background: #38bdf8;
-		    margin: 0 auto;
-		    border-radius: 2px;
+			width: 70px;
+			height: 4px;
+			background: #38bdf8;
+			margin: 0 auto;
+			border-radius: 2px;
 		}
 
 		/* About / Founder section */
 		.section-card {
-		    background: #ffffff;
-		    border: 1px solid #e5e7eb;
-		    border-radius: 14px;
-		    padding: 18px;
-		    margin-bottom: 18px;
+			background: #ffffff;
+			border: 1px solid #e5e7eb;
+			border-radius: 14px;
+			padding: 18px;
+			margin-bottom: 18px;
 		}
 
 		.section-header {
-		    display: flex;
-		    align-items: center;
-		    gap: 10px;
-		    font-weight: 600;
-		    font-size: 0.95rem;
-		    color: #0f172a;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-weight: 600;
+			font-size: 0.95rem;
+			color: #0f172a;
 		}
 
 		.section-header i {
-		    color: #0d6efd;
-		    font-size: 1.1rem;
+			color: #0d6efd;
+			font-size: 1.1rem;
 		}
 
 		.section-title {
-		    font-weight: 700;
-		    color: #0f172a;
+			font-weight: 700;
+			color: #0f172a;
 		}
 
 		.sub-text {
-		    font-size: 0.85rem;
-		    color: #64748b;
+			font-size: 0.85rem;
+			color: #64748b;
 		}
 
 		.established-text {
-		    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-		    font-size: 0.95rem;
-		    font-weight: 500;
-		    color: #0f3d6e;
-		    background: linear-gradient(90deg, #e3f2fd, #ffffff);
-		    padding: 10px 14px;
-		    border-left: 4px solid #0d6efd;
-		    border-radius: 6px;
+			font-family: "Segoe UI", Roboto, Arial, sans-serif;
+			font-size: 0.95rem;
+			font-weight: 500;
+			color: #0f3d6e;
+			background: linear-gradient(90deg, #e3f2fd, #ffffff);
+			padding: 10px 14px;
+			border-left: 4px solid #0d6efd;
+			border-radius: 6px;
 		}
 
 		.founder-name {
-		    color: #1e3a8a;
-		    font-weight: 700;
-		    letter-spacing: 0.4px;
-		    position: relative;
+			color: #1e3a8a;
+			font-weight: 700;
+			letter-spacing: 0.4px;
+			position: relative;
 		}
 
 		.founder-name::after {
-		    content: "";
-		    display: block;
-		    width: 70px;
-		    height: 3px;
-		    margin-top: 6px;
-		    background: linear-gradient(90deg, #0d6efd, #38bdf8);
-		    border-radius: 3px;
+			content: "";
+			display: block;
+			width: 70px;
+			height: 3px;
+			margin-top: 6px;
+			background: linear-gradient(90deg, #0d6efd, #38bdf8);
+			border-radius: 3px;
 		}
 
 		/* Responsive */
 		@media (max-width: 768px) {
-		    .about-hero {
-		        height: 38vh;
-		    }
+			.about-hero {
+				height: 38vh;
+			}
 
-		    .hero-content h1 {
-		        font-size: 1.8rem;
-		    }
+			.hero-content h1 {
+				font-size: 1.8rem;
+			}
 
-		    .section-card {
-		        padding: 14px;
-		    }
+			.section-card {
+				padding: 14px;
+			}
 		}
-        /* Icon Boxes */
 
+		/* Icon Boxes */
 	</style>
 
 	<!-- Icons -->
@@ -299,7 +299,7 @@
 						</div>
 
 						<h5 class="section-title mt-2 founder-name">
-						    Shanthappa Sappati — Founder & Managing Director
+							Shanthappa Sappati — Founder & Managing Director
 						</h5>
 
 						<p class="sub-text mb-3 established-text">
@@ -494,12 +494,13 @@
 	<!-- Footer with Background -->
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">
-		<div class="container py-4 text-center small" style="color: brown;">
-			© Surya Car Pool -2025 · All rights reserved
-		</div>
-		<div class="text-center text-muted small py-2" style="background:rgba(0,0,0,0.04)">
-			Need help? Email <a href="mailto:support@suryacarpool.example"
-				class="text-muted">support@suryacarpool.example</a> · Terms apply
+		<div class="container py-4 text-center small">
+			<div class="text-center text-muted small py-2" style="background:rgba(0,0,0,0.04)">
+				Need help? Email <a href="mailto:support@suryacarpool.example"
+					class="text-muted">support@suryacarpool.example</a> · Terms apply
+			</div>
+			<div>© 2025 Surya Car Pool. All rights reserved.</div>
+			<div>Reliable • Affordable • Secure Self Drive Cars</div>
 		</div>
 	</footer>
 </body>

@@ -33,4 +33,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 	 */
 	List<Car> findByActiveTrueAndOwnerEnabledTrueAndStatus(CarStatus status);
 
+	// ✅ NEW – for admin filtering
+	List<Car> findByActive(boolean active);
 }

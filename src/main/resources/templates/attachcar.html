@@ -53,6 +53,68 @@
 		.card {
 			border-radius: 12px;
 		}
+
+		.navbar-custom {
+			background: rgba(15, 23, 42, 0.95);
+			backdrop-filter: blur(8px);
+		}
+
+		.section {
+			max-width: 1200px;
+			margin: 2.5rem auto;
+			padding: 0 1rem;
+		}
+
+		.card-box {
+			background: #fff;
+			border-radius: 16px;
+			padding: 1.8rem;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+			transition: transform .2s ease;
+			height: 100%;
+		}
+
+		.card-box:hover {
+			transform: translateY(-5px);
+		}
+
+		.icon-circle {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 28px;
+			color: #fff;
+			margin-bottom: 1rem;
+		}
+
+		.bg1 {
+			background: #0d6efd;
+		}
+
+		.bg2 {
+			background: #198754;
+		}
+
+		.bg3 {
+			background: #ffc107;
+		}
+
+		.bg4 {
+			background: #dc3545;
+		}
+
+		.bg5 {
+			background: #6f42c1;
+		}
+
+		footer {
+			background: #0f172a;
+			color: #cbd5e1;
+			margin-top: 4rem;
+		}
 	</style>
 </head>
 
@@ -75,10 +137,10 @@
 	<section class="page-hero">
 		<h1 class="fw-bold">Become a <span>Surya Car Pool Partner</span></h1>
 		<p class="lead mt-3">
-			Attach your car, earn passive income, and stay in control.
+			Register your car, start earning through secure rentals, and manage everything from one simple dashboard.
 		</p>
-		<a href="/home" class="btn btn-outline-light mt-3">
-			<i class="bi bi-arrow-left"></i> Back to Home
+		<a href="/admin/dashboard" class="btn btn-outline-light mt-3">
+			<i class="bi bi-arrow-left"></i> Back to Dashboard
 		</a>
 	</section>
 
@@ -393,9 +455,14 @@
 				alert('Error while saving data');
 			}
 		}
+
 	</script>
 
-
+	<!-- FOOTER -->
+	<footer class="text-center py-4">
+		<div>© 2025 Surya Car Pool – Admin Panel</div>
+		<div class="small">Secure • Reliable • Managed Platform</div>
+	</footer>
 </body>
 
 </html>
