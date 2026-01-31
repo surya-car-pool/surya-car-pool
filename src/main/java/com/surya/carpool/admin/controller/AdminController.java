@@ -36,11 +36,12 @@ public class AdminController {
 		return adminService.addCar(car);
 	}
 
-	@GetMapping("/users")
-	@ResponseBody
-	public List<User> getAllUsers() {
-		return adminService.getAllUsers();
-	}
+	/*
+	 * @GetMapping("/users")
+	 * 
+	 * @ResponseBody public List<User> getAllUsers() { return
+	 * adminService.getAllUsers(); }
+	 */
 
 	@GetMapping("/bookings")
 	@ResponseBody
