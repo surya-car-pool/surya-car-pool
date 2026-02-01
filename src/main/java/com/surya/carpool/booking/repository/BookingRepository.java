@@ -20,21 +20,22 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 	// DTO Projection Query
 	// ==========================
 	@Query("""
-			    SELECT new com.surya.carpool.booking.dto.BookingCarViewDTO(
-			        c.id,
-			        c.carName,
-			        c.carNumber,
-			        c.perDayRent,
-			        c.status,
-			        b.customerName,
-			        b.pickupLocation,
-			        b.pickupDateTime,
-			        b.dropDateTime
-			    )
-			    FROM Booking b
-			    JOIN b.car c
-			""")
-	List<BookingCarViewDTO> fetchBookingCarDetails();
+		    SELECT new com.surya.carpool.booking.dto.BookingCarViewDTO(
+		        c.id,
+		        c.make,
+		        c.registrationNo,
+		        c.perDayRent,
+		        c.status,
+		        b.customerName,
+		        b.pickupLocation,
+		        b.pickupDateTime,
+		        b.dropDateTime
+		    )
+		    FROM Booking b
+		    JOIN b.car c
+		""")
+		List<BookingCarViewDTO> fetchBookingCarDetails();
+
 
 	// ==========================
 	// Optional raw query

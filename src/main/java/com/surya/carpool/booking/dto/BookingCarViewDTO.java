@@ -1,26 +1,37 @@
 package com.surya.carpool.booking.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.surya.carpool.car.model.CarStatus;
 
 public class BookingCarViewDTO {
 
-	private long carId;
-	private String carName;
-	private String carNumber;
-	private double perDayRent;
-	private String status;
+	private Long carId;
+	private String carMake;
+	private String registrationNo;
+	private BigDecimal perDayRent;
+	private CarStatus status;
 	private String customerName;
 	private String pickupLocation;
 	private LocalDateTime pickupDateTime;
 	private LocalDateTime dropDateTime;
 
-	// ✅ REQUIRED constructor (matches service call exactly)
-	public BookingCarViewDTO(long carId, String carName, String carNumber, double perDayRent, String status,
-			String customerName, String pickupLocation, LocalDateTime pickupDateTime, LocalDateTime dropDateTime) {
+	// ✅ EXACT MATCHING CONSTRUCTOR (VERY IMPORTANT)
+	public BookingCarViewDTO(
+	        Long carId,
+	        String carMake,
+	        String registrationNo,
+	        BigDecimal perDayRent,
+	        CarStatus status,
+	        String customerName,
+	        String pickupLocation,
+	        LocalDateTime pickupDateTime,
+	        LocalDateTime dropDateTime) {
 
 		this.carId = carId;
-		this.carName = carName;
-		this.carNumber = carNumber;
+		this.carMake = carMake;
+		this.registrationNo = registrationNo;
 		this.perDayRent = perDayRent;
 		this.status = status;
 		this.customerName = customerName;
@@ -29,24 +40,21 @@ public class BookingCarViewDTO {
 		this.dropDateTime = dropDateTime;
 	}
 
+
 	// getters only
-	public long getCarId() {
+	public Long getCarId() {
 		return carId;
 	}
 
-	public String getCarName() {
-		return carName;
-	}
+	public String getCarMake() { return carMake; }
+	public String getRegistrationNo() { return registrationNo; }
 
-	public String getCarNumber() {
-		return carNumber;
-	}
 
-	public double getPerDayRent() {
+	public BigDecimal getPerDayRent() {
 		return perDayRent;
 	}
 
-	public String getStatus() {
+	public CarStatus getStatus() {
 		return status;
 	}
 
