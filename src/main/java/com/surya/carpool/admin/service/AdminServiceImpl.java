@@ -8,16 +8,12 @@ import org.springframework.stereotype.Service;
 import com.surya.carpool.booking.model.Booking;
 import com.surya.carpool.booking.repository.BookingRepository;
 import com.surya.carpool.car.model.Car;
-import com.surya.carpool.car.repository.CarRepository;
 import com.surya.carpool.car.service.CarService;
 import com.surya.carpool.user.model.User;
 import com.surya.carpool.user.repository.UserRepository;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-
-	@Autowired
-	private CarRepository carRepository;
 
 	@Autowired
 	private UserRepository userRepository;
