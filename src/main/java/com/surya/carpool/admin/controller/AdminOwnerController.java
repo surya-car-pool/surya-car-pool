@@ -1,37 +1,36 @@
 package com.surya.carpool.admin.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import com.surya.carpool.user.model.ApprovalStatus;
-import com.surya.carpool.user.model.User;
-import com.surya.carpool.user.repository.UserRepository;
+import com.surya.carpool.admin.service.AdminOwnerService;
 
-@RestController
-@RequestMapping("/api/admin/owners")
-@PreAuthorize("hasRole('ADMIN')")
+@Controller
+@RequestMapping("/admin/owners")
 public class AdminOwnerController {
 
-	private final UserRepository userRepository;
+	private final AdminOwnerService adminOwnerService;
 
-	public AdminOwnerController(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public AdminOwnerController(AdminOwnerService adminOwnerService) {
+		this.adminOwnerService = adminOwnerService;
 	}
 
-	@PutMapping("/{id}/approve")
-	public void approve(@PathVariable Long id) {
-		User u = userRepository.findById(id).orElseThrow();
-		u.setApprovalStatus(ApprovalStatus.APPROVED);
-		userRepository.save(u);
+	@GetMapping
+	public String ownersPage(Model model) {
+		model.addAttribute("owners", adminOwnerService.getAllOwners());
+		return "admin/owners";
 	}
 
-	@PutMapping("/{id}/reject")
-	public void reject(@PathVariable Long id) {
-		User u = userRepository.findById(id).orElseThrow();
-		u.setApprovalStatus(ApprovalStatus.REJECTED);
-		userRepository.save(u);
+	@PostMapping("/approve/{id}")
+	public String approve(@PathVariable Long id) {
+		adminOwnerService.approveOwner(id);
+		return "redirect:/admin/owners";
+	}
+
+	@PostMapping("/reject/{id}")
+	public String reject(@PathVariable Long id) {
+		adminOwnerService.rejectOwner(id);
+		return "redirect:/admin/owners";
 	}
 }
