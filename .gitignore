@@ -72,11 +72,3 @@ bower_components/
 # Compiled binary addons (https://nodejs.org/api/addons.html)	
 build/Release/
 # Dependency directories
-/target/
-/uploads/
-/*.log
-
-.settings/
-.project
-.classpath
-
