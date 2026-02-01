@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Surya Car Pool | Attach Your Car</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/responsive.css">
+
+	<style>
+		:root {
+			--primary: #0d6efd;
+			--accent: #6610f2;
+			--max-width: 1200px;
+		}
+
+		body {
+			font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
+			background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+		}
+
+		.navbar-custom {
+			background: rgba(15, 23, 42, 0.95);
+		}
+
+		.page-hero {
+			max-width: var(--max-width);
+			margin: 2rem auto;
+			padding: 2.5rem;
+			border-radius: 22px;
+			background: linear-gradient(135deg, #0d6efd, #6610f2);
+			color: #fff;
+			text-align: center;
+		}
+
+		.page-hero span {
+			color: #ffd166;
+		}
+
+		/* ===== Compact form cards ===== */
+		.card-body {
+			padding: 0.75rem 0.9rem;
+		}
+
+		.card-header {
+			padding: 0.6rem 0.9rem;
+		}
+
+		.card {
+			border-radius: 12px;
+		}
+
+		.navbar-custom {
+			background: rgba(15, 23, 42, 0.95);
+			backdrop-filter: blur(8px);
+		}
+
+		.section {
+			max-width: 1200px;
+			margin: 2.5rem auto;
+			padding: 0 1rem;
+		}
+
+		.card-box {
+			background: #fff;
+			border-radius: 16px;
+			padding: 1.8rem;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+			transition: transform .2s ease;
+			height: 100%;
+		}
+
+		.card-box:hover {
+			transform: translateY(-5px);
+		}
+
+		.icon-circle {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 28px;
+			color: #fff;
+			margin-bottom: 1rem;
+		}
+
+		.bg1 {
+			background: #0d6efd;
+		}
+
+		.bg2 {
+			background: #198754;
+		}
+
+		.bg3 {
+			background: #ffc107;
+		}
+
+		.bg4 {
+			background: #dc3545;
+		}
+
+		.bg5 {
+			background: #6f42c1;
+		}
+
+		footer {
+			background: #0f172a;
+			color: #cbd5e1;
+			margin-top: 4rem;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- ================= NAVBAR ================= -->
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+		<div class="container">
+			<a class="navbar-brand d-flex align-items-center" href="/home">
+				<img src="/images/logo.png" alt="Surya Car Pool" style="width:70px;height:70px;border-radius:14px;">
+				<div class="ms-2">
+					<strong>Surya Car Pool</strong><br>
+					<small class="text-white-50">Self Drive Cars Provider</small>
+				</div>
+			</a>
+		</div>
+	</nav>
+
+	<!-- ================= HERO ================= -->
+	<section class="page-hero">
+		<h1 class="fw-bold">Become a <span>Surya Car Pool Partner</span></h1>
+		<p class="lead mt-3">
+			Register your car, start earning through secure rentals, and manage everything from one simple dashboard.
+		</p>
+		<a href="/admin/dashboard" class="btn btn-outline-light mt-3">
+			<i class="bi bi-arrow-left"></i> Back to Dashboard
+		</a>
+	</section>
+
+	<!-- ================= BENEFITS ================= -->
+	<div class="container mb-4">
+		<div class="row g-3 text-center">
+			<div class="col-md-3">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<i class="bi bi-cash-coin fs-1 text-success"></i>
+						<h6 class="fw-bold mt-2">Earn Monthly</h6>
+						<small class="text-muted">Verified customers</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<i class="bi bi-shield-check fs-1 text-primary"></i>
+						<h6 class="fw-bold mt-2">Verified Rides</h6>
+						<small class="text-muted">Trusted users only</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<i class="bi bi-car-front fs-1 text-warning"></i>
+						<h6 class="fw-bold mt-2">Full Control</h6>
+						<small class="text-muted">Accept or reject</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="card shadow-sm">
+					<div class="card-body">
+						<i class="bi bi-headset fs-1 text-danger"></i>
+						<h6 class="fw-bold mt-2">24×7 Support</h6>
+						<small class="text-muted">Partner assistance</small>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ================= FORM ================= -->
+	<div class="container py-4">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-md-10">
+
+				<div class="card shadow-sm mb-5">
+					<div class="card-header fw-bold">
+						<i class="bi bi-journal-text me-1"></i> Owner & Car Details
+					</div>
+
+					<div class="card-body">
+
+						<!-- OWNER LOGIN -->
+						<h6 class="fw-bold text-primary mt-2 mb-3">
+							<i class="bi bi-person-fill me-1"></i> Owner Login & Contact
+						</h6>
+
+						<div class="mb-2">
+							<label class="form-label">Full Name <span class="text-danger">*</span></label>
+							<input id="name" class="form-control">
+						</div>
+
+						<div class="mb-2">
+							<label class="form-label">Email <span class="text-danger">*</span></label>
+							<input id="email" type="email" class="form-control">
+						</div>
+
+						<div class="mb-2">
+							<label class="form-label">Phone <span class="text-danger">*</span></label>
+							<input id="phone" class="form-control">
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label">Password <span class="text-danger">*</span></label>
+							<input id="password" type="password" class="form-control">
+						</div>
+
+						<hr>
+
+						<!-- OWNER DETAILS -->
+						<h6 class="fw-bold text-primary mb-3">
+							<i class="bi bi-person-badge-fill me-1"></i> Owner Address
+						</h6>
+
+						<div class="mb-2">
+							<label class="form-label">Address</label>
+							<textarea id="ownerAddress" class="form-control" rows="2"></textarea>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-2">
+								<label class="form-label">City</label>
+								<input id="ownerCity" class="form-control">
+							</div>
+							<div class="col-md-6 mb-2">
+								<label class="form-label">State</label>
+								<input id="ownerState" class="form-control">
+							</div>
+							<div class="col-md-4 mb-2">
+								<label class="form-label">Pincode</label>
+								<input id="ownerPincode" class="form-control">
+							</div>
+							<div class="col-md-4 mb-2">
+								<label class="form-label">Aadhaar No</label>
+								<input id="ownerAadharNo" class="form-control">
+							</div>
+							<div class="col-md-4 mb-3">
+								<label class="form-label">PAN No</label>
+								<input id="ownerPanNo" class="form-control">
+							</div>
+						</div>
+
+						<hr>
+
+						<!-- CAR DETAILS -->
+						<h6 class="fw-bold text-primary mb-3">
+							<i class="bi bi-car-front-fill me-1"></i> Car Details
+						</h6>
+
+						<div class="row">
+							<div class="col-md-6 mb-2">
+								<label class="form-label">Car Make <span class="text-danger">*</span></label>
+								<input id="carMake" class="form-control">
+							</div>
+							<div class="col-md-6 mb-2">
+								<label class="form-label">Model <span class="text-danger">*</span></label>
+								<input id="carModel" class="form-control">
+							</div>
+						</div>
+
+						<div class="mb-2">
+							<label class="form-label">Variant</label>
+							<input id="carVariant" class="form-control">
+						</div>
+
+						<div class="mb-2">
+							<label class="form-label">Registration No <span class="text-danger">*</span></label>
+							<input id="carRegistrationNo" class="form-control">
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-2">
+								<label class="form-label">Year</label>
+								<input id="carYear" class="form-control">
+							</div>
+							<div class="col-md-4 mb-2">
+								<label class="form-label">Color</label>
+								<input id="carColor" class="form-control">
+							</div>
+							<div class="col-md-4 mb-3">
+								<label class="form-label">Seats</label>
+								<input id="carSeats" class="form-control">
+							</div>
+						</div>
+
+						<hr>
+
+						<!-- PRICING & DOCUMENTS -->
+						<h6 class="fw-bold text-primary mb-3">
+							<i class="bi bi-cash-stack me-1"></i> Pricing & Documents
+						</h6>
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label class="form-label">Per Day Rent <span class="text-danger">*</span></label>
+								<input id="perDayRent" class="form-control">
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Per Km Rate <span class="text-danger">*</span></label>
+								<input id="perKmRate" class="form-control">
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label class="form-label">Car Image</label>
+								<input id="carImage" type="file" class="form-control">
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">RC Image</label>
+								<input id="rcImage" type="file" class="form-control">
+							</div>
+						</div>
+
+						<hr>
+
+						<!-- FINAL ACTION -->
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="enabled" checked>
+								<label class="form-check-label">Enabled</label>
+							</div>
+
+							<button id="saveUserBtn" class="btn btn-primary px-4" onclick="validateAndSubmit()">
+								<i class="bi bi-save"></i> Save Owner & Car
+							</button>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL -->
+	<div class="modal fade" id="mandatoryModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h5 class="modal-title">Attention Required</h5>
+					<button class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					Please fill all mandatory fields (*).
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function showMandatoryPopup() {
+			new bootstrap.Modal(document.getElementById('mandatoryModal')).show();
+		}
+	</script>
+	<script>
+		async function validateAndSubmit() {
+
+			const requiredFields = [
+				'name',
+				'email',
+				'phone',
+				'password',
+				'carMake',
+				'carModel',
+				'carRegistrationNo',
+				'perDayRent',
+				'perKmRate'
+			];
+
+			for (const id of requiredFields) {
+				const field = document.getElementById(id);
+				if (!field || !field.value.trim()) {
+					showMandatoryPopup();
+					return;
+				}
+			}
+
+			// ===== COLLECT DATA =====
+			const user = {
+				name: document.getElementById('name').value.trim(),
+				email: document.getElementById('email').value.trim(),
+				phone: document.getElementById('phone').value.trim(),
+				password: document.getElementById('password').value.trim(),
+				enabled: document.getElementById('enabled').checked,
+
+				ownerAddress: document.getElementById('ownerAddress').value.trim(),
+				ownerCity: document.getElementById('ownerCity').value.trim(),
+				ownerState: document.getElementById('ownerState').value.trim(),
+				ownerPincode: document.getElementById('ownerPincode').value.trim(),
+				ownerAadharNo: document.getElementById('ownerAadharNo').value.trim(),
+				ownerPanNo: document.getElementById('ownerPanNo').value.trim(),
+
+				cars: [{
+					make: document.getElementById('carMake').value.trim(),
+					model: document.getElementById('carModel').value.trim(),
+					variant: document.getElementById('carVariant').value.trim(),
+					registrationNo: document.getElementById('carRegistrationNo').value.trim(),
+					year: document.getElementById('carYear').value || null,
+					color: document.getElementById('carColor').value.trim(),
+					seats: document.getElementById('carSeats').value || null,
+					perDayRent: document.getElementById('perDayRent').value,
+					perKmRate: document.getElementById('perKmRate').value
+				}]
+			};
+
+			const formData = new FormData();
+			formData.append(
+				'user',
+				new Blob([JSON.stringify(user)], {type: 'application/json'})
+			);
+
+			const carImage = document.getElementById('carImage').files[0];
+			const rcImage = document.getElementById('rcImage').files[0];
+
+			if (carImage) formData.append('carImage', carImage);
+			if (rcImage) formData.append('rcImage', rcImage);
+
+			// ===== SEND TO BACKEND =====
+			try {
+				const response = await fetch('/api/owners', {
+					method: 'POST',
+					body: formData
+				});
+
+				if (!response.ok) {
+					alert('Failed to save owner & car');
+					return;
+				}
+
+				alert('Owner & car saved successfully!');
+				window.location.href = '/users/ui';
+
+			} catch (err) {
+				console.error(err);
+				alert('Error while saving data');
+			}
+		}
+
+	</script>
+
+	<!-- FOOTER -->
+	<footer class="text-center py-4">
+		<div>© 2025 Surya Car Pool – Admin Panel</div>
+		<div class="small">Secure • Reliable • Managed Platform</div>
+	</footer>
+</body>
+
+</html>

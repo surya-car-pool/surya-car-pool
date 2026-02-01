@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Admin Dashboard – Surya Car Pool</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/responsive.css">
+
+	<style>
+		body {
+			font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
+			background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+		}
+
+		.navbar-custom {
+			background: rgba(15, 23, 42, 0.95);
+			backdrop-filter: blur(8px);
+		}
+
+		.section {
+			max-width: 1200px;
+			margin: 2.5rem auto;
+			padding: 0 1rem;
+		}
+
+		.card-box {
+			background: #fff;
+			border-radius: 16px;
+			padding: 1.8rem;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+			transition: transform .2s ease;
+			height: 100%;
+		}
+
+		.card-box:hover {
+			transform: translateY(-5px);
+		}
+
+		.icon-circle {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 28px;
+			color: #fff;
+			margin-bottom: 1rem;
+		}
+
+		.bg1 {
+			background: #0d6efd;
+		}
+
+		.bg2 {
+			background: #198754;
+		}
+
+		.bg3 {
+			background: #ffc107;
+		}
+
+		.bg4 {
+			background: #dc3545;
+		}
+
+		.bg5 {
+			background: #6f42c1;
+		}
+
+		footer {
+			background: #0f172a;
+			color: #cbd5e1;
+			margin-top: 4rem;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+		<div class="container">
+			<a class="navbar-brand d-flex align-items-center" href="/admin/dashboard">
+				<img src="/images/logo.png" style="width:60px;height:60px;border-radius:14px;" />
+				<div class="ms-2">
+					<div class="text-white fw-bold">Surya Car Pool</div>
+					<div class="text-white-50 small">Admin Control Panel</div>
+				</div>
+			</a>
+
+			<div class="ms-auto d-flex align-items-center">
+				<span class="text-white me-3">
+					Welcome, <strong th:text="${#authentication.principal.name}">Admin</strong>
+
+				</span>
+
+				<form th:action="@{/logout}" method="post">
+					<button class="btn btn-outline-light btn-sm">Logout</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<!-- DASHBOARD TITLE -->
+	<section class="section text-center">
+		<h2 class="fw-bold mb-2">Admin Dashboard</h2>
+		<p class="text-muted">Manage cars, users, bookings and platform operations</p>
+	</section>
+
+	<!-- MANAGEMENT CARDS -->
+	<section class="section">
+		<div class="row g-4">
+
+			<div class="col-md-4">
+				<div class="card-box text-center">
+					<div class="icon-circle bg1"><i class="bi bi-car-front-fill"></i></div>
+					<h5>Manage Cars</h5>
+					<p class="text-muted small">Approve, edit and remove car listings</p>
+					<a href="/admin/cars" class="btn btn-primary btn-sm">Open</a>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card-box text-center">
+					<div class="icon-circle bg2"><i class="bi bi-people-fill"></i></div>
+					<h5>Manage Users</h5>
+					<p class="text-muted small">View, block or verify platform users</p>
+					<a href="/admin/users" class="btn btn-success btn-sm">Open</a>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card-box text-center">
+					<div class="icon-circle bg3"><i class="bi bi-journal-check"></i></div>
+					<h5>View Bookings</h5>
+					<p class="text-muted small">Track all ride and car bookings</p>
+					<a href="/admin/bookings/all" class="btn btn-warning btn-sm">Open</a>
+				</div>
+			</div>
+			
+
+			<div class="col-md-4">
+				<div class="card-box text-center">
+					<div class="icon-circle bg4"><i class="bi bi-person-badge-fill"></i></div>
+					<h5>Car Owners</h5>
+					<p class="text-muted small">Approve owners & verify documents</p>
+					<a href="/admin/owners" class="btn btn-danger btn-sm">Open</a>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card-box text-center">
+					<div class="icon-circle bg5"><i class="bi bi-plus-circle-fill"></i></div>
+					<h5>Attach New Car</h5>
+					<p class="text-muted small">Register and attach new vehicles</p>
+					<!--<a href="/owner/register" class="btn btn-secondary btn-sm">Attach Car</a>-->
+					<a href="/attachcar/ui" class="btn btn-secondary btn-sm">Attach Car</a>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- QUICK STATS -->
+	<section class="section">
+		<div class="card-box text-center">
+			<h5 class="mb-3">Platform Overview</h5>
+			<div class="row">
+				<div class="col-md-3"><strong>Cars:</strong> 120+</div>
+				<div class="col-md-3"><strong>Users:</strong> 540+</div>
+				<div class="col-md-3"><strong>Bookings:</strong> 1,340+</div>
+				<div class="col-md-3"><strong>Owners:</strong> 85+</div>
+			</div>
+		</div>
+	</section>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- FOOTER -->
+	<footer class="text-center py-4">
+		<div>© 2025 Surya Car Pool – Admin Panel</div>
+		<div class="small">Secure • Reliable • Managed Platform</div>
+	</footer>
+</body>
+
+</html>

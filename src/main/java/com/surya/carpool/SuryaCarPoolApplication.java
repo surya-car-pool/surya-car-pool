@@ -8,5 +8,4 @@ public class SuryaCarPoolApplication {
     public static void main(String[] args) {
         SpringApplication.run(SuryaCarPoolApplication.class, args);
     }
-    
 }

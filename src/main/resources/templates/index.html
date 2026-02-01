@@ -8,6 +8,7 @@
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/responsive.css">
 
 	<style>
 		:root {
@@ -207,7 +208,6 @@
 </head>
 
 <body>
-
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
 		<div class="container">
@@ -226,23 +226,45 @@
 
 			<div class="collapse navbar-collapse" id="navMain">
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="/home"><i class="bi bi-house-door-fill"></i> Home</a>
+
+					<!-- Common links -->
+					<li class="nav-item">
+						<a class="nav-link" href="/home"><i class="bi bi-house-door-fill"></i> Home</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="/aboutus/ui"><i class="bi bi-info-circle-fill"></i>
-							About Us</a></li>
-					<li class="nav-item"><a class="nav-link" href="/contactus/ui"><i class="bi bi-envelope-fill"></i>
-							Contact Us</a></li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/aboutus/ui"><i class="bi bi-info-circle-fill"></i> About Us</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="/contactus/ui"><i class="bi bi-envelope-fill"></i> Contact Us</a>
+					</li>
+
+					<!-- ADMIN ONLY MENU -->
+					<li class="nav-item" sec:authorize="hasRole('ADMIN')">
+						<a class="nav-link text-warning" href="/admin/dashboard">
+							<i class="bi bi-speedometer2"></i> Admin Dashboard
+						</a>
+					</li>
+
 				</ul>
 
+				<!-- Logged-in user info -->
 				<div class="ms-3 text-white" sec:authorize="isAuthenticated()">
 					Hello, <strong th:text="${#authentication.principal.name} ?: 'User'">User</strong>
 				</div>
 
+				<!-- User login -->
 				<a class="btn btn-outline-light btn-sm ms-3" href="/login" sec:authorize="isAnonymous()">Login</a>
 
+				<!-- Admin login (only when not logged in) -->
+				<a class="btn btn-warning btn-sm ms-2" href="/admin/login" sec:authorize="isAnonymous()">Admin Login</a>
+
+				<!-- Logout -->
 				<form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
 					<button class="btn btn-light btn-sm ms-2">Logout</button>
 				</form>
+
 			</div>
 		</div>
 	</nav>
@@ -259,13 +281,73 @@
 
 	<!-- HERO -->
 	<section class="hero text-center">
-		<h1 class="fw-bold">Drive Your Way with <span>Surya Car Pool</span></h1>
-		<p class="lead mt-3">Affordable • Verified • Hassle-Free Self-Drive Cars for Every Journey</p>
 
-		<div class="mt-4">
-			<a href="/bookcar/ui" class="btn btn-warning btn-lg me-2">Book a Car</a>
-			<a href="/createuser/ui" class="btn btn-outline-light btn-lg">Attach Your Car</a>
+		<h1 class="fw-bold mb-2">
+			Drive Your Way with <span>Surya Car Pool</span>
+		</h1>
+
+		<p class="lead mt-2 mb-1">
+			Affordable • Verified • Hassle-Free Self-Drive Cars for Every Journey
+		</p>
+
+		<p class="text-white-50 mb-4">
+			Choose from trusted local cars • Instant booking • No hidden charges • 24/7 support
+		</p>
+
+		<!-- Primary Call to Action -->
+		<div class="mb-4">
+			<a href="/bookcar/ui" class="btn btn-warning btn-lg px-4 me-2">
+				<i class="bi bi-car-front-fill"></i> Book a Car Now
+			</a>
+			<a href="/contactus/ui" class="btn btn-outline-light btn-lg px-4">
+				<i class="bi bi-chat-dots"></i> Talk to Support
+			</a>
 		</div>
+
+		<!-- Quick utility cards -->
+		<div class="row justify-content-center mt-4 g-4">
+
+			<div class="col-md-4">
+				<div class="owner-box">
+					<div class="big-icon color1"><i class="bi bi-search"></i></div>
+					<h6 class="fw-bold">Search Cars</h6>
+					<p class="small text-muted mb-2">
+						Find available cars in your city instantly
+					</p>
+					<a href="/bookcar/ui" class="btn btn-primary btn-sm mt-1">
+						Search Cars
+					</a>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="owner-box">
+					<div class="big-icon color2"><i class="bi bi-calendar-check"></i></div>
+					<h6 class="fw-bold">My Bookings</h6>
+					<p class="small text-muted mb-2">
+						View, cancel or track your current bookings
+					</p>
+					<a href="/mybookings/ui" class="btn btn-success btn-sm mt-1">
+						View Bookings
+					</a>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="owner-box">
+					<div class="big-icon color4"><i class="bi bi-headset"></i></div>
+					<h6 class="fw-bold">Customer Support</h6>
+					<p class="small text-muted mb-2">
+						Get help anytime via call or WhatsApp
+					</p>
+					<a href="/contactus/ui" class="btn btn-danger btn-sm mt-1">
+						Get Support
+					</a>
+				</div>
+			</div>
+
+		</div>
+
 	</section>
 
 	<!-- TRUST STRIP -->
@@ -455,21 +537,6 @@
 		</div>
 	</section>
 
-
-	<!-- OWNERS -->
-	<section class="section text-center">
-		<h2>Own a Car? Earn with Surya Car Pool</h2>
-
-		<div class="row justify-content-center mt-3">
-			<div class="col-md-6">
-				<div class="owner-box">
-					<div class="big-icon color5"><i class="bi bi-car-front-fill"></i></div>
-					<p>Attach your car and earn passive income.</p>
-					<a href="/createuser/ui" class="btn btn-success btn-lg mt-2">Attach My Car</a>
-				</div>
-			</div>
-		</div>
-	</section>
 	<!-- Floating Social Media Advertising Clips -->
 	<div class="social-float">
 		<!-- WhatsApp -->
@@ -489,16 +556,14 @@
 		</a>
 	</div>
 
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- FOOTER -->
 	<footer class="bg-dark text-light mt-5">
 		<div class="container py-4 text-center small">
-			<p class="mb-1">© 2025 Surya Car Pool. All rights reserved.</p>
-			<p class="text-muted mb-0">Reliable • Affordable • Secure Self Drive Cars</p>
+			<div>© 2025 Surya Car Pool. All rights reserved.</div>
+			<div>Reliable • Affordable • Secure Self Drive Cars</div>
 		</div>
 	</footer>
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
