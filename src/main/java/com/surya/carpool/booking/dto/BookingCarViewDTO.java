@@ -17,7 +17,6 @@ public class BookingCarViewDTO {
 	private LocalDateTime pickupDateTime;
 	private LocalDateTime dropDateTime;
 
-	// ✅ EXACT MATCHING CONSTRUCTOR (VERY IMPORTANT)
 	public BookingCarViewDTO(
 	        Long carId,
 	        String carMake,
@@ -39,9 +38,6 @@ public class BookingCarViewDTO {
 		this.pickupDateTime = pickupDateTime;
 		this.dropDateTime = dropDateTime;
 	}
-
-
-	// getters only
 	public Long getCarId() {
 		return carId;
 	}
