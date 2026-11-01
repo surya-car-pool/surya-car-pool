@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class CarAdminUIController {
+public class CarAdminUIController { 
 
     @GetMapping("/attachcar/ui")
     public String attachCarPage() {
