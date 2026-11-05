@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AboutUsController {
 
 	@GetMapping("/ui")
-	public String aboutUsPage() {
+	public String aboutUsPage() { 
 		return "aboutus"; // aboutus.html 
 	}
 }
