@@ -10,6 +10,6 @@ public class AboutUsController {
 
 	@GetMapping("/ui")
 	public String aboutUsPage() {
-		return "aboutus"; // aboutus.html
+		return "aboutus"; // aboutus.html 
 	}
 }
