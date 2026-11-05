@@ -8,6 +8,6 @@ public class CarAdminUIController {
 
     @GetMapping("/attachcar/ui")
     public String attachCarPage() {
-        return "attachcar";
+        return "attachcar"; 
     }
 }
