@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="920" viewBox="0 0 1200 920" role="img" aria-labelledby="title desc">
+  <title id="title">Surya Car Pool customer booking and payment flow</title>
+  <desc id="desc">The user logs in, selects an available car, creates an active booking, and follows a cash or mock online payment branch. Both branches mark the car booked, after which an invoice can be generated.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#46627a"/>
+    </marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#17324d}.title{font-size:30px;font-weight:bold}.label{font-size:20px;font-weight:bold}.body{font-size:16px}.small{font-size:15px}.box{stroke:#3b7398;stroke-width:2;rx:15;fill:#eaf4fb}.store{stroke:#27836b;stroke-width:2;rx:15;fill:#e8f6f0}.decision{stroke:#bd8a21;stroke-width:2;fill:#fff6dd}.line{stroke:#46627a;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1200" height="920" fill="#ffffff"/>
+  <text x="600" y="46" text-anchor="middle" class="title">Customer booking and payment flow</text>
+
+  <rect x="30" y="100" width="250" height="105" class="box"/>
+  <text x="155" y="140" text-anchor="middle" class="label">1. Sign in</text>
+  <text x="155" y="169" text-anchor="middle" class="body">Email or phone + password</text>
+  <text x="155" y="191" text-anchor="middle" class="small">Spring Security session</text>
+
+  <rect x="325" y="100" width="250" height="105" class="box"/>
+  <text x="450" y="140" text-anchor="middle" class="label">2. Browse cars</text>
+  <text x="450" y="169" text-anchor="middle" class="body">Active + AVAILABLE cars</text>
+  <text x="450" y="191" text-anchor="middle" class="small">Owner account must be enabled</text>
+
+  <rect x="620" y="100" width="250" height="105" class="box"/>
+  <text x="745" y="140" text-anchor="middle" class="label">3. Submit booking</text>
+  <text x="745" y="169" text-anchor="middle" class="body">POST /bookings form</text>
+  <text x="745" y="191" text-anchor="middle" class="small">Authenticated customer is attached</text>
+
+  <rect x="915" y="100" width="250" height="105" class="store"/>
+  <text x="1040" y="140" text-anchor="middle" class="label">4. Save booking</text>
+  <text x="1040" y="169" text-anchor="middle" class="body">Booking starts ACTIVE</text>
+  <text x="1040" y="191" text-anchor="middle" class="small">BookingRepository → MySQL</text>
+
+  <path d="M280 153 H315" class="line"/>
+  <path d="M575 153 H610" class="line"/>
+  <path d="M870 153 H905" class="line"/>
+
+  <path d="M1040 205 V264 H600 V318" class="line"/>
+  <polygon points="600,315 730,385 600,455 470,385" class="decision"/>
+  <text x="600" y="378" text-anchor="middle" class="label">Choose payment</text>
+  <text x="600" y="405" text-anchor="middle" class="body">Cash or mock online</text>
+
+  <path d="M470 385 H300 V500" class="line"/>
+  <path d="M730 385 H900 V500" class="line"/>
+  <text x="350" y="370" class="small">CASH</text>
+  <text x="815" y="370" class="small">UPI / CARD-style UI</text>
+
+  <rect x="105" y="500" width="390" height="125" class="box"/>
+  <text x="300" y="538" text-anchor="middle" class="label">Cash confirmation</text>
+  <text x="300" y="568" text-anchor="middle" class="body">POST /payments/confirm</text>
+  <text x="300" y="595" text-anchor="middle" class="body">Save Payment; mark car BOOKED</text>
+
+  <rect x="705" y="500" width="390" height="125" class="box"/>
+  <text x="900" y="538" text-anchor="middle" class="label">Mock online payment</text>
+  <text x="900" y="568" text-anchor="middle" class="body">Initiate payment → client-driven verify</text>
+  <text x="900" y="595" text-anchor="middle" class="body">Not a real payment-gateway check</text>
+  <path d="M900 625 V665" class="line"/>
+  <rect x="705" y="665" width="390" height="105" class="store"/>
+  <text x="900" y="704" text-anchor="middle" class="label">Online success handler</text>
+  <text x="900" y="734" text-anchor="middle" class="body">Save receipt; mark car BOOKED</text>
+
+  <path d="M300 625 V805 H600" class="line"/>
+  <path d="M900 770 V805 H600" class="line"/>
+  <rect x="455" y="805" width="290" height="78" class="store"/>
+  <text x="600" y="837" text-anchor="middle" class="label">Generate invoice PDF</text>
+  <text x="600" y="862" text-anchor="middle" class="small">GET /bookings/invoice/{id}</text>
+
+  <text x="600" y="906" text-anchor="middle" class="small">Important: payment does not update the saved booking's payment fields; booking remains ACTIVE unless changed elsewhere.</text>
+</svg>

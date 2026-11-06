@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Explore the SuryaCarPool customer app preview and use the responsive web platform to find self-drive cars from private owners.">
+	<meta name="theme-color" content="#0c2e4d">
+	<title>Customer App Preview | SuryaCarPool</title>
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<link rel="stylesheet" th:href="@{/css/landing.css}">
+</head>
+<body>
+	<a class="visually-hidden-focusable p-2" href="#main-content">Skip to main content</a>
+	<div th:replace="~{fragments/site :: header}"></div>
+	<main id="main-content">
+		<section class="page-hero">
+			<div class="container">
+				<span class="eyebrow">For customers</span>
+				<h1>Your next self-drive journey starts here</h1>
+				<p>Browse privately owned cars, review the listed rates and rental requirements, and submit your booking through the SuryaCarPool web experience.</p>
+				<a class="btn btn-ocean" th:href="@{/bookcar/ui}"><i class="bi bi-search me-2" aria-hidden="true"></i>Explore available cars</a>
+			</div>
+		</section>
+		<section class="section-pad">
+			<div class="container">
+				<div class="section-heading">
+					<span class="eyebrow">Customer experience</span>
+					<h2>A clear path from search to booking</h2>
+					<p>Sign in to browse cars and continue with a booking. The responsive website is available now; dedicated mobile app downloads are not included in the current repository.</p>
+				</div>
+				<div class="row g-3">
+					<div class="col-md-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-search" aria-hidden="true"></i></span>
+						<h3>Explore available cars</h3><p>Browse cars marked available by enabled owners and review their displayed vehicle details.</p>
+					</article></div>
+					<div class="col-md-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span>
+						<h3>Share your trip details</h3><p>Enter your pickup, return, and contact details in the existing booking workflow.</p>
+					</article></div>
+					<div class="col-md-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-journal-check" aria-hidden="true"></i></span>
+						<h3>Review your bookings</h3><p>Sign in to view the booking options available through your account.</p>
+					</article></div>
+				</div>
+			</div>
+		</section>
+		<section class="section-pad section-surface">
+			<div class="container">
+				<div class="app-banner">
+					<div class="app-banner-content">
+						<span class="eyebrow text-white-50">Browse on mobile or desktop</span>
+						<h2>The customer web app is ready to explore</h2>
+						<p>No app-store download is required for the existing responsive website. Sign in to browse cars and continue through the current booking steps.</p>
+						<div class="d-flex flex-wrap gap-2">
+							<a class="btn btn-sun" th:href="@{/bookcar/ui}">Browse cars</a>
+							<a class="btn btn-outline-light" th:href="@{/login}">Sign in or register</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section-pad">
+			<div class="container">
+				<div class="information-card">
+					<h2 class="h4">A note on booking details</h2>
+					<p class="text-secondary mb-0">Please read the vehicle information and terms presented in the booking flow. Payment options in the current application should not be mistaken for an integrated third-party payment gateway.</p>
+				</div>
+			</div>
+		</section>
+	</main>
+	<div th:replace="~{fragments/site :: footer}"></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>

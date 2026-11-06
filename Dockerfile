@@ -1,5 +1,5 @@
 # ---------- BUILD STAGE ----------
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-26-noble AS build
 WORKDIR /build
 
 # Copy Maven config first (better caching)
@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # ---------- RUNTIME STAGE ----------
-FROM eclipse-temurin:17-jdk-jammy
+FROM eclipse-temurin:26-jre
 WORKDIR /surya-car-pool
 
 # Copy the built JAR from build stage

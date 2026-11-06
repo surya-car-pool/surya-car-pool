@@ -6,21 +6,35 @@ services:
     container_name: surya-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: surya_db
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: suryacarpool
       MYSQL_USER: surya
-      MYSQL_PASSWORD: surya123
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
   app:
-    build: .
+    build:
+      context: ../..
+      dockerfile: Dockerfile
     container_name: surya-app
     restart: always
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/suryacarpool?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: surya
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      SURYA_REMEMBER_ME_KEY: ${SURYA_REMEMBER_ME_KEY:-}
 
 volumes:
   mysql_data:
