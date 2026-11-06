@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	// Find by email (used for login)
 	Optional<User> findByEmail(String email);
 
+	boolean existsByEmailIgnoreCase(String email);
+
 	// Find by phone (used for login)
 	List<User> findByPhone(String phone);
 
@@ -27,4 +29,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByRoleAndApprovalStatus(Role role, ApprovalStatus status);
 
     List<User> findByRole(Role role);
+
+	long countByRoleAndEnabledTrue(Role role);
+
+	long countByRoleAndApprovalStatusAndEnabledTrue(Role role, ApprovalStatus approvalStatus);
 }

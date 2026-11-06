@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="850" viewBox="0 0 1320 850" role="img" aria-labelledby="title desc">
+  <title id="title">Surya Car Pool authentication and booking sequence diagram</title>
+  <desc id="desc">The browser authenticates through Spring Security, browses available cars, and submits a booking. Controllers call services and repositories to save an ACTIVE booking before redirecting to payment.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#34556e"/></marker>
+    <marker id="returnArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#6a7d8d"/></marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#17324d}.title{font-size:29px;font-weight:bold}.actor{font-size:16px;font-weight:bold}.msg{font-size:15px}.num{font-size:14px;font-weight:bold;fill:#2876a6}.line{stroke:#34556e;stroke-width:2;fill:none;marker-end:url(#arrow)}.return{stroke:#6a7d8d;stroke-width:1.6;stroke-dasharray:7 5;fill:none;marker-end:url(#returnArrow)}.life{stroke:#8da1b1;stroke-width:1.5;stroke-dasharray:7 6}.phase{fill:#f4f8fb;stroke:#9bb2c4;stroke-width:1.2}
+    </style>
+  </defs>
+  <rect width="1320" height="850" fill="#ffffff"/>
+  <text x="660" y="40" text-anchor="middle" class="title">Authentication and booking sequence</text>
+  <text x="660" y="67" text-anchor="middle" class="msg">Messages run top to bottom; dashed arrows show returned results.</text>
+  <g>
+    <rect x="30" y="90" width="160" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="265" y="90" width="170" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="510" y="90" width="170" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="760" y="90" width="175" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="1015" y="90" width="250" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <text x="110" y="120" text-anchor="middle" class="actor">Browser</text>
+    <text x="350" y="120" text-anchor="middle" class="actor">Spring Security</text>
+    <text x="595" y="120" text-anchor="middle" class="actor">MVC Controller</text>
+    <text x="847" y="120" text-anchor="middle" class="actor">Booking Service</text>
+    <text x="1140" y="120" text-anchor="middle" class="actor">Repository / MySQL</text>
+  </g>
+  <path d="M110 138 V803" class="life"/><path d="M350 138 V803" class="life"/>
+  <path d="M595 138 V803" class="life"/><path d="M847 138 V803" class="life"/>
+  <path d="M1140 138 V803" class="life"/>
+
+  <rect x="20" y="153" width="1280" height="176" rx="8" class="phase"/>
+  <text x="37" y="177" class="num">AUTHENTICATION</text>
+  <text x="22" y="207" class="num">1</text><text x="145" y="207" class="msg">POST /login (identifier, password)</text><path d="M110 212 H340" class="line"/>
+  <text x="22" y="237" class="num">2</text><text x="370" y="237" class="msg">authenticate()</text><path d="M350 242 H585" class="line"/>
+  <text x="22" y="267" class="num">3</text><text x="618" y="267" class="msg">findByEmail; else findByPhone</text><path d="M595 272 H1130" class="line"/>
+  <text x="22" y="297" class="num">4</text><text x="618" y="297" class="msg">User record / authentication result</text><path d="M1130 302 H360" class="return"/>
+  <text x="22" y="320" class="num">5</text><text x="370" y="320" class="msg">Authenticated session; redirect by role</text><path d="M350 324 H120" class="return"/>
+
+  <rect x="20" y="339" width="1280" height="450" rx="8" class="phase"/>
+  <text x="37" y="363" class="num">CAR SEARCH AND BOOKING</text>
+  <text x="22" y="397" class="num">6</text><text x="145" y="397" class="msg">GET /bookcar/ui</text><path d="M110 402 H585" class="line"/>
+  <text x="22" y="432" class="num">7</text><text x="618" y="432" class="msg">Find active car + enabled owner + AVAILABLE status</text><path d="M595 437 H1130" class="line"/>
+  <text x="22" y="467" class="num">8</text><text x="618" y="467" class="msg">Available car list</text><path d="M1130 472 H120" class="return"/>
+  <text x="22" y="502" class="num">9</text><text x="145" y="502" class="msg">POST /bookings (BookingForm)</text><path d="M110 507 H585" class="line"/>
+  <text x="22" y="537" class="num">10</text><text x="618" y="537" class="msg">createBookingFromForm(form, authenticated user)</text><path d="M595 542 H837" class="line"/>
+  <text x="22" y="572" class="num">11</text><text x="870" y="572" class="msg">Save booking with ACTIVE status</text><path d="M847 577 H1130" class="line"/>
+  <text x="22" y="607" class="num">12</text><text x="618" y="607" class="msg">Saved booking</text><path d="M1130 612 H860" class="return"/>
+  <text x="22" y="642" class="num">13</text><text x="618" y="642" class="msg">Redirect to /payments/ui with booking details</text><path d="M595 647 H120" class="return"/>
+  <rect x="195" y="682" width="930" height="77" rx="10" fill="#fff6dd" stroke="#bd8a21" stroke-width="1.5"/>
+  <text x="660" y="714" text-anchor="middle" class="actor">Booking is saved before payment</text>
+  <text x="660" y="741" text-anchor="middle" class="msg">The payment handlers do not update Booking.paymentConfirmed or Booking.paymentMethod.</text>
+</svg>

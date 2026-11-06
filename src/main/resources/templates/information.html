@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#0c2e4d">
+	<title th:text="${pageTitle + ' | SuryaCarPool'}">SuryaCarPool Information</title>
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<link rel="stylesheet" th:href="@{/css/landing.css}">
+</head>
+<body>
+	<a class="visually-hidden-focusable p-2" href="#main-content">Skip to main content</a>
+	<div th:replace="~{fragments/site :: header}"></div>
+	<main id="main-content">
+		<section class="page-hero">
+			<div class="container">
+				<span class="eyebrow">SuryaCarPool information</span>
+				<h1 th:text="${pageTitle}">Information</h1>
+				<p th:text="${pageIntro}">Helpful information from SuryaCarPool.</p>
+			</div>
+		</section>
+		<section class="section-pad">
+			<div class="container">
+				<div class="information-card">
+					<div class="d-grid gap-3">
+						<p class="mb-0 text-secondary" th:each="section : ${pageSections}" th:text="${section}"></p>
+					</div>
+					<a class="btn btn-outline-ocean mt-4" th:href="@{/contactus/ui}">Contact our team</a>
+				</div>
+			</div>
+		</section>
+	</main>
+	<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>

@@ -2,16 +2,21 @@ package com.surya.carpool.user.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.surya.carpool.car.model.Car;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email"),
 		@UniqueConstraint(columnNames = "phone") })
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +69,29 @@ public class User {
 
 	@Column(length = 10)
 	private String ownerPincode;
+
+	@Column(name = "user_city", length = 100)
+	private String city;
+
+	@Column(name = "user_state", length = 100)
+	private String state;
+
+	@Column(name = "user_pincode", length = 10)
+	private String pincode;
+
+	@Column(length = 20)
+	private String gender;
+
+	private LocalDate dateOfBirth;
+
+	@Column(name = "registered_at", updatable = false)
+	private LocalDateTime registeredAt;
+
+	@Column(name = "terms_accepted_at")
+	private LocalDateTime termsAcceptedAt;
+
+	@Column(name = "privacy_accepted_at")
+	private LocalDateTime privacyAcceptedAt;
 
 	@Column(length = 20)
 	private String ownerAadharNo;
@@ -138,6 +166,11 @@ public class User {
 		return email;
 	}
 
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -168,6 +201,26 @@ public class User {
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	@Override
+	public java.util.Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_" + (role == null ? Role.USER.name() : role.name())));
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -214,6 +267,70 @@ public class User {
 		this.ownerPincode = ownerPincode;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public LocalDateTime getRegisteredAt() {
+		return registeredAt;
+	}
+
+	public void setRegisteredAt(LocalDateTime registeredAt) {
+		this.registeredAt = registeredAt;
+	}
+
+	public LocalDateTime getTermsAcceptedAt() {
+		return termsAcceptedAt;
+	}
+
+	public void setTermsAcceptedAt(LocalDateTime termsAcceptedAt) {
+		this.termsAcceptedAt = termsAcceptedAt;
+	}
+
+	public LocalDateTime getPrivacyAcceptedAt() {
+		return privacyAcceptedAt;
+	}
+
+	public void setPrivacyAcceptedAt(LocalDateTime privacyAcceptedAt) {
+		this.privacyAcceptedAt = privacyAcceptedAt;
+	}
+
 	public String getOwnerAadharNo() {
 		return ownerAadharNo;
 	}
@@ -256,6 +373,13 @@ public class User {
 			for (Car c : cars) {
 				addCar(c);
 			}
+		}
+	}
+
+	@PrePersist
+	private void setRegistrationTimestamp() {
+		if (registeredAt == null) {
+			registeredAt = LocalDateTime.now();
 		}
 	}
 }

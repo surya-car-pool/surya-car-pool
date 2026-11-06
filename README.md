@@ -52,7 +52,7 @@ It is **not** production hardened. Use it as a learning/demo starter or scaffold
 
 ## Tech stack / Requirements
 
-* Java 17+ (recommended)
+* Java 26 (required)
 * Maven 3.6+ (or mvnw wrapper included if present)
 * Spring Boot (version specified in `pom.xml`)
 * Thymeleaf templating

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1040" viewBox="0 0 1320 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Surya Car Pool payment and invoice sequence diagram</title>
+  <desc id="desc">Cash and mock online payment are shown as separate alternative branches, followed by invoice generation as a separate request. Payment records and receipts do not update the booking payment fields.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#34556e"/></marker>
+    <marker id="returnArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#6a7d8d"/></marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#17324d}.title{font-size:29px;font-weight:bold}.actor{font-size:16px;font-weight:bold}.msg{font-size:14px}.num{font-size:14px;font-weight:bold;fill:#2876a6}.line{stroke:#34556e;stroke-width:2;fill:none;marker-end:url(#arrow)}.return{stroke:#6a7d8d;stroke-width:1.6;stroke-dasharray:7 5;fill:none;marker-end:url(#returnArrow)}.life{stroke:#8da1b1;stroke-width:1.5;stroke-dasharray:7 6}.phase{fill:#f4f8fb;stroke:#9bb2c4;stroke-width:1.2}.cash{fill:#f2faf6;stroke:#7ab398;stroke-width:1.5}.online{fill:#f3f7fc;stroke:#7d9bb5;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1320" height="1040" fill="#ffffff"/>
+  <text x="660" y="40" text-anchor="middle" class="title">Payment and invoice sequence</text>
+  <text x="660" y="66" text-anchor="middle" class="msg">Each alternative is listed in its own frame; follow each frame from top to bottom.</text>
+  <g>
+    <rect x="25" y="88" width="155" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="265" y="88" width="190" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="540" y="88" width="220" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="845" y="88" width="210" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <rect x="1120" y="88" width="175" height="48" rx="10" fill="#dcecf7" stroke="#3b7398" stroke-width="2"/>
+    <text x="102" y="118" text-anchor="middle" class="actor">Browser</text>
+    <text x="360" y="118" text-anchor="middle" class="actor">Payment Controller</text>
+    <text x="650" y="118" text-anchor="middle" class="actor">Payment / Car Service</text>
+    <text x="950" y="118" text-anchor="middle" class="actor">Payment Repositories</text>
+    <text x="1207" y="118" text-anchor="middle" class="actor">Car / Booking DB</text>
+  </g>
+  <path d="M102 136 V998" class="life"/><path d="M360 136 V998" class="life"/>
+  <path d="M650 136 V998" class="life"/><path d="M950 136 V998" class="life"/>
+  <path d="M1207 136 V998" class="life"/>
+
+  <text x="34" y="165" class="num">Booking is already ACTIVE; payment page loads the booking before either payment branch.</text>
+  <rect x="20" y="183" width="1280" height="230" rx="8" class="cash"/>
+  <text x="38" y="207" class="num">ALT 1 — CASH</text>
+  <text x="28" y="243" class="num">1</text><text x="133" y="243" class="msg">POST /payments/confirm</text><path d="M102 249 H350" class="line"/>
+  <text x="28" y="285" class="num">2</text><text x="392" y="285" class="msg">Save Payment record</text><path d="M360 291 H940" class="line"/>
+  <text x="28" y="327" class="num">3</text><text x="392" y="327" class="msg">Mark associated car BOOKED</text><path d="M360 333 H638" class="line"/>
+  <text x="28" y="369" class="num">4</text><text x="682" y="369" class="msg">Update car status</text><path d="M650 375 H1197" class="line"/>
+  <text x="28" y="399" class="num">5</text><text x="392" y="399" class="msg">Return payment receipt page</text><path d="M360 404 H115" class="return"/>
+
+  <rect x="20" y="430" width="1280" height="310" rx="8" class="online"/>
+  <text x="38" y="454" class="num">ALT 2 — MOCK UPI / CARD-STYLE API</text>
+  <text x="28" y="490" class="num">1</text><text x="133" y="490" class="msg">POST /api/payments/initiate</text><path d="M102 496 H350" class="line"/>
+  <text x="28" y="526" class="num">2</text><text x="392" y="526" class="msg">initiatePayment(...)</text><path d="M360 532 H638" class="line"/>
+  <text x="28" y="562" class="num">3</text><text x="133" y="562" class="msg">POST /api/payments/verify (client success flag)</text><path d="M102 568 H350" class="line"/>
+  <text x="28" y="598" class="num">4</text><text x="392" y="598" class="msg">confirmPayment(...)</text><path d="M360 604 H638" class="line"/>
+  <text x="28" y="634" class="num">5</text><text x="682" y="634" class="msg">On success: save PaymentReceipt</text><path d="M650 640 H940" class="line"/>
+  <text x="28" y="670" class="num">6</text><text x="682" y="670" class="msg">Mark car BOOKED</text><path d="M650 676 H1197" class="line"/>
+  <text x="28" y="706" class="num">7</text><text x="392" y="706" class="msg">Return payment result</text><path d="M360 712 H115" class="return"/>
+  <text x="28" y="734" class="msg">Some UI paths also call /payments/confirm, which can create a separate Payment record.</text>
+
+  <rect x="20" y="757" width="1280" height="198" rx="8" class="phase"/>
+  <text x="38" y="781" class="num">SEPARATE FOLLOW-UP — INVOICE PDF</text>
+  <text x="28" y="820" class="num">1</text><text x="133" y="820" class="msg">GET /bookings/invoice/{id}</text><path d="M102 826 H350" class="line"/>
+  <text x="28" y="862" class="num">2</text><text x="392" y="862" class="msg">generateInvoicePdf(booking)</text><path d="M360 868 H638" class="line"/>
+  <text x="28" y="904" class="num">3</text><text x="682" y="904" class="msg">Load booking data</text><path d="M650 910 H1197" class="line"/>
+  <text x="28" y="940" class="num">4</text><text x="392" y="940" class="msg">Return generated PDF</text><path d="M360 946 H115" class="return"/>
+
+  <rect x="100" y="971" width="1120" height="48" rx="8" fill="#fff6dd" stroke="#bd8a21" stroke-width="1.5"/>
+  <text x="660" y="1001" text-anchor="middle" class="msg">Payment handlers do not update Booking.paymentConfirmed/paymentMethod; online success is client-driven mock behavior.</text>
+</svg>

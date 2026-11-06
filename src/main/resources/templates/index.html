@@ -1,569 +1,310 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Surya Car Pool — Self Drive Cars</title>
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Discover self-drive rental cars listed by private owners. Browse available vehicles or find out how to list your own car with SuryaCarPool.">
+	<meta name="theme-color" content="#0c2e4d">
+	<title>SuryaCarPool | Your Trusted Self-Drive Car Rental Platform</title>
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-	<link rel="stylesheet" href="/css/responsive.css">
-
-	<style>
-		:root {
-			--max-width: 1200px;
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<link rel="stylesheet" th:href="@{/css/landing.css}">
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "SuryaCarPool",
+			"description": "Your Trusted Self-Drive Car Rental Platform",
+			"telephone": "+91 99494 25597",
+			"email": "support@suryacarpool.com"
 		}
-
-		body {
-			font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
-			background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-		}
-
-		.navbar-custom {
-			background: rgba(15, 23, 42, 0.95);
-			backdrop-filter: blur(8px);
-		}
-
-		.hero {
-			max-width: var(--max-width);
-			margin: 2rem auto;
-			padding: 3rem;
-			border-radius: 20px;
-			background: linear-gradient(135deg, #0d6efd, #6610f2);
-			color: white;
-		}
-
-		.hero h1 span {
-			color: #ffd166;
-		}
-
-		.section {
-			max-width: var(--max-width);
-			margin: 3.5rem auto;
-			padding: 0 1rem;
-		}
-
-		.feature-card {
-			border: 0;
-			border-radius: 16px;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-			transition: transform .2s ease;
-			height: 100%;
-		}
-
-		.feature-card:hover {
-			transform: translateY(-6px);
-		}
-
-		.icon-circle {
-			width: 60px;
-			height: 60px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 28px;
-			margin: 0 auto 1rem;
-			color: white;
-		}
-
-		.step {
-			background: white;
-			border-radius: 16px;
-			padding: 2rem;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-		}
-
-		.nav-link i {
-			color: rgb(255, 128, 64);
-			margin-right: 4px;
-		}
-
-		.big-icon {
-			width: 70px;
-			height: 70px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 32px;
-			color: #fff;
-			margin: 0 auto 1rem;
-		}
-
-		.color1 {
-			background: #0d6efd
-		}
-
-		.color2 {
-			background: #198754
-		}
-
-		.color3 {
-			background: #ffc107
-		}
-
-		.color4 {
-			background: #dc3545
-		}
-
-		.color5 {
-			background: #6f42c1
-		}
-
-		.color6 {
-			background: #0dcaf0
-		}
-
-		.step,
-		.testimonial,
-		.safety-box,
-		.owner-box {
-			background: #fff;
-			border-radius: 16px;
-			padding: 2rem;
-			box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
-			text-align: center;
-			height: 100%;
-		}
-
-		/* Floating social media ads */
-		.social-float {
-			position: fixed;
-			right: 15px;
-			top: 50%;
-			transform: translateY(-50%);
-			z-index: 9999;
-			display: flex;
-			flex-direction: column;
-			gap: 12px;
-		}
-
-		.social-float a {
-			width: 48px;
-			height: 48px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: #fff;
-			font-size: 22px;
-			text-decoration: none;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-			transition: transform 0.2s ease;
-		}
-
-		.social-float a:hover {
-			transform: scale(1.1);
-		}
-
-		.social-whatsapp {
-			background: #25D366;
-		}
-
-		.social-facebook {
-			background: #1877F2;
-		}
-
-		.social-instagram {
-			background: #E1306C;
-		}
-
-		/* Latest News Ticker */
-		.news-ticker {
-			background: #0d6efd;
-			color: #fff;
-			overflow: hidden;
-			white-space: nowrap;
-			padding: 10px 0;
-			font-weight: 500;
-		}
-
-		.news-ticker span.label {
-			background: #ffc107;
-			color: #000;
-			padding: 6px 12px;
-			margin-right: 12px;
-			border-radius: 4px;
-			font-weight: 600;
-		}
-
-		.news-ticker .news-content {
-			display: inline-block;
-			padding-left: 100%;
-			animation: scrollNews 20s linear infinite;
-		}
-
-		@keyframes scrollNews {
-			0% {
-				transform: translateX(0%);
-			}
-
-			100% {
-				transform: translateX(-100%);
-			}
-		}
-	</style>
+	</script>
 </head>
-
 <body>
-	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-		<div class="container">
-			<a class="navbar-brand d-flex align-items-center" href="/home">
-				<img src="/images/logo.png" style="width:70px;height:70px;border-radius:14px;" />
-				<div class="ms-2">
-					<div class="text-white fw-bold">Surya Car Pool</div>
-					<div class="text-white-50 small">Self Drive Cars Provider</div>
-				</div>
-				<span class="ms-3 badge bg-white text-dark">Trusted</span>
-			</a>
-
-			<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMain">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navMain">
-				<ul class="navbar-nav ms-auto">
-
-					<!-- Common links -->
-					<li class="nav-item">
-						<a class="nav-link" href="/home"><i class="bi bi-house-door-fill"></i> Home</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/aboutus/ui"><i class="bi bi-info-circle-fill"></i> About Us</a>
-					</li>
-
-					<li class="nav-item">
-						<a class="nav-link" href="/contactus/ui"><i class="bi bi-envelope-fill"></i> Contact Us</a>
-					</li>
-
-					<!-- ADMIN ONLY MENU -->
-					<li class="nav-item" sec:authorize="hasRole('ADMIN')">
-						<a class="nav-link text-warning" href="/admin/dashboard">
-							<i class="bi bi-speedometer2"></i> Admin Dashboard
-						</a>
-					</li>
-
-				</ul>
-
-				<!-- Logged-in user info -->
-				<div class="ms-3 text-white" sec:authorize="isAuthenticated()">
-					Hello, <strong th:text="${#authentication.principal.name} ?: 'User'">User</strong>
-				</div>
-
-				<!-- User login -->
-				<a class="btn btn-outline-light btn-sm ms-3" href="/login" sec:authorize="isAnonymous()">Login</a>
-
-				<!-- Admin login (only when not logged in) -->
-				<a class="btn btn-warning btn-sm ms-2" href="/admin/login" sec:authorize="isAnonymous()">Admin Login</a>
-
-				<!-- Logout -->
-				<form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-					<button class="btn btn-light btn-sm ms-2">Logout</button>
-				</form>
-
-			</div>
-		</div>
-	</nav>
-	<!-- LATEST NEWS SCROLLING -->
-	<div class="news-ticker">
-		<span class="label">Latest News</span>
-		<div class="news-content">
-			🚗 New cars added in Hyderabad! &nbsp;&nbsp;|&nbsp;&nbsp;
-			🎉 10% discount on weekend bookings &nbsp;&nbsp;|&nbsp;&nbsp;
-			🛠 Free cancellation within 24 hours &nbsp;&nbsp;|&nbsp;&nbsp;
-			📍 Now Surya Car Pool cars are available in all areas of Hyderabad!!..
-		</div>
-	</div>
-
-	<!-- HERO -->
-	<section class="hero text-center">
-
-		<h1 class="fw-bold mb-2">
-			Drive Your Way with <span>Surya Car Pool</span>
-		</h1>
-
-		<p class="lead mt-2 mb-1">
-			Affordable • Verified • Hassle-Free Self-Drive Cars for Every Journey
-		</p>
-
-		<p class="text-white-50 mb-4">
-			Choose from trusted local cars • Instant booking • No hidden charges • 24/7 support
-		</p>
-
-		<!-- Primary Call to Action -->
-		<div class="mb-4">
-			<a href="/bookcar/ui" class="btn btn-warning btn-lg px-4 me-2">
-				<i class="bi bi-car-front-fill"></i> Book a Car Now
-			</a>
-			<a href="/contactus/ui" class="btn btn-outline-light btn-lg px-4">
-				<i class="bi bi-chat-dots"></i> Talk to Support
-			</a>
-		</div>
-
-		<!-- Quick utility cards -->
-		<div class="row justify-content-center mt-4 g-4">
-
-			<div class="col-md-4">
-				<div class="owner-box">
-					<div class="big-icon color1"><i class="bi bi-search"></i></div>
-					<h6 class="fw-bold">Search Cars</h6>
-					<p class="small text-muted mb-2">
-						Find available cars in your city instantly
-					</p>
-					<a href="/bookcar/ui" class="btn btn-primary btn-sm mt-1">
-						Search Cars
-					</a>
+	<a class="visually-hidden-focusable p-2" href="#main-content">Skip to main content</a>
+	<div th:replace="~{fragments/site :: header}"></div>
+	<main id="main-content">
+		<section class="landing-hero">
+			<div class="container">
+				<div class="row align-items-center g-5">
+					<div class="col-lg-6 hero-copy">
+						<span class="eyebrow">Self-drive, made personal</span>
+						<h1 class="hero-title">Drive Your Journey, <span>Your Way</span></h1>
+						<p class="hero-subtitle">Book trusted self-drive cars from verified owners or earn extra income by sharing your vehicle with SuryaCarPool.</p>
+						<p class="text-secondary mt-2">Connecting Customers and Car Owners Through Safe, Affordable, and Convenient Self-Drive Car Rentals.</p>
+						<div class="hero-actions">
+							<a class="btn btn-ocean" th:href="@{/bookcar/ui}">
+								<i class="bi bi-search me-2" aria-hidden="true"></i>Rent a Car
+							</a>
+							<a class="btn btn-outline-ocean" th:href="@{/owner-app}">
+								<i class="bi bi-car-front me-2" aria-hidden="true"></i>List Your Car
+							</a>
+						</div>
+						<p class="hero-note">
+							<i class="bi bi-person-check" aria-hidden="true"></i>
+							A community marketplace for privately owned cars—not commercial fleets.
+						</p>
+						<p class="hero-note mt-2">
+							<i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+							Sign in is required to browse cars and submit bookings.
+						</p>
+					</div>
+					<div class="col-lg-6">
+						<div class="hero-image-card">
+							<img th:src="@{/images/image2.png}" alt="A row of privately owned cars available for self-drive rental" fetchpriority="high" width="1024" height="1024">
+							<span class="trust-pill"><i class="bi bi-geo-alt" aria-hidden="true"></i> Local owners. Flexible journeys.</span>
+							<div class="hero-image-caption">
+								<span>Find a car that fits the way you travel</span>
+								<strong>Your next drive starts here.</strong>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-4">
-				<div class="owner-box">
-					<div class="big-icon color2"><i class="bi bi-calendar-check"></i></div>
-					<h6 class="fw-bold">My Bookings</h6>
-					<p class="small text-muted mb-2">
-						View, cancel or track your current bookings
-					</p>
-					<a href="/mybookings/ui" class="btn btn-success btn-sm mt-1">
-						View Bookings
-					</a>
+		<section class="section-pad" aria-labelledby="why-heading">
+			<div class="container">
+				<div class="section-heading">
+					<span class="eyebrow">The SuryaCarPool difference</span>
+					<h2 id="why-heading">A more personal way to rent</h2>
+					<p>Clear vehicle details, local owners, and a straightforward self-drive booking experience.</p>
+				</div>
+				<div class="row g-3">
+					<div class="col-sm-6 col-lg-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-file-earmark-check" aria-hidden="true"></i></span>
+						<h3>Owner-submitted vehicle details</h3><p>Registration and car information are collected as part of owner onboarding.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-person-heart" aria-hidden="true"></i></span>
+						<h3>Independent car owners</h3><p>Discover privately owned vehicles shared by their registered owners.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+						<h3>Rates shown up front</h3><p>Review the listed daily rate and vehicle information before you book.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span>
+						<h3>Simple booking steps</h3><p>Choose an available car and provide your journey details online.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-credit-card-2-front" aria-hidden="true"></i></span>
+						<h3>Payment options</h3><p>Review the payment choices and rental requirements in the booking flow.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4"><article class="benefit-card">
+						<span class="benefit-icon"><i class="bi bi-headset" aria-hidden="true"></i></span>
+						<h3>Talk to our team</h3><p>Reach SuryaCarPool by phone, email, or WhatsApp when you need help.</p>
+					</article></div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-4">
-				<div class="owner-box">
-					<div class="big-icon color4"><i class="bi bi-headset"></i></div>
-					<h6 class="fw-bold">Customer Support</h6>
-					<p class="small text-muted mb-2">
-						Get help anytime via call or WhatsApp
-					</p>
-					<a href="/contactus/ui" class="btn btn-danger btn-sm mt-1">
-						Get Support
-					</a>
+		<section class="section-pad section-surface" aria-label="Customer and car owner benefits">
+			<div class="container">
+				<div class="row g-4 align-items-stretch">
+					<div class="col-lg-6">
+						<article class="split-panel">
+							<div class="panel-ribbon"><i class="bi bi-person me-2" aria-hidden="true"></i>For customers</div>
+							<div class="split-panel-body">
+								<span class="eyebrow">Go your own way</span>
+								<h2>Find the right car for your next trip</h2>
+								<p>Browse available, owner-listed vehicles and make your self-drive plans with the information you need.</p>
+								<ul class="check-list">
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Explore different privately owned vehicles</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Submit your booking details online</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Choose dates that work for your journey</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>See the owner's listed rate before booking</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Review requirements before you continue</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Manage bookings from your account</li>
+								</ul>
+								<a class="btn btn-ocean" th:href="@{/bookcar/ui}">Explore Available Cars <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-lg-6">
+						<article class="split-panel">
+							<div class="panel-ribbon owner"><i class="bi bi-key me-2" aria-hidden="true"></i>For car owners</div>
+							<div class="split-panel-body">
+								<span class="eyebrow">Share your own car</span>
+								<h2>Put your privately owned vehicle to work</h2>
+								<p>Introduce your personal car to local renters. Owner-submitted details and documents are reviewed through the existing onboarding process.</p>
+								<ul class="check-list">
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>List your own registered vehicle</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Share the vehicle details and documents requested</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Set the rates entered for your listing</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Review booking requests and rental information</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Owner listings are subject to approval</li>
+									<li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Commercial fleet submissions are not the platform focus</li>
+								</ul>
+								<a class="btn btn-ocean" th:href="@{/owner-app}">Register Your Vehicle <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a>
+							</div>
+						</article>
+					</div>
 				</div>
 			</div>
+		</section>
 
-		</div>
-
-	</section>
-
-	<!-- TRUST STRIP -->
-	<section class="section">
-		<div class="row text-center g-4">
-			<div class="col-md-3"><i class="bi bi-file-earmark-check fs-2 text-primary"></i>
-				<p class="fw-semibold mt-2">RTO Compliant Vehicles</p>
-			</div>
-			<div class="col-md-3"><i class="bi bi-shield-lock fs-2 text-success"></i>
-				<p class="fw-semibold mt-2">Insurance Covered</p>
-			</div>
-			<div class="col-md-3"><i class="bi bi-geo fs-2 text-warning"></i>
-				<p class="fw-semibold mt-2">GPS Enabled Cars</p>
-			</div>
-			<div class="col-md-3"><i class="bi bi-stars fs-2 text-info"></i>
-				<p class="fw-semibold mt-2">Clean & Sanitized</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- WHY US -->
-	<section class="section">
-		<h2 class="text-center mb-4">Why Customers Choose Us</h2>
-		<div class="row g-4">
-
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-primary"><i class="bi bi-shield-check"></i></div>
-					<h6>Verified & Safe</h6>
-					<p class="small text-muted">All cars verified</p>
+		<section class="section-pad" aria-labelledby="steps-heading">
+			<div class="container">
+				<div class="section-heading">
+					<span class="eyebrow">Getting started</span>
+					<h2 id="steps-heading">Four simple steps</h2>
+					<p>Whether you are booking a journey or listing your car, start with the details that matter.</p>
+				</div>
+				<div class="row g-3">
+					<div class="col-sm-6 col-lg-3"><article class="step-card">
+						<span class="step-number">01</span><h3>Sign up</h3><p>Create your SuryaCarPool account to get started.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-3"><article class="step-card">
+						<span class="step-number">02</span><h3>Complete the details</h3><p>Provide the account, journey, or vehicle information requested for your chosen flow.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-3"><article class="step-card">
+						<span class="step-number">03</span><h3>Book or list your car</h3><p>Choose an available car, or submit your privately owned vehicle for review.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-3"><article class="step-card">
+						<span class="step-number">04</span><h3>Drive or earn</h3><p>Enjoy your booked journey, or earn from bookings of your approved listing.</p>
+					</article></div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-success"><i class="bi bi-cash-stack"></i></div>
-					<h6>No Hidden Charges</h6>
-					<p class="small text-muted">Transparent pricing</p>
+		<section class="stats-band" aria-labelledby="stats-heading">
+			<div class="container section-pad py-5">
+				<div class="text-center mb-3">
+					<span class="eyebrow text-white-50">A growing community</span>
+					<h2 id="stats-heading" class="h3 fw-bold">SuryaCarPool, at a glance</h2>
+					<p class="mb-0 text-white-50 small">Live counts from the platform records.</p>
+				</div>
+				<div class="row g-2">
+					<div class="col-6 col-lg-3"><div class="stat-item">
+						<span class="stat-value" data-counter th:attr="data-count=${customerCount}" th:text="${customerCount}" aria-label="Registered customers">0</span>
+						<span class="stat-label">Registered customers</span>
+					</div></div>
+					<div class="col-6 col-lg-3"><div class="stat-item">
+						<span class="stat-value" data-counter th:attr="data-count=${ownerCount}" th:text="${ownerCount}" aria-label="Approved vehicle owners">0</span>
+						<span class="stat-label">Approved vehicle owners</span>
+					</div></div>
+					<div class="col-6 col-lg-3"><div class="stat-item">
+						<span class="stat-value" data-counter th:attr="data-count=${availableCarCount}" th:text="${availableCarCount}" aria-label="Available cars">0</span>
+						<span class="stat-label">Available cars</span>
+					</div></div>
+					<div class="col-6 col-lg-3"><div class="stat-item">
+						<span class="stat-value" data-counter th:attr="data-count=${completedTripCount}" th:text="${completedTripCount}" aria-label="Completed trips">0</span>
+						<span class="stat-label">Completed trips</span>
+					</div></div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-warning"><i class="bi bi-speedometer2"></i></div>
-					<h6>Freedom to Drive</h6>
-					<p class="small text-muted">No driver</p>
+		<section class="section-pad section-surface" aria-labelledby="stories-heading">
+			<div class="container">
+				<div class="section-heading mb-4">
+					<span class="eyebrow">Real trust takes time</span>
+					<h2 id="stories-heading">Your experience matters</h2>
+					<p>We want to share genuine stories from customers and independent owners—not made-up ratings.</p>
+				</div>
+				<div class="row justify-content-center g-3">
+					<div class="col-md-5"><article class="quote-card">
+						<i class="bi bi-chat-quote quote-mark" aria-hidden="true"></i>
+						<h3>Customer stories are on the way</h3>
+						<p>Once renters share feedback about real bookings, we will feature their words here with permission.</p>
+						<span class="quote-label">Genuine customer feedback</span>
+					</article></div>
+					<div class="col-md-5"><article class="quote-card">
+						<i class="bi bi-chat-quote quote-mark" aria-hidden="true"></i>
+						<h3>Owner stories are on the way</h3>
+						<p>We look forward to highlighting the experiences of the private car owners who join our community.</p>
+						<span class="quote-label">Independent owner perspectives</span>
+					</article></div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-info"><i class="bi bi-geo-alt-fill"></i></div>
-					<h6>Local & Reliable</h6>
-					<p class="small text-muted">Trusted locally</p>
+		<section class="section-pad" aria-labelledby="safety-heading">
+			<div class="container">
+				<div class="section-heading">
+					<span class="eyebrow">Clarity at every step</span>
+					<h2 id="safety-heading">Know what to expect</h2>
+					<p>Review the account, vehicle, and rental information shown in the current SuryaCarPool workflow.</p>
+				</div>
+				<div class="row g-3">
+					<div class="col-sm-6 col-lg"><article class="safety-card">
+						<span class="safety-icon"><i class="bi bi-person-vcard" aria-hidden="true"></i></span><h3>Identity details</h3><p>Booking requirements explain which customer details are requested.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg"><article class="safety-card">
+						<span class="safety-icon"><i class="bi bi-car-front" aria-hidden="true"></i></span><h3>Vehicle information</h3><p>Owners provide car and registration details during vehicle onboarding.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg"><article class="safety-card">
+						<span class="safety-icon"><i class="bi bi-receipt" aria-hidden="true"></i></span><h3>Rental terms</h3><p>Read the current terms shown before you continue with a booking.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg"><article class="safety-card">
+						<span class="safety-icon"><i class="bi bi-credit-card" aria-hidden="true"></i></span><h3>Payment information</h3><p>Review the payment method and amount presented during checkout.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4 col-xl"><article class="safety-card">
+						<span class="safety-icon"><i class="bi bi-headset" aria-hidden="true"></i></span><h3>Support contacts</h3><p>Reach the team through the phone and email details on our contact page.</p>
+					</article></div>
+					<div class="col-sm-6 col-lg-4 col-xl"><article class="safety-card">
+						<span class="safety-icon"><i class="bi bi-lock" aria-hidden="true"></i></span><h3>Privacy information</h3><p>Review how the current application uses account and booking information.</p>
+						<a th:href="@{/privacy}" class="small fw-semibold">Read our privacy information</a>
+					</article></div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-secondary"><i class="bi bi-person-badge"></i></div>
-					<h6>ID Verified Users</h6>
-					<p class="small text-muted">Government ID verified</p>
+		<section class="section-pad pt-0" aria-labelledby="apps-heading">
+			<div class="container">
+				<div class="app-banner">
+					<div class="app-banner-content">
+						<span class="eyebrow text-white-50">The SuryaCarPool experience</span>
+						<h2 id="apps-heading">Your journey, on the web today</h2>
+						<p>Explore cars and manage your current booking in the responsive web experience. Dedicated iOS and Android apps are not available in this repository yet.</p>
+						<div class="d-flex flex-wrap gap-2">
+							<a class="btn btn-sun" th:href="@{/customer-app}"><i class="bi bi-phone me-1" aria-hidden="true"></i>Customer App Preview</a>
+							<a class="btn btn-outline-light" th:href="@{/owner-app}"><i class="bi bi-car-front me-1" aria-hidden="true"></i>Owner App Preview</a>
+						</div>
+					</div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-primary"><i class="bi bi-arrow-repeat"></i></div>
-					<h6>Easy Cancellation</h6>
-					<p class="small text-muted">Transparent policy</p>
+		<section class="section-pad section-surface" aria-labelledby="about-heading">
+			<div class="container">
+				<div class="row align-items-center g-4">
+					<div class="col-lg-7">
+						<span class="eyebrow">About SuryaCarPool</span>
+						<h2 id="about-heading" class="display-6 fw-bold" style="color:var(--sc-blue-dark);letter-spacing:-.045em">Local cars. More freedom to go.</h2>
+						<p class="text-secondary mt-3 mb-0" style="line-height:1.8">SuryaCarPool brings people who need a self-drive car together with independent owners who want to share their privately registered vehicle. We are building a simpler way to discover local cars, review rental details, and plan the journey ahead.</p>
+					</div>
+					<div class="col-lg-5 d-flex flex-wrap gap-2">
+						<a class="btn btn-ocean" th:href="@{/aboutus/ui}">Get to know us</a>
+						<a class="btn btn-outline-ocean" th:href="@{/contactus/ui}">Contact our team</a>
+					</div>
 				</div>
 			</div>
+		</section>
 
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-success"><i class="bi bi-headset"></i></div>
-					<h6>Customer Support</h6>
-					<p class="small text-muted">Phone & WhatsApp</p>
+		<section class="section-pad" aria-labelledby="contact-heading">
+			<div class="container">
+				<div class="row align-items-center g-4">
+					<div class="col-lg-7">
+						<span class="eyebrow">Here to help</span>
+						<h2 id="contact-heading" class="h2 fw-bold" style="color:var(--sc-blue-dark)">Questions about your next drive?</h2>
+						<p class="text-secondary mb-0">Talk with our team about a booking or your privately owned vehicle.</p>
+					</div>
+					<div class="col-lg-5 d-flex flex-wrap gap-2">
+						<a class="btn btn-outline-ocean" href="tel:+919949425597"><i class="bi bi-telephone me-1" aria-hidden="true"></i>Call our team</a>
+						<a class="btn btn-ocean" th:href="@{/contactus/ui}">Contact us</a>
+					</div>
 				</div>
 			</div>
-
-			<div class="col-md-3">
-				<div class="card feature-card p-3 text-center">
-					<div class="icon-circle bg-danger"><i class="bi bi-tools"></i></div>
-					<h6>24/7 Roadside Help</h6>
-					<p class="small text-muted">Always available</p>
-				</div>
-			</div>
-
-		</div>
-	</section>
-
-	<!-- HOW IT WORKS -->
-	<section class="section bg-light rounded-4 py-5">
-		<h2 class="text-center mb-4">How It Works</h2>
-
-		<div class="row g-4">
-			<div class="col-md-4">
-				<div class="step">
-					<div class="big-icon color1"><i class="bi bi-search"></i></div>
-					<h5>Choose Car</h5>
-					<p class="text-muted small">Browse nearby available cars</p>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="step">
-					<div class="big-icon color2"><i class="bi bi-credit-card"></i></div>
-					<h5>Book & Pay</h5>
-					<p class="text-muted small">Secure & transparent payment</p>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="step">
-					<div class="big-icon color3"><i class="bi bi-car-front-fill"></i></div>
-					<h5>Drive & Return</h5>
-					<p class="text-muted small">Enjoy your trip & return safely</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- TESTIMONIALS -->
-	<section class="section bg-light rounded-4 py-5">
-		<h2 class="text-center mb-4">What Our Customers Say</h2>
-
-		<div class="row g-4">
-			<div class="col-md-4">
-				<div class="testimonial">
-					<div class="big-icon color4"><i class="bi bi-person-circle"></i></div>
-					<p>“Clean car and smooth booking.”</p>
-					<strong>- Ramesh</strong>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="testimonial">
-					<div class="big-icon color5"><i class="bi bi-person-circle"></i></div>
-					<p>“Very affordable and reliable.”</p>
-					<strong>- Priya</strong>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="testimonial">
-					<div class="big-icon color6"><i class="bi bi-person-circle"></i></div>
-					<p>“Perfect for weekend trips.”</p>
-					<strong>- Akash</strong>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- SAFETY -->
-	<section class="section text-center">
-		<h2>Your Safety is Our Priority</h2>
-
-		<div class="row g-4 mt-3">
-			<div class="col-md-3">
-				<div class="safety-box">
-					<div class="big-icon color1"><i class="bi bi-shield-check"></i></div>
-					Verified Cars
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="safety-box">
-					<div class="big-icon color2"><i class="bi bi-person-badge"></i></div>
-					Verified Users
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="safety-box">
-					<div class="big-icon color3"><i class="bi bi-file-earmark-check"></i></div>
-					Insurance Covered
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="safety-box">
-					<div class="big-icon color4"><i class="bi bi-headset"></i></div>
-					24/7 Support
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Floating Social Media Advertising Clips -->
-	<div class="social-float">
-		<!-- WhatsApp -->
-		<a href="https://wa.me/919949425597" target="_blank" class="social-whatsapp" title="Chat with us on WhatsApp">
-			<i class="bi bi-whatsapp"></i>
-		</a>
-
-		<!-- Facebook -->
-		<a href="https://www.facebook.com/ShanthappaSappati/" target="_blank" class="social-facebook"
-			title="Follow us on Facebook">
-			<i class="bi bi-facebook"></i>
-		</a>
-
-		<!-- Instagram -->
-		<a href="#" target="_blank" class="social-instagram" title="Follow us on Instagram">
-			<i class="bi bi-instagram"></i>
-		</a>
-	</div>
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- FOOTER -->
-	<footer class="bg-dark text-light mt-5">
-		<div class="container py-4 text-center small">
-			<div>© 2025 Surya Car Pool. All rights reserved.</div>
-			<div>Reliable • Affordable • Secure Self Drive Cars</div>
-		</div>
-	</footer>
+		</section>
+	</main>
+	<div th:replace="~{fragments/site :: footer}"></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+	<script th:src="@{/js/landing.js}" defer></script>
 </body>
-
 </html>

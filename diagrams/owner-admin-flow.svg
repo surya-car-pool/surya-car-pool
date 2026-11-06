@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760" role="img" aria-labelledby="title desc">
+  <title id="title">Surya Car Pool owner registration and administrator approval flow</title>
+  <desc id="desc">An owner submits profile, vehicle, and documents; the service saves uploads, creates a pending owner and car, then an admin decision approves and enables the owner or rejects and disables the account.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#46627a"/>
+    </marker>
+    <style>
+      text{font-family:Arial,sans-serif;fill:#17324d}.title{font-size:29px;font-weight:bold}.label{font-size:20px;font-weight:bold}.body{font-size:16px}.small{font-size:14px}.box{stroke:#3b7398;stroke-width:2;rx:15;fill:#eaf4fb}.store{stroke:#27836b;stroke-width:2;rx:15;fill:#e8f6f0}.decision{stroke:#bd8a21;stroke-width:2;fill:#fff6dd}.reject{stroke:#bf5d5d;stroke-width:2;rx:15;fill:#fff0ef}.line{stroke:#46627a;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1100" height="760" fill="#ffffff"/>
+  <text x="550" y="48" text-anchor="middle" class="title">Owner onboarding and admin approval flow</text>
+
+  <rect x="55" y="105" width="280" height="115" class="box"/>
+  <text x="195" y="146" text-anchor="middle" class="label">1. Owner submits</text>
+  <text x="195" y="176" text-anchor="middle" class="body">Profile + vehicle details</text>
+  <text x="195" y="201" text-anchor="middle" class="small">Car and registration documents</text>
+
+  <rect x="410" y="105" width="280" height="115" class="box"/>
+  <text x="550" y="146" text-anchor="middle" class="label">2. POST /api/owners</text>
+  <text x="550" y="176" text-anchor="middle" class="body">Multipart request</text>
+  <text x="550" y="201" text-anchor="middle" class="small">Current security config requires auth</text>
+
+  <rect x="765" y="105" width="280" height="115" class="store"/>
+  <text x="905" y="146" text-anchor="middle" class="label">3. Save owner + car</text>
+  <text x="905" y="176" text-anchor="middle" class="body">Store files; persist records</text>
+  <text x="905" y="201" text-anchor="middle" class="small">Owner status = PENDING</text>
+
+  <path d="M335 162 H400" class="line"/>
+  <path d="M690 162 H755" class="line"/>
+  <path d="M905 220 V270 H550 V315" class="line"/>
+
+  <rect x="395" y="315" width="310" height="100" class="box"/>
+  <text x="550" y="355" text-anchor="middle" class="label">4. Admin reviews request</text>
+  <text x="550" y="386" text-anchor="middle" class="body">Owner management page/actions</text>
+
+  <path d="M550 415 V455" class="line"/>
+  <polygon points="550,450 685,520 550,590 415,520" class="decision"/>
+  <text x="550" y="514" text-anchor="middle" class="label">Approve?</text>
+  <text x="550" y="541" text-anchor="middle" class="body">Admin decision</text>
+
+  <path d="M415 520 H230 V625" class="line"/>
+  <path d="M685 520 H870 V625" class="line"/>
+  <text x="292" y="505" class="small">APPROVE</text>
+  <text x="782" y="505" class="small">REJECT</text>
+
+  <rect x="65" y="625" width="330" height="95" class="store"/>
+  <text x="230" y="663" text-anchor="middle" class="label">Approved</text>
+  <text x="230" y="691" text-anchor="middle" class="body">Owner enabled; status APPROVED</text>
+  <text x="230" y="712" text-anchor="middle" class="small">Eligible car can appear if AVAILABLE + active</text>
+
+  <rect x="705" y="625" width="330" height="95" class="reject"/>
+  <text x="870" y="663" text-anchor="middle" class="label">Rejected</text>
+  <text x="870" y="691" text-anchor="middle" class="body">Owner disabled; status REJECTED</text>
+  <text x="870" y="712" text-anchor="middle" class="small">Owner's cars are excluded from browsing</text>
+</svg>

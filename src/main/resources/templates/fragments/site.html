@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="header" class="site-header">
+	<nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+		<div class="container">
+			<a class="navbar-brand site-brand" th:href="@{/home}" aria-label="SuryaCarPool home">
+				<img th:src="@{/images/logo.png}" alt="" width="44" height="44">
+				<span class="site-brand-copy">
+					<strong>SuryaCarPool</strong>
+					<small>Your Trusted Self-Drive Car Rental Platform</small>
+				</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNavigation"
+				aria-controls="siteNavigation" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="siteNavigation">
+				<ul class="navbar-nav ms-auto align-items-lg-center">
+					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/customer-app}">Customer App</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/owner-app}">Owner App</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/aboutus/ui}">About Us</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/contactus/ui}">Contact Us</a></li>
+					<li class="nav-item ms-lg-2"><a class="btn btn-outline-light btn-sm site-admin-link"
+							th:href="@{/admin/login}">Admin Login</a></li>
+					<li class="nav-item ms-lg-2" sec:authorize="isAuthenticated()">
+						<a class="nav-link" th:href="@{/mybookings/ui}">My Bookings</a>
+					</li>
+					<li class="nav-item ms-lg-2" sec:authorize="hasRole('ADMIN')">
+						<a class="nav-link" th:href="@{/admin/dashboard}">Admin Dashboard</a>
+					</li>
+					<li class="nav-item ms-lg-2" sec:authorize="isAnonymous()">
+						<a class="btn btn-sun btn-sm" th:href="@{/login}">Sign in</a>
+					</li>
+					<li class="nav-item ms-lg-2" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="post" class="m-0">
+							<button class="btn btn-sun btn-sm" type="submit">Sign out</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<footer th:fragment="footer" class="site-footer">
+	<div class="container">
+		<div class="row gy-4 align-items-start">
+			<div class="col-lg-5">
+				<a class="site-brand footer-brand" th:href="@{/home}">
+					<img th:src="@{/images/logo.png}" alt="" width="42" height="42">
+					<span class="site-brand-copy">
+						<strong>SuryaCarPool</strong>
+						<small>Your Trusted Self-Drive Car Rental Platform</small>
+					</span>
+				</a>
+				<p class="footer-copy mt-3 mb-0">Connecting customers with privately owned cars for self-drive rentals.</p>
+			</div>
+			<div class="col-6 col-lg-2">
+				<h2 class="footer-heading">Explore</h2>
+				<a th:href="@{/home}">Home</a>
+				<a th:href="@{/customer-app}">Customer App</a>
+				<a th:href="@{/owner-app}">Owner App</a>
+			</div>
+			<div class="col-6 col-lg-2">
+				<h2 class="footer-heading">Company</h2>
+				<a th:href="@{/aboutus/ui}">About Us</a>
+				<a th:href="@{/contactus/ui}">Contact Us</a>
+				<a th:href="@{/faq}">FAQ</a>
+			</div>
+			<div class="col-12 col-lg-3">
+				<h2 class="footer-heading">Information</h2>
+				<a th:href="@{/terms}">Terms &amp; Conditions</a>
+				<a th:href="@{/privacy}">Privacy Policy</a>
+				<a th:href="@{/contactus/ui}">Talk to our team</a>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; SuryaCarPool. All rights reserved.</span>
+			<span>Self-drive rentals, connected to local car owners.</span>
+		</div>
+	</div>
+</footer>
+</body>
+</html>
