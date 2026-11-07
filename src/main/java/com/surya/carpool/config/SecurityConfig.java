@@ -6,6 +6,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -87,6 +88,11 @@ public class SecurityConfig {
 								"/customer-app/**", "/owner-app", "/owner-app/**", "/terms", "/privacy", "/faq")
 						.permitAll()
 
+						.requestMatchers("/owner/terms", "/owner/terms/accept", "/attachcar/ui").authenticated()
+						.requestMatchers("/owner/**").hasRole("OWNER")
+						.requestMatchers("/api/owners/vehicles").authenticated()
+						.requestMatchers("/api/owners").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/cars").hasAnyRole("OWNER", "ADMIN")
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 
 						.anyRequest().authenticated())

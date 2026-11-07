@@ -18,6 +18,7 @@
 			<div class="collapse navbar-collapse" id="siteNavigation">
 				<ul class="navbar-nav ms-auto align-items-lg-center">
 					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bookcar/ui}">Vehicles</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/customer-app}">Customer App</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/owner-app}">Owner App</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/aboutus/ui}">About Us</a></li>
@@ -26,6 +27,9 @@
 							th:href="@{/admin/login}">Admin Login</a></li>
 					<li class="nav-item ms-lg-2" sec:authorize="isAuthenticated()">
 						<a class="nav-link" th:href="@{/mybookings/ui}">My Bookings</a>
+					</li>
+					<li class="nav-item ms-lg-2" sec:authorize="hasRole('OWNER')">
+						<span class="nav-link">Welcome, <span sec:authentication="principal.name"></span> 👋</span>
 					</li>
 					<li class="nav-item ms-lg-2" sec:authorize="hasRole('ADMIN')">
 						<a class="nav-link" th:href="@{/admin/dashboard}">Admin Dashboard</a>

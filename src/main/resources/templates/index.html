@@ -67,6 +67,8 @@
 			</div>
 		</section>
 
+		<div sec:authorize="hasRole('OWNER')" th:replace="~{fragments/owner-summary :: card}"></div>
+
 		<section class="section-pad" aria-labelledby="why-heading">
 			<div class="container">
 				<div class="section-heading">

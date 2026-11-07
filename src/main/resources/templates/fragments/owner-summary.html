@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<section th:fragment="card" class="section-pad section-surface" aria-labelledby="owner-dashboard-heading">
+	<div class="container">
+		<div class="information-card">
+			<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+				<div>
+					<span class="eyebrow">Owner Dashboard</span>
+					<h2 id="owner-dashboard-heading" class="h3 mb-1">Welcome Back, <span th:text="${ownerDashboard.name}">Owner</span>! 🚗</h2>
+					<p class="text-secondary mb-0">Manage your vehicles, bookings, and earnings easily.</p>
+				</div>
+				<a class="btn btn-ocean" th:href="@{/owner/terms}">Continue to Vehicle Submission</a>
+			</div>
+			<div class="row g-3">
+				<div class="col-sm-6 col-lg-4"><strong>Owner Name:</strong> <span th:text="${ownerDashboard.name}"></span></div>
+				<div class="col-sm-6 col-lg-4"><strong>Vehicles:</strong> <span th:text="${ownerDashboard.vehicleCount}"></span></div>
+				<div class="col-sm-6 col-lg-4"><strong>Active Bookings:</strong> <span th:text="${ownerDashboard.activeBookingCount}"></span></div>
+				<div class="col-sm-6 col-lg-4"><strong>Total Earnings:</strong> ₹<span th:text="${#numbers.formatDecimal(ownerDashboard.totalEarnings, 1, 2)}"></span></div>
+				<div class="col-sm-6 col-lg-4"><strong>Member Since:</strong>
+					<span th:if="${ownerDashboard.memberSince != null}" th:text="${#temporals.format(ownerDashboard.memberSince, 'MMM yyyy')}"></span>
+					<span th:if="${ownerDashboard.memberSince == null}">N/A</span>
+				</div>
+				<div class="col-sm-6 col-lg-4"><strong>Verification Status:</strong>
+					<span th:if="${ownerDashboard.verificationStatus == 'APPROVED'}">✅ Profile Verified</span>
+					<span th:unless="${ownerDashboard.verificationStatus == 'APPROVED'}" th:text="|Profile ${ownerDashboard.verificationStatus}|"></span>
+				</div>
+			</div>
+			<p th:if="${ownerDashboard.termsAcceptedOn != null}" class="small text-success mt-3 mb-0">
+				Terms accepted on: <span th:text="${#temporals.format(ownerDashboard.termsAcceptedOn, 'dd-MMM-yyyy hh:mm a')}"></span>.
+				You can now add and manage vehicles.
+			</p>
+		</div>
+	</div>
+</section>
+</body>
+</html>

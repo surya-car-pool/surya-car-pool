@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#102d43">
+	<title>Add Your Vehicle | SuryaCarPool</title>
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<link rel="stylesheet" th:href="@{/css/landing.css}">
+	<style>
+		:root {
+			color-scheme: light;
+			--page: #f3f6fa;
+			--surface: #fff;
+			--text: #172b3a;
+			--muted: #647789;
+			--border: #e2e9ef;
+			--brand: #0c6072;
+			--brand-soft: #eaf5f6;
+			--shadow: 0 16px 42px rgba(28, 54, 75, .08);
+		}
+		:root[data-theme="dark"] {
+			color-scheme: dark;
+			--page: #101923;
+			--surface: #192633;
+			--text: #e9f1f7;
+			--muted: #a4b4c2;
+			--border: #344656;
+			--brand: #82d7e2;
+			--brand-soft: #213b47;
+			--shadow: 0 16px 42px rgba(0, 0, 0, .22);
+		}
+		body { background: var(--page); color: var(--text); font-family: Inter, "Segoe UI", system-ui, sans-serif; }
+		.page-wrap { max-width: 1180px; }
+		.hero {
+			position: relative; overflow: hidden; color: #fff; padding: clamp(2rem, 5vw, 3.5rem);
+			border-radius: 24px; background: linear-gradient(120deg, #102d43, #0d6072 66%, #228b8a);
+			box-shadow: var(--shadow);
+		}
+		.hero:after { content: ""; position: absolute; width: 280px; height: 280px; right: -60px; top: -110px;
+			border: 1px solid rgba(255,255,255,.2); border-radius: 50%; box-shadow: 0 0 0 38px rgba(255,255,255,.04), 0 0 0 78px rgba(255,255,255,.035); }
+		.hero > * { position: relative; z-index: 1; }
+		.hero-kicker { color: #bce7e9; font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+		.hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 750; letter-spacing: -.04em; }
+		.hero p { max-width: 650px; color: #e0eff1; }
+		.theme-toggle { color: #fff; border-color: rgba(255,255,255,.55); }
+		.stepper { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .5rem; margin: 1.6rem 0; }
+		.step-link { display: flex; align-items: center; gap: .65rem; min-width: 0; padding: .8rem .7rem;
+			border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--muted);
+			text-decoration: none; transition: transform .18s ease, border-color .18s ease; }
+		.step-link:hover { transform: translateY(-2px); border-color: var(--brand); color: var(--text); }
+		.step-number { flex: 0 0 32px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%;
+			background: var(--page); font-size: .85rem; font-weight: 700; }
+		.step-link.is-complete .step-number, .step-link.is-current .step-number { color: white; background: var(--brand); }
+		.step-link.is-current { border-color: var(--brand); color: var(--text); }
+		.step-label { font-size: .78rem; font-weight: 650; line-height: 1.2; }
+		.content-grid { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 1.25rem; align-items: start; }
+		.form-card, .summary-card, .trust-card { border: 1px solid var(--border); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+		.form-card { margin-bottom: 1.15rem; scroll-margin-top: 1rem; }
+		.card-heading { display: flex; align-items: center; gap: .9rem; padding: 1.35rem 1.5rem 1rem; }
+		.section-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; color: var(--brand); background: var(--brand-soft); font-size: 1.2rem; }
+		.card-heading h2 { margin: 0; font-size: 1.15rem; font-weight: 720; }
+		.card-heading p { margin: .2rem 0 0; color: var(--muted); font-size: .87rem; }
+		.card-content { padding: .25rem 1.5rem 1.5rem; }
+		.form-label { font-size: .9rem; font-weight: 650; }
+		.required { color: #d33f49; }
+		.form-control, .form-select { min-height: 46px; border-color: var(--border); background-color: var(--surface); color: var(--text); }
+		.form-control:focus, .form-select:focus { border-color: var(--brand); box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--brand) 18%, transparent); }
+		.form-text, .helper { color: var(--muted); font-size: .8rem; }
+		.fuel-option { display: inline-flex; gap: .45rem; align-items: center; padding: .65rem .85rem; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; }
+		.fuel-option:has(input:checked) { border-color: var(--brand); background: var(--brand-soft); }
+		.upload-tile { position: relative; display: flex; min-height: 120px; flex-direction: column; justify-content: center;
+			align-items: center; gap: .4rem; padding: 1rem; border: 1px dashed #9aafbd; border-radius: 14px; text-align: center;
+			cursor: pointer; transition: background .18s ease, border-color .18s ease; }
+		.upload-tile:hover, .upload-tile.has-file { border-color: var(--brand); background: var(--brand-soft); }
+		.upload-tile.has-file:after { content: "Selected"; position: absolute; top: .55rem; right: .6rem; padding: .18rem .5rem;
+			border-radius: 999px; background: #d9f3e8; color: #176345; font-size: .68rem; font-weight: 700; }
+		.upload-tile input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+		.upload-icon { color: var(--brand); font-size: 1.5rem; }
+		.upload-name { max-width: 100%; overflow: hidden; color: var(--muted); font-size: .77rem; text-overflow: ellipsis; white-space: nowrap; }
+		.photo-preview { display: none; width: 100%; height: 92px; object-fit: cover; border-radius: 10px; }
+		.upload-tile.previewing .photo-preview { display: block; }
+		.upload-tile.previewing .upload-icon, .upload-tile.previewing .upload-title { display: none; }
+		.summary-card { position: sticky; top: 1rem; padding: 1.25rem; }
+		.summary-card h2 { font-size: 1.05rem; font-weight: 720; }
+		.summary-row { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-bottom: 1px solid var(--border); font-size: .84rem; }
+		.summary-row span:first-child { color: var(--muted); }
+		.trust-card { display: grid; gap: .8rem; margin-top: 1rem; padding: 1rem; }
+		.trust-item { display: flex; align-items: center; gap: .65rem; font-size: .83rem; font-weight: 600; }
+		.trust-item i { color: #16836e; font-size: 1rem; }
+		.declaration { padding: 1rem; border-radius: 14px; background: var(--page); }
+		.declaration li { margin: .3rem 0; color: var(--muted); font-size: .87rem; }
+		.submit-button { min-height: 52px; font-weight: 700; background: #0c6072; border-color: #0c6072; }
+		.submit-button:hover { background: #094d5b; border-color: #094d5b; }
+		#uploadProgress { display: none; }
+		#uploadProgress.is-visible { display: block; }
+		#draftStatus { color: var(--muted); font-size: .78rem; }
+		.animate-in { animation: rise-in .45s ease both; }
+		@keyframes rise-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+		@media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .summary-column { order: -1; } .summary-card { position: static; } }
+		@media (max-width: 640px) {
+			.hero { border-radius: 18px; padding: 1.6rem; }
+			.stepper { grid-template-columns: repeat(5, minmax(84px, 1fr)); overflow-x: auto; padding-bottom: .35rem; }
+			.step-link { flex-direction: column; align-items: flex-start; padding: .6rem; }
+			.step-label { font-size: .7rem; }
+			.card-heading { padding: 1.1rem 1rem .8rem; }
+			.card-content { padding: .25rem 1rem 1.1rem; }
+		}
+	</style>
+</head>
+<body>
+	<div th:replace="~{fragments/site :: header}"></div>
+	<main class="page-wrap container py-4 py-lg-5">
+		<header class="hero animate-in">
+			<div class="d-flex justify-content-between align-items-start gap-3">
+				<div>
+					<span class="hero-kicker">Owner vehicle registration</span>
+					<h1 class="mt-2 mb-2">🚗 Add Your Vehicle</h1>
+					<p class="mb-0">Welcome! Share a few details and upload your documents. It usually takes less than 5 minutes.</p>
+				</div>
+				<button class="btn btn-outline-light theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode">
+					<i class="bi bi-moon-stars" aria-hidden="true"></i><span class="d-none d-sm-inline ms-1">Theme</span>
+				</button>
+			</div>
+			<div class="mt-3 small text-white-50"><i class="bi bi-cloud-check me-1" aria-hidden="true"></i><span id="draftStatus">Your details are saved on this device as you go.</span></div>
+		</header>
+
+		<nav class="stepper" aria-label="Vehicle submission steps">
+			<a class="step-link is-complete" href="#vehicleDetails"><span class="step-number"><i class="bi bi-check-lg"></i></span><span class="step-label">1. Agreement<br>Accepted</span></a>
+			<a class="step-link is-current" href="#vehicleDetails"><span class="step-number">2</span><span class="step-label">Vehicle<br>Information</span></a>
+			<a class="step-link" href="#vehicleDocuments"><span class="step-number">3</span><span class="step-label">Upload<br>Documents</span></a>
+			<a class="step-link" href="#vehiclePhotos"><span class="step-number">4</span><span class="step-label">Vehicle<br>Photos</span></a>
+			<a class="step-link" href="#ownerDeclaration"><span class="step-number">5</span><span class="step-label">Review &amp;<br>Submit</span></a>
+		</nav>
+
+		<div id="submissionMessage" class="alert d-none" role="alert" aria-live="polite"></div>
+		<div class="content-grid">
+			<div>
+				<form id="vehicleForm" novalidate>
+					<section class="form-card animate-in" id="vehicleDetails">
+						<div class="card-heading">
+							<span class="section-icon"><i class="bi bi-car-front-fill" aria-hidden="true"></i></span>
+							<div><h2>Vehicle Information</h2><p>Tell us about the car you want to list.</p></div>
+						</div>
+						<div class="card-content">
+							<div class="row g-3">
+								<div class="col-md-6">
+									<label class="form-label" for="registrationNo">Vehicle Number <span class="required">*</span></label>
+									<input class="form-control text-uppercase" id="registrationNo" name="registrationNo" required maxlength="100" placeholder="TS09AB1234" autocomplete="off">
+									<div class="form-text">Enter the number exactly as it appears on the number plate.</div>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="make">Car Brand <span class="required">*</span></label>
+									<input class="form-control" id="make" name="make" required maxlength="100" placeholder="e.g., Maruti Suzuki, Hyundai, Tata">
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="model">Car Model <span class="required">*</span></label>
+									<input class="form-control" id="model" name="model" required maxlength="100" placeholder="e.g., Swift, Creta, Nexon, City">
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="year">Vehicle Year <span class="required">*</span></label>
+									<input class="form-control" id="year" name="year" type="number" min="1950" max="2099" required placeholder="e.g., 2023">
+								</div>
+								<div class="col-12">
+									<span class="form-label d-block mb-2">Fuel Type <span class="required">*</span></span>
+									<div class="d-flex flex-wrap gap-2" role="radiogroup" aria-label="Fuel type">
+										<label class="fuel-option"><input type="radio" name="fuelType" value="PETROL" required> Petrol</label>
+										<label class="fuel-option"><input type="radio" name="fuelType" value="DIESEL"> Diesel</label>
+										<label class="fuel-option"><input type="radio" name="fuelType" value="CNG"> CNG</label>
+										<label class="fuel-option"><input type="radio" name="fuelType" value="ELECTRIC"> Electric</label>
+										<label class="fuel-option"><input type="radio" name="fuelType" value="HYBRID"> Hybrid</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="variant">Variant <span class="text-muted fw-normal">(optional)</span></label>
+									<input class="form-control" id="variant" name="variant" maxlength="100" placeholder="e.g., VXi, SX, XZ+">
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="seats">Number of Seats <span class="text-muted fw-normal">(optional)</span></label>
+									<input class="form-control" id="seats" name="seats" type="number" min="1" max="100" placeholder="e.g., 5">
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="perDayRent">Rental Price Per Day (₹) <span class="required">*</span></label>
+									<input class="form-control" id="perDayRent" name="perDayRent" type="number" min="0.01" step="0.01" required placeholder="e.g., 2500">
+									<div class="form-text">The daily price customers will see.</div>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="perKmRate">Extra Price Per Kilometre (₹) <span class="required">*</span></label>
+									<input class="form-control" id="perKmRate" name="perKmRate" type="number" min="0.01" step="0.01" required placeholder="e.g., 12">
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="transmissionType">Gear Type <span class="text-muted fw-normal">(optional)</span></label>
+									<select class="form-select" id="transmissionType" name="transmissionType">
+										<option value="">Choose one</option><option value="MANUAL">Manual</option><option value="AUTOMATIC">Automatic</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="form-card animate-in" id="vehicleDocuments">
+						<div class="card-heading">
+							<span class="section-icon"><i class="bi bi-file-earmark-check-fill" aria-hidden="true"></i></span>
+							<div><h2>Required Vehicle Documents</h2><p>Upload a clear photo or PDF. Each file can be up to 10 MB.</p></div>
+						</div>
+						<div class="card-content">
+							<div class="row g-3">
+								<div class="col-md-6">
+									<label class="form-label" for="rcImage">Registration Certificate (RC) <span class="required">*</span></label>
+									<label class="upload-tile" for="rcImage"><i class="bi bi-file-earmark-arrow-up upload-icon"></i><span class="upload-title">Choose your RC file</span><span class="upload-name">Clear vehicle registration document</span><input id="rcImage" name="rcImage" type="file" accept="image/*,.pdf" required></label>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="insuranceDocument">Vehicle Insurance <span class="required">*</span></label>
+									<label class="upload-tile" for="insuranceDocument"><i class="bi bi-shield-check upload-icon"></i><span class="upload-title">Choose insurance file</span><span class="upload-name">Please upload active insurance</span><input id="insuranceDocument" name="insuranceDocument" type="file" accept="image/*,.pdf" required></label>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="pollutionCertificate">Pollution Certificate (PUC) <span class="required">*</span></label>
+									<label class="upload-tile" for="pollutionCertificate"><i class="bi bi-leaf upload-icon"></i><span class="upload-title">Choose PUC file</span><span class="upload-name">Please upload a valid certificate</span><input id="pollutionCertificate" name="pollutionCertificate" type="file" accept="image/*,.pdf" required></label>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label" for="drivingLicense">Owner's Driving License <span class="required">*</span></label>
+									<label class="upload-tile" for="drivingLicense"><i class="bi bi-person-vcard upload-icon"></i><span class="upload-title">Choose license file</span><span class="upload-name">Clear photo or PDF of the license</span><input id="drivingLicense" name="drivingLicense" type="file" accept="image/*,.pdf" required></label>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="form-card animate-in" id="vehiclePhotos">
+						<div class="card-heading">
+							<span class="section-icon"><i class="bi bi-images" aria-hidden="true"></i></span>
+							<div><h2>Vehicle Photos</h2><p>Show your vehicle clearly from all sides. Good photos help us review your listing faster.</p></div>
+						</div>
+						<div class="card-content">
+							<div class="row g-3">
+								<div class="col-sm-6"><label class="form-label" for="frontPhoto">Front View <span class="required">*</span></label><label class="upload-tile" for="frontPhoto"><img class="photo-preview" alt="Front-view preview"><i class="bi bi-camera upload-icon"></i><span class="upload-title">Add front photo</span><span class="upload-name">Front of your vehicle</span><input id="frontPhoto" name="frontPhoto" type="file" accept="image/*" required></label></div>
+								<div class="col-sm-6"><label class="form-label" for="rearPhoto">Rear View <span class="required">*</span></label><label class="upload-tile" for="rearPhoto"><img class="photo-preview" alt="Rear-view preview"><i class="bi bi-camera upload-icon"></i><span class="upload-title">Add rear photo</span><span class="upload-name">Back of your vehicle</span><input id="rearPhoto" name="rearPhoto" type="file" accept="image/*" required></label></div>
+								<div class="col-sm-6"><label class="form-label" for="leftPhoto">Left Side View <span class="required">*</span></label><label class="upload-tile" for="leftPhoto"><img class="photo-preview" alt="Left-side preview"><i class="bi bi-camera upload-icon"></i><span class="upload-title">Add left-side photo</span><span class="upload-name">Left side of your vehicle</span><input id="leftPhoto" name="leftPhoto" type="file" accept="image/*" required></label></div>
+								<div class="col-sm-6"><label class="form-label" for="rightPhoto">Right Side View <span class="required">*</span></label><label class="upload-tile" for="rightPhoto"><img class="photo-preview" alt="Right-side preview"><i class="bi bi-camera upload-icon"></i><span class="upload-title">Add right-side photo</span><span class="upload-name">Right side of your vehicle</span><input id="rightPhoto" name="rightPhoto" type="file" accept="image/*" required></label></div>
+								<div class="col-sm-6"><label class="form-label" for="interiorPhoto">Interior View <span class="required">*</span></label><label class="upload-tile" for="interiorPhoto"><img class="photo-preview" alt="Interior-view preview"><i class="bi bi-camera upload-icon"></i><span class="upload-title">Add interior photo</span><span class="upload-name">Inside your vehicle</span><input id="interiorPhoto" name="interiorPhoto" type="file" accept="image/*" required></label></div>
+							</div>
+						</div>
+					</section>
+
+					<section class="form-card animate-in" id="ownerDeclaration">
+						<div class="card-heading">
+							<span class="section-icon"><i class="bi bi-patch-check-fill" aria-hidden="true"></i></span>
+							<div><h2>Owner Declaration</h2><p>Please confirm these details before you send your vehicle for review.</p></div>
+						</div>
+						<div class="card-content">
+							<div class="declaration">
+								<strong>I confirm that:</strong>
+								<ul class="mb-3">
+									<li>All information provided is accurate.</li>
+									<li>My vehicle has valid insurance.</li>
+									<li>Uploaded documents are genuine.</li>
+									<li>I agree to follow company policies and the owner agreement I accepted.</li>
+								</ul>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="ownerDeclarationCheck" required>
+									<label class="form-check-label" for="ownerDeclarationCheck">I have read this declaration and confirm it is true. <span class="required">*</span></label>
+								</div>
+							</div>
+							<div id="uploadProgress" class="mt-3" aria-live="polite">
+								<div class="d-flex justify-content-between small mb-1"><span>Uploading your submission securely</span><span id="uploadPercent">0%</span></div>
+								<div class="progress" role="progressbar" aria-label="Upload progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+									<div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadBar" style="width: 0%"></div>
+								</div>
+							</div>
+							<button class="btn btn-primary submit-button w-100 mt-4" id="submitButton" type="submit">
+								<i class="bi bi-rocket-takeoff me-2" aria-hidden="true"></i>Submit Vehicle For Verification
+							</button>
+							<p class="helper text-center mt-3 mb-0"><i class="bi bi-lock-fill me-1" aria-hidden="true"></i>Your documents are used only to review your vehicle listing.</p>
+						</div>
+					</section>
+				</form>
+			</div>
+
+			<aside class="summary-column">
+				<div class="summary-card">
+					<h2><i class="bi bi-clipboard2-check me-2 text-success" aria-hidden="true"></i>Your Submission Summary</h2>
+					<div class="summary-row"><span>Owner Name</span><strong th:text="${ownerName}">Owner</strong></div>
+					<div class="summary-row"><span>Vehicle Number</span><strong id="summaryRegistration">Not entered</strong></div>
+					<div class="summary-row"><span>Car Brand</span><strong id="summaryMake">Not entered</strong></div>
+					<div class="summary-row"><span>Car Model</span><strong id="summaryModel">Not entered</strong></div>
+					<div class="summary-row"><span>Documents uploaded</span><strong id="summaryDocuments">0 of 4</strong></div>
+					<div class="summary-row"><span>Vehicle photos</span><strong id="summaryPhotos">0 of 5</strong></div>
+					<div class="summary-row border-0"><span>Verification status</span><span class="badge rounded-pill text-bg-warning">Pending review</span></div>
+				</div>
+				<div class="trust-card" aria-label="Your information is protected">
+					<div class="trust-item"><i class="bi bi-shield-lock-fill" aria-hidden="true"></i>Secure Document Upload</div>
+					<div class="trust-item"><i class="bi bi-person-check-fill" aria-hidden="true"></i>Data Privacy Protected</div>
+					<div class="trust-item"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>Verification Required</div>
+				</div>
+				<p class="helper px-2 mt-3"><i class="bi bi-info-circle me-1" aria-hidden="true"></i>After you submit, our team will review your details and contact you with an update.</p>
+			</aside>
+		</div>
+	</main>
+	<script>
+		(() => {
+			const form = document.getElementById('vehicleForm');
+			const draftKey = 'surya-owner-vehicle-draft-v1';
+			const draftStatus = document.getElementById('draftStatus');
+			const message = document.getElementById('submissionMessage');
+			const submitButton = document.getElementById('submitButton');
+			const fileGroups = {
+				documents: ['rcImage', 'insuranceDocument', 'pollutionCertificate', 'drivingLicense'],
+				photos: ['frontPhoto', 'rearPhoto', 'leftPhoto', 'rightPhoto', 'interiorPhoto']
+			};
+			const allFileIds = [...fileGroups.documents, ...fileGroups.photos];
+			const safeDraftFields = ['registrationNo', 'make', 'model', 'year', 'fuelType', 'variant', 'seats', 'perDayRent', 'perKmRate', 'transmissionType'];
+
+			const root = document.documentElement;
+			const savedTheme = localStorage.getItem('surya-theme');
+			if (savedTheme === 'dark') root.dataset.theme = 'dark';
+			document.getElementById('themeToggle').addEventListener('click', () => {
+				const dark = root.dataset.theme !== 'dark';
+				if (dark) root.dataset.theme = 'dark';
+				else delete root.dataset.theme;
+				localStorage.setItem('surya-theme', dark ? 'dark' : 'light');
+			});
+
+			function saveDraft() {
+				const draft = {};
+				for (const name of safeDraftFields) {
+					const field = form.elements.namedItem(name);
+					if (field instanceof RadioNodeList) {
+						const selected = form.querySelector(`[name="${name}"]:checked`);
+						draft[name] = selected ? selected.value : '';
+					} else if (field) draft[name] = field.value;
+				}
+				try {
+					localStorage.setItem(draftKey, JSON.stringify(draft));
+					draftStatus.textContent = 'Draft saved on this device. Uploaded files are not stored in the draft.';
+				} catch {
+					draftStatus.textContent = 'Draft could not be saved in this browser. You can still complete your submission.';
+				}
+			}
+
+			try {
+				const draft = JSON.parse(localStorage.getItem(draftKey) || '{}');
+				for (const name of safeDraftFields) {
+					if (!draft[name]) continue;
+					if (name === 'fuelType') {
+						const option = form.querySelector(`[name="fuelType"][value="${CSS.escape(draft[name])}"]`);
+						if (option) option.checked = true;
+					} else if (form.elements.namedItem(name)) form.elements.namedItem(name).value = draft[name];
+				}
+			} catch {
+				localStorage.removeItem(draftKey);
+			}
+
+			function updateSummary() {
+				document.getElementById('summaryRegistration').textContent = form.registrationNo.value.trim().toUpperCase() || 'Not entered';
+				document.getElementById('summaryMake').textContent = form.make.value.trim() || 'Not entered';
+				document.getElementById('summaryModel').textContent = form.model.value.trim() || 'Not entered';
+				document.getElementById('summaryDocuments').textContent = `${fileGroups.documents.filter(id => form[id].files.length).length} of 4`;
+				document.getElementById('summaryPhotos').textContent = `${fileGroups.photos.filter(id => form[id].files.length).length} of 5`;
+			}
+
+			for (const field of form.querySelectorAll('input:not([type="file"]), select')) {
+				field.addEventListener('input', () => { saveDraft(); updateSummary(); });
+				field.addEventListener('change', () => { saveDraft(); updateSummary(); });
+			}
+
+			for (const id of allFileIds) {
+				const input = form[id];
+				const tile = input.closest('.upload-tile');
+				input.addEventListener('change', () => {
+					const file = input.files[0];
+					if (file && file.size > 10 * 1024 * 1024) {
+						input.value = '';
+						tile.classList.remove('has-file', 'previewing');
+						tile.querySelector('.upload-name').textContent = 'That file is over 10 MB. Please choose a smaller file.';
+						updateSummary();
+						return;
+					}
+					tile.classList.toggle('has-file', Boolean(file));
+					const name = tile.querySelector('.upload-name');
+					if (name) {
+						if (!input.dataset.hint) input.dataset.hint = name.textContent;
+						name.textContent = file ? file.name : input.dataset.hint;
+					}
+					if (file && file.type.startsWith('image/')) {
+						const preview = tile.querySelector('.photo-preview');
+						if (preview) {
+							if (preview.dataset.objectUrl) URL.revokeObjectURL(preview.dataset.objectUrl);
+							preview.dataset.objectUrl = URL.createObjectURL(file);
+							preview.src = preview.dataset.objectUrl;
+							tile.classList.add('previewing');
+						}
+					} else tile.classList.remove('previewing');
+					updateSummary();
+				});
+			}
+			updateSummary();
+
+			function showMessage(text, kind) {
+				message.className = `alert alert-${kind}`;
+				message.textContent = text;
+				message.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			}
+
+			form.addEventListener('submit', event => {
+				event.preventDefault();
+				message.className = 'alert d-none';
+				if (!form.checkValidity()) {
+					form.classList.add('was-validated');
+					const firstInvalid = form.querySelector(':invalid');
+					if (firstInvalid) {
+						firstInvalid.focus({ preventScroll: true });
+						firstInvalid.closest('.form-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+					showMessage('A few required details are missing. Please check the highlighted fields and try again.', 'warning');
+					return;
+				}
+
+				const car = Object.fromEntries(new FormData(form).entries());
+				for (const id of allFileIds) delete car[id];
+				car.registrationNo = form.registrationNo.value.trim().toUpperCase();
+				car.year = Number(car.year);
+				car.seats = car.seats ? Number(car.seats) : null;
+				car.perDayRent = Number(car.perDayRent);
+				car.perKmRate = Number(car.perKmRate);
+				const payload = new FormData();
+				payload.append('car', new Blob([JSON.stringify(car)], { type: 'application/json' }));
+				for (const id of allFileIds) payload.append(id, form[id].files[0]);
+
+				submitButton.disabled = true;
+				document.getElementById('uploadProgress').classList.add('is-visible');
+				const request = new XMLHttpRequest();
+				request.open('POST', '/api/owners/vehicles');
+				request.upload.addEventListener('progress', progress => {
+					if (!progress.lengthComputable) return;
+					const percent = Math.round(progress.loaded / progress.total * 100);
+					document.getElementById('uploadPercent').textContent = `${percent}%`;
+					document.getElementById('uploadBar').style.width = `${percent}%`;
+					document.querySelector('#uploadProgress .progress').setAttribute('aria-valuenow', percent);
+				});
+				request.addEventListener('load', () => {
+					if (request.status >= 200 && request.status < 300) {
+						localStorage.removeItem(draftKey);
+						showMessage('🎉 Vehicle Submitted Successfully! Thank you for registering your vehicle. Our team will review your documents and notify you once verification is complete.', 'success');
+						form.reset();
+						form.classList.remove('was-validated');
+						for (const id of allFileIds) {
+							const tile = form[id].closest('.upload-tile');
+							const preview = tile.querySelector('.photo-preview');
+							if (preview && preview.dataset.objectUrl) URL.revokeObjectURL(preview.dataset.objectUrl);
+							if (preview) {
+								preview.removeAttribute('src');
+								delete preview.dataset.objectUrl;
+							}
+							tile.classList.remove('has-file', 'previewing');
+							const name = tile.querySelector('.upload-name');
+							if (name && form[id].dataset.hint) name.textContent = form[id].dataset.hint;
+						}
+						updateSummary();
+						draftStatus.textContent = 'Your submission has been sent for review.';
+						submitButton.disabled = false;
+					} else {
+						submitButton.disabled = false;
+						document.getElementById('uploadProgress').classList.remove('is-visible');
+						const serverMessage = request.responseText.trim();
+						showMessage(request.status === 403
+							? 'Please accept the current owner agreement before submitting your vehicle.'
+							: request.status === 400 && serverMessage
+								? `Please check your details and uploads: ${serverMessage}`
+								: 'We could not submit your vehicle just now. Please check your files and try again.', 'danger');
+					}
+				});
+				request.addEventListener('error', () => {
+					submitButton.disabled = false;
+					document.getElementById('uploadProgress').classList.remove('is-visible');
+					showMessage('We could not reach SuryaCarPool. Please check your internet connection and try again.', 'danger');
+				});
+				request.send(payload);
+			});
+
+			const steps = [...document.querySelectorAll('.step-link')];
+			function setCurrentStep(index) {
+				steps.forEach((step, stepIndex) => {
+					step.classList.toggle('is-current', stepIndex === index);
+					step.classList.toggle('is-complete', stepIndex < index);
+				});
+			}
+			steps.forEach((step, index) => {
+				step.addEventListener('click', () => {
+					document.querySelectorAll('.step-link').forEach(item => item.classList.remove('is-current'));
+					setCurrentStep(index);
+				});
+			});
+			const sectionToStep = new Map([
+				['vehicleDetails', 1], ['vehicleDocuments', 2], ['vehiclePhotos', 3], ['ownerDeclaration', 4]
+			]);
+			const observer = new IntersectionObserver(entries => {
+				const visible = entries.filter(entry => entry.isIntersecting)
+					.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+				if (visible) setCurrentStep(sectionToStep.get(visible.target.id));
+			}, { rootMargin: '-15% 0px -65% 0px', threshold: [0, .2, .5] });
+			for (const id of sectionToStep.keys()) observer.observe(document.getElementById(id));
+		})();
+	</script>
+</body>
+</html>

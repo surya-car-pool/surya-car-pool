@@ -16,12 +16,15 @@
 	<a class="visually-hidden-focusable p-2" href="#main-content">Skip to main content</a>
 	<div th:replace="~{fragments/site :: header}"></div>
 	<main id="main-content">
+		<th:block th:if="${ownerDashboard != null}">
+			<div th:replace="~{fragments/owner-summary :: card}"></div>
+		</th:block>
 		<section class="page-hero">
 			<div class="container">
 				<span class="eyebrow">For independent car owners</span>
 				<h1>Share your personal car with your community</h1>
 				<p>SuryaCarPool is built around privately owned, registered vehicles. Submit your car details for review and introduce your vehicle to self-drive renters.</p>
-				<a class="btn btn-ocean" th:href="@{/attachcar/ui}"><i class="bi bi-car-front me-2" aria-hidden="true"></i>Continue to vehicle submission</a>
+				<a class="btn btn-ocean" th:href="@{/owner/terms}"><i class="bi bi-car-front me-2" aria-hidden="true"></i>Continue to vehicle submission</a>
 				<p class="small text-secondary mt-2 mb-0">The current vehicle-submission form requires a signed-in account.</p>
 			</div>
 		</section>
@@ -54,9 +57,9 @@
 					<div class="app-banner-content">
 						<span class="eyebrow text-white-50">Owner app preview</span>
 						<h2>Manage your listing as the platform grows</h2>
-						<p>A native owner app, earnings dashboard, and direct app download are not available in the current codebase. Today, start with the vehicle registration form or contact our team for help.</p>
+						<p>A native mobile app and direct app download are not available. The website includes an owner dashboard with vehicle, active-booking, verification, and payment-confirmed earnings summaries.</p>
 						<div class="d-flex flex-wrap gap-2">
-							<a class="btn btn-sun" th:href="@{/attachcar/ui}">Submit vehicle details</a>
+							<a class="btn btn-sun" th:href="@{/owner/terms}">Submit vehicle details</a>
 							<a class="btn btn-outline-light" th:href="@{/contactus/ui}">Talk to our team</a>
 						</div>
 					</div>
@@ -68,7 +71,7 @@
 				<div class="section-heading">
 					<span class="eyebrow">Owner app roadmap</span>
 					<h2>More owner tools are planned</h2>
-					<p>The current website supports submitting a vehicle for review. The following owner-app features are future product ideas, not available tools today.</p>
+					<p>The website supports vehicle submissions and a basic owner summary. The following detailed management tools are future improvements.</p>
 				</div>
 				<div class="row g-3">
 					<div class="col-md-4"><article class="benefit-card">
@@ -81,7 +84,7 @@
 					</article></div>
 					<div class="col-md-4"><article class="benefit-card">
 						<span class="benefit-icon"><i class="bi bi-graph-up" aria-hidden="true"></i></span>
-						<h3>Earnings overview</h3><p>A transparent owner earnings summary is a future roadmap item.</p>
+						<h3>Detailed earnings tools</h3><p>The dashboard summarizes payment-confirmed booking amounts; detailed payout and earnings history tools are future improvements.</p>
 					</article></div>
 				</div>
 			</div>

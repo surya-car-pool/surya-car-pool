@@ -1,9 +1,11 @@
 package com.surya.carpool.booking.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.surya.carpool.booking.dto.BookingCarViewDTO;
 import com.surya.carpool.booking.model.Booking;
@@ -59,5 +61,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 	List<Booking> findByCustomer_Id(Long customerId);
 
 	long countByStatus(BookingStatus status);
+
+	long countByCar_Owner_IdAndStatus(Long ownerId, BookingStatus status);
+
+	@Query("select coalesce(sum(b.amount), 0) from Booking b "
+			+ "where b.car.owner.id = :ownerId and b.paymentConfirmed = true")
+	BigDecimal sumConfirmedEarningsByOwnerId(@Param("ownerId") Long ownerId);
 
 }

@@ -5,10 +5,21 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.surya.carpool.owner.service.OwnerDashboardService;
+import com.surya.carpool.user.model.Role;
+import com.surya.carpool.user.model.User;
 
 @Controller
 public class LandingPagesController {
+
+	private final OwnerDashboardService ownerDashboardService;
+
+	public LandingPagesController(OwnerDashboardService ownerDashboardService) {
+		this.ownerDashboardService = ownerDashboardService;
+	}
 
 	@GetMapping({ "/customer-app", "/customer-app/ui" })
 	public String customerApp() {
@@ -16,7 +27,10 @@ public class LandingPagesController {
 	}
 
 	@GetMapping({ "/owner-app", "/owner-app/ui" })
-	public String ownerApp() {
+	public String ownerApp(Model model, @AuthenticationPrincipal User user) {
+		if (user != null && user.getRole() == Role.OWNER) {
+			model.addAttribute("ownerDashboard", ownerDashboardService.getDashboard(user));
+		}
 		return "owner-app";
 	}
 

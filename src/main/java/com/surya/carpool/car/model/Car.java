@@ -45,6 +45,7 @@ public class Car {
 	private String make;
 	private String model;
 	private String variant;
+	private Integer year;
 
 	private Integer seats;
 
@@ -68,6 +69,27 @@ public class Car {
 
 	@Column(name = "rc_image_path")
 	private String rcImagePath;
+
+	@Column(name = "insurance_document_path", length = 255)
+	private String insuranceDocumentPath;
+
+	@Column(name = "pollution_certificate_path", length = 255)
+	private String pollutionCertificatePath;
+
+	@Column(name = "driving_license_path", length = 255)
+	private String drivingLicensePath;
+
+	@Column(name = "rear_photo_path", length = 255)
+	private String rearPhotoPath;
+
+	@Column(name = "left_side_photo_path", length = 255)
+	private String leftSidePhotoPath;
+
+	@Column(name = "right_side_photo_path", length = 255)
+	private String rightSidePhotoPath;
+
+	@Column(name = "interior_photo_path", length = 255)
+	private String interiorPhotoPath;
 
 	// Active flag
 	@Column(nullable = false)
@@ -154,6 +176,14 @@ public class Car {
 		this.variant = variant;
 	}
 
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
 	public Integer getSeats() {
 		return seats;
 	}
@@ -216,6 +246,62 @@ public class Car {
 
 	public void setRcImagePath(String rcImagePath) {
 		this.rcImagePath = rcImagePath;
+	}
+
+	public String getInsuranceDocumentPath() {
+		return insuranceDocumentPath;
+	}
+
+	public void setInsuranceDocumentPath(String insuranceDocumentPath) {
+		this.insuranceDocumentPath = insuranceDocumentPath;
+	}
+
+	public String getPollutionCertificatePath() {
+		return pollutionCertificatePath;
+	}
+
+	public void setPollutionCertificatePath(String pollutionCertificatePath) {
+		this.pollutionCertificatePath = pollutionCertificatePath;
+	}
+
+	public String getDrivingLicensePath() {
+		return drivingLicensePath;
+	}
+
+	public void setDrivingLicensePath(String drivingLicensePath) {
+		this.drivingLicensePath = drivingLicensePath;
+	}
+
+	public String getRearPhotoPath() {
+		return rearPhotoPath;
+	}
+
+	public void setRearPhotoPath(String rearPhotoPath) {
+		this.rearPhotoPath = rearPhotoPath;
+	}
+
+	public String getLeftSidePhotoPath() {
+		return leftSidePhotoPath;
+	}
+
+	public void setLeftSidePhotoPath(String leftSidePhotoPath) {
+		this.leftSidePhotoPath = leftSidePhotoPath;
+	}
+
+	public String getRightSidePhotoPath() {
+		return rightSidePhotoPath;
+	}
+
+	public void setRightSidePhotoPath(String rightSidePhotoPath) {
+		this.rightSidePhotoPath = rightSidePhotoPath;
+	}
+
+	public String getInteriorPhotoPath() {
+		return interiorPhotoPath;
+	}
+
+	public void setInteriorPhotoPath(String interiorPhotoPath) {
+		this.interiorPhotoPath = interiorPhotoPath;
 	}
 
 	public boolean isActive() {
